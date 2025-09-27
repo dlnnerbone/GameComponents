@@ -1,16 +1,14 @@
 using Microsoft.Xna.Framework;
-using System;
-using System.Threading;
 namespace GameComponents.Helpers;
 public static class ShakeHelper 
 {
-    private static ThreadLocal<Random> r = new(() => new Random());
+    private static Random r = new Random();
     private const float TWO_PI = (float)Math.PI * 2;
     
     private static Vector2 Returnable(float t, float intensity) 
     {
         float curInt = t * intensity;
-        float Angle = (float)r.Value.NextDouble() * TWO_PI;
+        float Angle = (float)r.NextDouble() * TWO_PI;
         return new Vector2((float)Math.Cos(Angle) * curInt, (float)Math.Sin(Angle) * curInt);
     } 
     

@@ -1,0 +1,11 @@
+/home/dinnerbone/Games/Libraries/GameComponents/bin/Debug/net8.0/GameComponents.deps.json
+/home/dinnerbone/Games/Libraries/GameComponents/bin/Debug/net8.0/GameComponents.dll
+/home/dinnerbone/Games/Libraries/GameComponents/bin/Debug/net8.0/GameComponents.pdb
+/home/dinnerbone/Games/Libraries/GameComponents/obj/Debug/net8.0/GameComponents.GeneratedMSBuildEditorConfig.editorconfig
+/home/dinnerbone/Games/Libraries/GameComponents/obj/Debug/net8.0/GameComponents.AssemblyInfoInputs.cache
+/home/dinnerbone/Games/Libraries/GameComponents/obj/Debug/net8.0/GameComponents.AssemblyInfo.cs
+/home/dinnerbone/Games/Libraries/GameComponents/obj/Debug/net8.0/GameComponents.csproj.CoreCompileInputs.cache
+/home/dinnerbone/Games/Libraries/GameComponents/obj/Debug/net8.0/GameComponents.dll
+/home/dinnerbone/Games/Libraries/GameComponents/obj/Debug/net8.0/refint/GameComponents.dll
+/home/dinnerbone/Games/Libraries/GameComponents/obj/Debug/net8.0/GameComponents.pdb
+/home/dinnerbone/Games/Libraries/GameComponents/obj/Debug/net8.0/ref/GameComponents.dll

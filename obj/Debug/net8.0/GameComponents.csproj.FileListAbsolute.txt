@@ -9,3 +9,4 @@
 /home/dinnerbone/Games/Libraries/GameComponents/obj/Debug/net8.0/refint/GameComponents.dll
 /home/dinnerbone/Games/Libraries/GameComponents/obj/Debug/net8.0/GameComponents.pdb
 /home/dinnerbone/Games/Libraries/GameComponents/obj/Debug/net8.0/ref/GameComponents.dll
+/home/dinnerbone/Games/Libraries/GameComponents/obj/Debug/net8.0/GameComponents.sourcelink.json

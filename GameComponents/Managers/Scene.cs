@@ -9,6 +9,10 @@ public abstract class Scene : IDisposable
     public bool IsDisposed { get; private set; }
     public bool IsLoaded { get; private set; }
     public string Name { get; protected set; } = string.Empty;
+    protected Scene(string Name) 
+    {
+        this.Name = Name ?? throw new ArgumentNullException(nameof(Name));
+    }
     public virtual void Initialize(Game game) 
     {
         if (game == null) throw new ArgumentNullException(nameof(game));
@@ -16,7 +20,7 @@ public abstract class Scene : IDisposable
     }
     public virtual void LoadSceneContent(Game game, string contentDir = "Content") 
     {
-        if (game == null) throw new ArgumentNullException("Scene's game argumenet can not be null.");
+        if (game == null) throw new ArgumentNullException($"{nameof(game)} can not be null.");
         if (IsDisposed) throw new ObjectDisposedException(Name);
         SceneContent = new ContentManager(game.Content.ServiceProvider, contentDir);
         IsLoaded = true;

@@ -5,7 +5,8 @@ namespace GameComponents.Managers;
 public abstract class Scene : IDisposable
 {
     public ContentManager? SceneContent { get; protected set; }
-    public bool IsActive { get; set; } = true;
+    public bool IsPaused { get; set; } = true;
+    public bool IsDrawable { get; set; } = true;
     public bool IsDisposed { get; private set; }
     public bool IsLoaded { get; private set; }
     public string Name { get; protected set; } = string.Empty;
@@ -35,11 +36,11 @@ public abstract class Scene : IDisposable
     //
     public virtual void UpdateScene(GameTime gt) 
     {
-        if (!IsActive || IsDisposed) return;
+        if (!IsPaused || IsDisposed) return;
     }
     public virtual void DrawScene(SpriteBatch batch) 
     {
-        if (!IsActive || IsDisposed) return;
+        if (!IsDrawable || IsDisposed) return;
     }
     // disposing the scene
     public void Dispose() 

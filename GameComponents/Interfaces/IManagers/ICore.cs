@@ -6,13 +6,8 @@ namespace GameComponents.Interfaces;
 public interface ICore 
 {
     // checkers
-    public ContentManager Content { get; private set; }
-    public GraphicsDeviceManager Device { get; private set; }
-    public GraphicsDevice GraphicsDevice { get; private set; }
-    public SpriteBatch SpriteBatch { get; private set; }
-    protected override void Initialize();
-    protected override void LoadContent();
-    protected override void UnloadContent();
-    protected override void Update(GameTime gt);
-    protected override void Draw(GameTime gt);
+    public ContentManager Content { get; set; }
+    public GraphicsDeviceManager Device { get; set; }
+    public GraphicsDevice GraphicsDevice { get; set; }
+    public SpriteBatch SpriteBatch { get; set; }
 }

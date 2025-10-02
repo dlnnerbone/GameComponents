@@ -34,4 +34,40 @@ public abstract class Projectile : BodyComponent, IDirection
 
     public void SetDirection(Vector2 direction) => Direction = direction;
     public void SetDirection(Point direction) => Direction = new Vector2(direction.X, direction.Y);
+    // main update methods
+    public virtual void ShootingTime(GameTime gt) 
+    {
+        if (IsDead) return;
+    }
+    // main constructors
+    protected Projectile(int x, int y, int width, int height, Vector2 dir) : base(x, y, width, height) 
+    {
+        validateDirection(dir);
+        direction = dir;
+    }
+    protected Projectile(Point location, Point size, Vector2 dir) : base(location, size) 
+    {
+        validateDirection(dir);
+        direction = dir;
+    }
+    protected Projectile(Vector2 location, Vector2 size, Vector2 dir) : base(location, size) 
+    {
+        validateDirection(dir);
+        direction = dir;
+    }
+    protected Projectile(Vector4 VectorModel, Vector2 dir) : base(VectorModel) 
+    {
+        validateDirection(dir);
+        direction = dir;
+    }
+    protected Projectile(Rectangle bounds, Vector2 dir) : base(bounds) 
+    {
+        validateDirection(dir);
+        direction = dir;
+    }
+    // private methods
+    private void validateDirection(Vector2 dir) 
+    {
+        if (dir == Vector2.Zero) throw new ArgumentException($"direction argument in {this} is not valid (can not be set as zero). ");
+    }
 }

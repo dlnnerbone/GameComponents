@@ -1,12 +1,12 @@
 namespace GameComponents;
-public enum Actions 
+[Flags] public enum Actions 
 {
-    Ready, // Action is waiting...
-    Charging, // Action is winding up or winding down.
-    Active, // Action is fully active
-    Completed, // action has successfully completed.
-    Cooldown, // action is in recovery duration.
-    Interrupted, // action is interrupted.
-    Ended, // action ended.
-    Disabled, // action is disabled.
+    Disabled = 0,
+    Ready = 1,
+    Charging = 2,
+    Active = 4,
+    Completed = 8,
+    Interrupted = 16,
+    Cooldown = 32
 }
+

@@ -38,7 +38,7 @@ public abstract class Scene : IDisposable
     {
         if (!IsPaused || IsDisposed) return;
     }
-    public virtual void DrawScene(SpriteBatch batch) 
+    public virtual void DrawScene() 
     {
         if (!IsDrawable || IsDisposed) return;
     }

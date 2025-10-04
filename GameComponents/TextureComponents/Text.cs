@@ -6,9 +6,18 @@ namespace GameComponents.Rendering;
 public class SpriteText : ISpriteText 
 {
     private Vector2 textPosition = Vector2.Zero;
+    private Vector2 direction = Vector2.UnitX;
     private Color textColor = Color.White;
     private string text;
     // private fields
+    public Rectangle Bounds 
+    {
+        get 
+        {
+            Vector2 size = SpriteFont?.MeasureString(Text) ?? Vector2.Zero;
+            return new Rectangle((int)TextPosition.X, (int)TextPosition.Y, (int)size.X, (int)size.Y);
+        }
+    }
     
     public Vector2 TextPosition { get => textPosition; set => textPosition = value; }
     public float X { get => textPosition.X; set => textPosition.X = value; }
@@ -37,6 +46,6 @@ public class SpriteText : ISpriteText
     
     public void DrawText(SpriteBatch batch) 
     {
-        batch.DrawString(SpriteFont, Text, TextPosition, TextColor);
+        batch.DrawString(SpriteFont, Text, TextPosition, TextColor,);
     }
 }

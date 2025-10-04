@@ -9,8 +9,17 @@ public class SpriteText : ISpriteText
     private Color textColor = Color.White;
     private string text;
     // private fields
+    
     public Vector2 TextPosition { get => textPosition; set => textPosition = value; }
+    public float X { get => textPosition.X; set => textPosition.X = value; }
+    public float Y { get => textPosition.Y; set => textPosition.Y = value; }
+    
     public Color TextColor { get => textColor; set => textColor = value; }
+    public float R { get => TextColor.R; set => TextColor = new(value, TextColor.G, TextColor.B, TextColor.A); }
+    public float G { get => TextColor.G; set => TextColor = new(TextColor.R, value, TextColor.B, TextColor.A); }
+    public float B { get => TextColor.B; set => TextColor = new(TextColor.R, TextColor.G, value, TextColor.A); }
+    public float Opacity { get => TextColor.A; set => TextColor = new(TextColor.R, TextColor.G, TextColor.B, value); }
+    
     public SpriteFont SpriteFont { get; set; }
     public string Text { get => text; set => text = value; }
     public SpriteText(ContentManager content, string pathToFont, string text, Vector2 textPosition) 

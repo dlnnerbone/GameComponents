@@ -54,30 +54,101 @@ public class SpriteText : ISpriteText
     /// the text to be displayed.
     /// </summary>
     public string Text { get => textDisplay; set => textDisplay = value; }
+    /// <summary>
+    /// the Bounds of the String when rendered.
+    /// </summary>
+    public Rectangle Bounds 
+    {
+        get 
+        {
+            Vector2 size = SpriteFont.MeasureString(Text);
+            return new Rectangle((int)Position.X, (int)Position.Y, (int)size.X, (int)size.Y);
+        }
+    }
+    public bool Flip_H { set => effects = value ? effects |= SpriteEffects.FlipHorizontally : effects &= ~SpriteEffects.FlipHorizontally; }
+    public bool Flip_V { set => effects = value ? effects |= SpriteEffects.FlipVertically : effects &= ~SpriteEffects.FlipVertically; }
+    public void FlipBackToNormal() => effects = SpriteEffects.None;
+    public float Radians 
+    {
+        get => (float)Math.Atan2(Direction.Y, Direction.X);
+        set => Direction = new Vector2((float)Math.Cos(value), (float)Math.Sin(value));
+    }
     // main constructor(s)
     public SpriteText(ContentManager contentManager, string pathToFont, string textDisplay, float depth = 0, SpriteEffects effects = SpriteEffects.None) 
     {
+        if (contentManager == null) throw new ArgumentNullException($"{nameof(contentManager)} does not exist or can't be null.");
+        if (string.IsNullOrEmpty(pathToFont)) throw new ArgumentNullException($"{pathToFont} can not be empty or null, or can't be found.");
+        if (textDisplay == null) throw new ArgumentNullException($"{nameof(textDisplay)} can not be null.");
+        
         SpriteFont = contentManager.Load<SpriteFont>(pathToFont);
         Text = textDisplay;
+        LayerDepth = depth;
+        this.effects = effects;
     }
     public SpriteText(ContentManager contentManager, string pathToFont, string textDisplay, Vector2 position, 
                     float depth = 0, SpriteEffects effects = SpriteEffects.None) 
     {
-        
+        if (contentManager == null) throw new ArgumentNullException($"{nameof(contentManager)} does not exist or can't be null.");
+        if (string.IsNullOrEmpty(pathToFont)) throw new ArgumentNullException($"{pathToFont} can not be empty or null, or can't be found.");
+        if (textDisplay == null) throw new ArgumentNullException($"{nameof(textDisplay)} can not be null.");
+
+        SpriteFont = contentManager.Load<SpriteFont>(pathToFont);
+        Text = textDisplay;
+        LayerDepth = depth;
+        this.effects = effects;
+        Position = position;
     }
     public SpriteText(ContentManager contentManager, string pathToFont, string textDisplay, Vector2 position, Vector2 direction,
                     float depth = 0, SpriteEffects effects = SpriteEffects.None) 
     {
+        if (contentManager == null) throw new ArgumentNullException($"{nameof(contentManager)} does not exist or can't be null.");
+        if (string.IsNullOrEmpty(pathToFont)) throw new ArgumentNullException($"{pathToFont} can not be empty or null, or can't be found.");
+        if (textDisplay == null) throw new ArgumentNullException($"{nameof(textDisplay)} can not be null.");
+        if (direction == Vector2.Zero) throw new ArgumentException("both values of direction can not be zero.");
         
+        SpriteFont = contentManager.Load<SpriteFont>(pathToFont);
+        Text = textDisplay;
+        LayerDepth = depth;
+        this.effects = effects;
+        Position = position;
+        Direction = direction;
     }
     public SpriteText(ContentManager contentManager, string pathToFont, string textDisplay, Vector2 position, Vector2 direction,
                     Vector2 origin, float depth = 0, SpriteEffects effects = SpriteEffects.None) 
     {
+        if (contentManager == null) throw new ArgumentNullException($"{nameof(contentManager)} does not exist or can't be null.");
+        if (string.IsNullOrEmpty(pathToFont)) throw new ArgumentNullException($"{pathToFont} can not be empty or null, or can't be found.");
+        if (textDisplay == null) throw new ArgumentNullException($"{nameof(textDisplay)} can not be null.");
+        if (direction == Vector2.Zero) throw new ArgumentException("both values of direction can not be zero.");
         
+        SpriteFont = contentManager.Load<SpriteFont>(pathToFont);
+        Text = textDisplay;
+        LayerDepth = depth;
+        this.effects = effects;
+        Position = position;
+        Direction = direction;
+        Origin = origin;
     }
     public SpriteText(ContentManager contentManager, string pathToFont, string textDisplay, Vector2 position, Vector2 direction,
                     Vector2 origin, Color color, float depth = 0, SpriteEffects effects = SpriteEffects.None) 
     {
+        if (contentManager == null) throw new ArgumentNullException($"{nameof(contentManager)} does not exist or can't be null.");
+        if (string.IsNullOrEmpty(pathToFont)) throw new ArgumentNullException($"{pathToFont} can not be empty or null, or can't be found.");
+        if (textDisplay == null) throw new ArgumentNullException($"{nameof(textDisplay)} can not be null.");
+        if (direction == Vector2.Zero) throw new ArgumentException("both values of direction can not be zero.");
         
+        SpriteFont = contentManager.Load<SpriteFont>(pathToFont);
+        Text = textDisplay;
+        LayerDepth = depth;
+        this.effects = effects;
+        Position = position;
+        Direction = direction;
+        Origin = origin;
+        Color = color;
+    }
+    // main draw
+    public void DrawString(SpriteBatch batch) 
+    {
+        batch.DrawString(SpriteFont, Text, Position, Color, Radians, Origin, Scale, Effects, LayerDepth);
     }
 }

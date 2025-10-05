@@ -5,47 +5,79 @@ using GameComponents.Interfaces;
 namespace GameComponents.Rendering;
 public class SpriteText : ISpriteText 
 {
-    private Vector2 textPosition = Vector2.Zero;
+    // for Sprite/Texture handling, directly not afflicated with the interface.
     private Vector2 direction = Vector2.UnitX;
+    private Vector2 scale = Vector2.One;
+    private Vector2 origin = Vector2.Zero;
+    private float depth = 0;
+    private SpriteEffects effects = SpriteEffects.None;
+    // fields afflialted with the interface.
+    private Vector2 textPos = Vector2.Zero;
     private Color textColor = Color.White;
-    private string text;
-    // private fields
-    public Rectangle Bounds 
-    {
-        get 
-        {
-            Vector2 size = SpriteFont?.MeasureString(Text) ?? Vector2.Zero;
-            return new Rectangle((int)TextPosition.X, (int)TextPosition.Y, (int)size.X, (int)size.Y);
-        }
-    }
+    private string textDisplay = string.Empty;
+    // public properties for Texture-based spritebatches
+    /// <summary>
+    /// the DIrection of the Text.
+    /// </summary>
+    public Vector2 Direction { get => direction; set => direction = Vector2.Normalize(value); }
+    /// <summary>
+    /// the Scale of the Text.
+    /// </summary>
+    public Vector2 Scale { get => scale; set => scale = new Vector2((float)Math.Abs(value.X), (float)Math.Abs(value.Y)); }
+    /// <summary>
+    /// the Origin point of the Text.
+    /// </summary>
+    public Vector2 Origin { get => origin; set => origin = value; }
+    /// <summary>
+    /// the Depth (Layered) of the Text to envision 3D-like depth (Z-Axis)
+    /// </summary>
+    public float LayerDepth { get => depth; set => depth = MathHelper.Clamp(value, 0f, 1f); }
+    /// <summary>
+    /// the Effects of the Texture, handles the flipping.
+    /// </summary>
+    public SpriteEffects Effects => effects;
+    // public properties with the iSprite Text nterface
     
-    public Vector2 TextPosition { get => textPosition; set => textPosition = value; }
-    public float X { get => textPosition.X; set => textPosition.X = value; }
-    public float Y { get => textPosition.Y; set => textPosition.Y = value; }
-    
-    public Color TextColor { get => textColor; set => textColor = value; }
-    public float R { get => TextColor.R; set => TextColor = new(value, TextColor.G, TextColor.B, TextColor.A); }
-    public float G { get => TextColor.G; set => TextColor = new(TextColor.R, value, TextColor.B, TextColor.A); }
-    public float B { get => TextColor.B; set => TextColor = new(TextColor.R, TextColor.G, value, TextColor.A); }
-    public float Opacity { get => TextColor.A; set => TextColor = new(TextColor.R, TextColor.G, TextColor.B, value); }
-    
+    /// <summary>
+    /// the Position of the Text.
+    /// </summary>
+    public Vector2 Position { get => textPos; set => textPos = value; }
+    /// <summary>
+    /// the Color of the Text.
+    /// </summary>
+    public Color Color { get => textColor; set => textColor = value; }
+    /// <summary>
+    /// the back-handler for setting up the Font for the Text.
+    /// </summary>
     public SpriteFont SpriteFont { get; set; }
-    public string Text { get => text; set => text = value; }
-    public SpriteText(ContentManager content, string pathToFont, string text, Vector2 textPosition) 
+    /// <summary>
+    /// the text to be displayed.
+    /// </summary>
+    public string Text { get => textDisplay; set => textDisplay = value; }
+    // main constructor(s)
+    public SpriteText(ContentManager contentManager, string pathToFont, string textDisplay, float depth = 0, SpriteEffects effects = SpriteEffects.None) 
     {
-        if (content == null) throw new ArgumentNullException($"{nameof(content)} could not be found or is null.");
-        if (pathToFont == string.Empty || pathToFont == null) throw new ArgumentNullException($"{pathToFont} is either not found or does not exist.");
-        if (text == null) throw new ArgumentNullException($"text can not be null, if you want no text then use 'string.Empty' instead.");
-
-        SpriteFont = content.Load<SpriteFont>(pathToFont);
-        this.text = text;
-        TextPosition = textPosition;
+        SpriteFont = contentManager.Load<SpriteFont>(pathToFont);
+        Text = textDisplay;
     }
-    
-    public void ChangeText(string newText) => Text = newText;
-    
-    public void DrawText(SpriteBatch batch) 
+    public SpriteText(ContentManager contentManager, string pathToFont, string textDisplay, Vector2 position, 
+                    float depth = 0, SpriteEffects effects = SpriteEffects.None) 
     {
-        batch.DrawString(SpriteFont, Text, TextPosition, TextColor,);
+        
+    }
+    public SpriteText(ContentManager contentManager, string pathToFont, string textDisplay, Vector2 position, Vector2 direction,
+                    float depth = 0, SpriteEffects effects = SpriteEffects.None) 
+    {
+        
+    }
+    public SpriteText(ContentManager contentManager, string pathToFont, string textDisplay, Vector2 position, Vector2 direction,
+                    Vector2 origin, float depth = 0, SpriteEffects effects = SpriteEffects.None) 
+    {
+        
+    }
+    public SpriteText(ContentManager contentManager, string pathToFont, string textDisplay, Vector2 position, Vector2 direction,
+                    Vector2 origin, Color color, float depth = 0, SpriteEffects effects = SpriteEffects.None) 
+    {
+        
     }
 }

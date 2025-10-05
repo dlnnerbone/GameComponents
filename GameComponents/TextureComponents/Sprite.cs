@@ -14,24 +14,72 @@ public class Sprite : ITexture
     private SpriteEffects effects = SpriteEffects.None;
     
     // private fields.
+    /// <summary>
+    /// The Main Texture of the class.
+    /// </summary>
     public Texture2D Texture { get { return texture; } set { texture = value; } }
+    /// <summary>
+    /// the Bounds of the Texture in px
+    /// </summary>
     public Rectangle Bounds => texture.Bounds;
-    public Vector2 Scale { get { return scale; } set { scale = value; } }
+    /// <summary>
+    /// the Scale of the Texture.
+    /// </summary>
+    public Vector2 Scale { get { return scale; } set { scale = new Vector2((float)Math.Abs(value.X), (float)Math.Abs(value.Y)); } }
+    /// <summary>
+    /// the Origin of the texture
+    /// </summary>
     public Vector2 Origin { get { return origin; } set { origin = value; } }
+    /// <summary>
+    /// the direction of which the texture faces
+    /// </summary>
     public Vector2 Direction { get { return direction; } set { direction = Vector2.Normalize(value); } }
+    /// <summary>
+    /// the Effects of the texture, handles the flips.
+    /// </summary>
     public SpriteEffects Effects => effects;
+    /// <summary>
+    /// the Color Array for the texture.
+    /// </summary>
     public Color[] Colors => colors;
+    /// <summary>
+    /// the Color for the Texture.
+    /// </summary>
     public Color Color { get { return colors[0]; } set { colors[0] = value; } }
+    /// <summary>
+    /// the Red value from the Color property. (R)
+    /// </summary>
     public float R { get { return Color.R; } set { Color = new(value, Color.G, Color.B, Color.A); } }
+    /// <summary>
+    /// the Green Value from the Color Property (G).
+    /// </summary>
     public float G { get { return Color.G; } set { Color = new(Color.R, value, Color.B, Color.A); } }
+    /// <summary>
+    /// the Blue value from the Color property (B).
+    /// </summary>
     public float B { get { return Color.B; } set { Color = new(Color.R, Color.B, value, Color.A); } }
+    /// <summary>
+    /// the transparency and the Opacity of the Texture and Color. (A)
+    /// </summary>
     public float Opacity { get { return Color.A; } set { Color = new(Color.R, Color.G, Color.B, value); } }
+    /// <summary>
+    /// the Depth from a value of zero to one to envision 3D depth.
+    /// </summary>
     public float LayerDepth { get { return depth; } set { depth = MathHelper.Clamp(value, 0f, 1f); } }
+    /// <summary>
+    /// the radians of the Texture, uses Atan2 to translate Direction into radians, setter value uses Cos and Sin to set the DIrection.
+    /// </summary>
     public float Radians 
     {
         get => (float)Math.Atan2(Direction.Y, Direction.X);
         set => Direction = new Vector2((float)Math.Cos(value), (float)Math.Sin(value));
     }
+    /// <summary>
+    /// the Main constructor for the Sprite class.
+    /// </summary>
+    /// <param name="texture">the pathh to the Texture or image you want to add.</param>
+    /// <param name="selectedColor">the color you want to set for the Texture.</param>
+    /// <exception cref="ArgumentException">if the Texture is null (or path is incorrect)</exception>
     public Sprite(Texture2D texture, Color selectedColor) 
     {
         if (texture == null) throw new ArgumentException("texture can not be null.");
@@ -39,13 +87,24 @@ public class Sprite : ITexture
         colors = new Color[texture.Width * texture.Height];
         Array.Fill(colors, selectedColor);
     }
-    public bool Flip_H { set { effects = value == true ? effects |= SpriteEffects.FlipHorizontally : effects &= ~SpriteEffects.FlipHorizontally; } }
-    public bool Flip_V { set { effects = value == true ? effects |= SpriteEffects.FlipVertically : effects &= ~SpriteEffects.FlipVertically; } }
+    /// <summary>
+    /// Flips the Texture horizontally, uses flag enum and has no return, but ca be set only.
+    /// </summary>
+    public bool Flip_H { set { effects = value ? effects |= SpriteEffects.FlipHorizontally : effects &= ~SpriteEffects.FlipHorizontally; } }
+    /// <summary>
+    /// flips the Texture vertically, uses flag enums and has no return, but can be set only.
+    /// </summary>
+    public bool Flip_V { set { effects = value ? effects |= SpriteEffects.FlipVertically : effects &= ~SpriteEffects.FlipVertically; } }
+    /// <summary>
+    /// a purge method to set the Texture back to normal direction.
+    /// </summary>
     public void FlipBackToNormal() => effects = SpriteEffects.None;
     /// <summary>
     /// please be aware that this method should only be used if the Color Array is the length of 1! Color Arrays in this class are typically for debugging.
     /// </summary>
     public void SetToData() => texture.SetData<Color>(Colors);
+    
+    // sprite batch calls.
     public void Draw(SpriteBatch batch, Rectangle Destination, Rectangle Source) 
     {
         batch.Draw(Texture, Destination, Source, Color, Radians, Origin, Effects, LayerDepth);

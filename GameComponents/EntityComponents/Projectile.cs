@@ -6,14 +6,27 @@ public abstract class Projectile : BodyComponent, IDirection
 {
     private Vector2 direction = Vector2.UnitX;
     private Actions actionStates;
+    private float radians = 0;
     // private fields
     public Vector2 Origin => Position;
-    public Vector2 Direction { get => direction; set => direction = Vector2.Normalize(value); }
+    public Vector2 Direction 
+    {
+        get => direction;
+        set 
+        {
+            direction = Vector2.Normalize(value);
+            radians = (float)Math.Atan2(direction.Y, direction.X);
+        }
+    }
     public Actions ActionStates { get => actionStates; protected set => actionStates = value; }
     public float Radians 
     {
-        get => (float)Math.Atan2(Direction.Y, Direction.X);
-        set => Direction = new Vector2((float)Math.Cos(value), (float)Math.Sin(value));
+        get => radians;
+        set 
+        {
+            radians = value;
+            direction = new Vector2((float)Math.Cos(radians), (float)Math.Sin(radians));
+        }
     }
     // bool helpers
     public bool IsDead => actionStates == Actions.Disabled;

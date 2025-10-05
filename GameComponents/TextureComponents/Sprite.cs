@@ -11,6 +11,7 @@ public class Sprite : ITexture
     private Vector2 origin = Vector2.Zero;
     private float depth = 0;
     private Vector2 direction = Vector2.UnitX;
+    private float radians = 0;
     private SpriteEffects effects = SpriteEffects.None;
     
     // private fields.
@@ -33,7 +34,27 @@ public class Sprite : ITexture
     /// <summary>
     /// the direction of which the texture faces
     /// </summary>
-    public Vector2 Direction { get { return direction; } set { direction = Vector2.Normalize(value); } }
+    public Vector2 Direction 
+    {
+        get => direction;
+        set 
+        {
+            direction = Vector2.Normalize(value);
+            radians = (float)Math.Atan2(direction.Y, direction.X);
+        }
+    }
+    /// <summary>
+    /// the radians of the Texture, uses Atan2 to translate Direction into radians, setter value uses Cos and Sin to set the DIrection.
+    /// </summary>
+    public float Radians 
+    {
+        get => radians;
+        set 
+        {
+            radians = value;
+            direction = new Vector2((float)Math.Cos(radians), (float)Math.Sin(radians));
+        }
+    }
     /// <summary>
     /// the Effects of the texture, handles the flips.
     /// </summary>
@@ -66,14 +87,6 @@ public class Sprite : ITexture
     /// the Depth from a value of zero to one to envision 3D depth.
     /// </summary>
     public float LayerDepth { get { return depth; } set { depth = MathHelper.Clamp(value, 0f, 1f); } }
-    /// <summary>
-    /// the radians of the Texture, uses Atan2 to translate Direction into radians, setter value uses Cos and Sin to set the DIrection.
-    /// </summary>
-    public float Radians 
-    {
-        get => (float)Math.Atan2(Direction.Y, Direction.X);
-        set => Direction = new Vector2((float)Math.Cos(value), (float)Math.Sin(value));
-    }
     /// <summary>
     /// the Main constructor for the Sprite class.
     /// </summary>

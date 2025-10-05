@@ -7,19 +7,32 @@ namespace GameComponents.Logic;
 public sealed class Raycast : IDirection
 {
     private Vector2 direction = Vector2.UnitX;
+    private float radians = 0;
     private Vector2 origin = Vector2.Zero;
     private float maxDistance = 0;
     private float t = 0;
     private readonly Vector2[] Vertices = new Vector2[4];
     // private fields
-    public Vector2 Direction { get => direction; set => direction = Vector2.Normalize(value); }
+    public Vector2 Direction 
+    {
+        get => direction;
+        set 
+        {
+            direction = Vector2.Normalize(value);
+            radians = (float)Math.Atan2(direction.Y, direction.X);
+        }
+    }
     public Vector2 Origin { get => origin; set => origin = value; }
     public float HitDistance => t;
     public float MaxDistance { get => maxDistance; set => maxDistance = Math.Abs(value); }
     public float Radians 
     {
-        get => (float)Math.Atan2(Direction.Y, Direction.X);
-        set => Direction = new Vector2((float)Math.Cos(value), (float)Math.Sin(value));
+        get => radians;
+        set 
+        {
+            radians = value;
+            direction = new Vector2((float)Math.Cos(radians), (float)Math.Sin(radians));
+        }
     }
     public Vector2 GetEndPoint() => origin + (direction * maxDistance);
     // methods

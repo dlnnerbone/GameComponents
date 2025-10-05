@@ -7,6 +7,7 @@ public sealed class Camera
 {
     private Vector2 camTarget = Vector2.Zero, offset = Vector2.Zero, camPos = Vector2.Zero;
     private Vector2 direction = Vector2.UnitX;
+    private float radians = 0;
     private float scale = 1f;
     private float easeFactor = 1f;
     private Vector2 screenSize = Vector2.Zero;
@@ -20,13 +21,26 @@ public sealed class Camera
     public Vector2 CameraTarget { get { return camTarget; } private set { camTarget = value; } }
     public Vector2 Offset { get { return offset; } set { offset = value; } }
     public Vector2 CameraPosition { get { return camPos; } private set { camPos = value; } }
-    public Vector2 Direction { get { return direction; } set { direction = Vector2.Normalize(value); } }
-    // value variables
+    public Vector2 Direction 
+    {
+        get => direction;
+        set 
+        {
+            direction = Vector2.Normalize(value);
+            radians = (float)Math.Atan2(direction.Y, direction.X);
+        }
+    }
     public float Radians
     {
-        get => (float)Math.Atan2(Direction.Y, Direction.X);
-        set => Direction = new Vector2((float)Math.Cos(value), (float)Math.Sin(value));
+        get => radians;
+        set 
+        {
+            radians = value;
+            direction = new Vector2((float)Math.Cos(radians), (float)Math.Sin(radians));
+        }
     }
+    // value variables
+    
     public float MinZoom { get; set; } = 0.1f;
     public float MaxZoom { get; set; } = 2f;
     public float Scale { get => scale; set => scale = MathHelper.Clamp(Math.Abs(value), MinZoom, MaxZoom); }

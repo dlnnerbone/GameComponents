@@ -105,4 +105,14 @@ public sealed class Camera
         MaxZoom = maxZoom;
         EaseLevel = easeLvl;
     }
+    public Camera(Vector2 viewportSizes, bool CenterOnTarget = true, float scale = 1f, float minZoom = 0.1f, float maxZoom = 2f, float easeLvl = 1f) 
+    {
+        
+        screenSize = new Vector2(viewportSizes.X, viewportSizes.Y);
+        this.CenterOnTarget = CenterOnTarget;
+        Scale = scale;
+        MinZoom = minZoom;
+        MaxZoom = maxZoom;
+        EaseLevel = easeLvl;
+    }
 }

@@ -52,7 +52,7 @@ public sealed class Camera
     public float X => CameraPosition.X;
     public float Y => CameraPosition.Y;
     // booleans
-    public bool IsActive { get; set; }
+    public bool IsActive { get; set; } = true;
     public bool CenterOnTarget { get; set; }
     // methods
     public void Anchor(Vector2 location) => CameraPosition = location;
@@ -87,9 +87,19 @@ public sealed class Camera
         CameraPosition = Vector2.LerpPrecise(CameraPosition, targetPos, EaseLevel);
     }
     // constructors
+    
+    /// <summary>
+    /// the constructor for the Camera class.
+    /// </summary>
+    /// <param name="viewport">the bounds or vewport of the screen in px, assumes the argument is the full bounds and divides by two.</param>
+    /// <param name="CenterOnTarget">whether or not the camera centers on an object.</param>
+    /// <param name="scale">the scale, or FoV.</param>
+    /// <param name="minZoom"> the minimum zoom level</param>
+    /// <param name="maxZoom">the maximum zoom level.</param>
+    /// <param name="easeLvl">the easing level of the LerpFactor.</param>
     public Camera(Rectangle viewport, bool CenterOnTarget = true, float scale = 1f, float minZoom = 0.1f, float maxZoom = 2f, float easeLvl = 1f) 
     {
-        screenSize = new Vector2(viewport.Width, viewport.Height);
+        screenSize = new Vector2(viewport.Width / 2, viewport.Height / 2);
         this.CenterOnTarget = CenterOnTarget;
         Scale = scale;
         MinZoom = minZoom;
@@ -98,7 +108,7 @@ public sealed class Camera
     }
     public Camera(Viewport viewport, bool CenterOnTarget = true, float scale = 1f, float minZoom = 0.1f, float maxZoom = 2f, float easeLvl = 1f) 
     {
-        screenSize = new Vector2(viewport.Width, viewport.Height);
+        screenSize = new Vector2(viewport.Width / 2, viewport.Height / 2);
         this.CenterOnTarget = CenterOnTarget;
         Scale = scale;
         MinZoom = minZoom;
@@ -107,8 +117,7 @@ public sealed class Camera
     }
     public Camera(Vector2 viewportSizes, bool CenterOnTarget = true, float scale = 1f, float minZoom = 0.1f, float maxZoom = 2f, float easeLvl = 1f) 
     {
-        
-        screenSize = new Vector2(viewportSizes.X, viewportSizes.Y);
+        screenSize = new Vector2(viewportSizes.X / 2, viewportSizes.Y / 2);
         this.CenterOnTarget = CenterOnTarget;
         Scale = scale;
         MinZoom = minZoom;

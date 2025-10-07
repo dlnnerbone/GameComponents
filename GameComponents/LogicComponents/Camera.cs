@@ -82,7 +82,7 @@ public sealed class Camera
     public void Recording() 
     {
         if (!IsActive) return;
-        var targetPos = CenterOnTarget ? CameraTarget + Offset - screenSize :
+        var targetPos = CenterOnTarget ? CameraTarget + Offset + screenSize :
             CameraTarget + Offset;
         CameraPosition = Vector2.LerpPrecise(CameraPosition, targetPos, EaseLevel);
     }

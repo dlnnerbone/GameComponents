@@ -1,8 +1,14 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 namespace GameComponents.Interfaces;
-public interface ITexture 
+public interface ITexture
 {
-    public Texture2D Texture { get; set; }
-    public Color[] Colors { get; }
+    Color Color { get; set; }
+    Vector2 Scale { get; set; }
+    Vector2 Origin { get; set; }
+    Vector2 Direction { get; set; }
+    SpriteEffects Effects { get; set; }
+    float Radians { get; set; }
+    float LayerDepth { get; set; }
+    
 }

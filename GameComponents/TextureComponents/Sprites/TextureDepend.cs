@@ -11,7 +11,7 @@ public abstract class TextureDependencies : ITexture
     protected float depth = 0;
     protected float radians = 0;
     protected SpriteEffects effects = SpriteEffects.None;
-    protected Color color = Color.White;
+    protected Color color;
     // public properties
     public readonly Vector2 DScale = Vector2.One;
     public readonly Vector2 D_Direction = Vector2.UnitX;

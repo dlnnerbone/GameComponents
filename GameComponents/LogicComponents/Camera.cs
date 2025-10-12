@@ -15,7 +15,7 @@ public sealed class Camera
     // Matrices
     public Matrix TransformMatrix => Matrix.CreateTranslation(CameraPosition.X, CameraPosition.Y, 0);
     public Matrix RotationMatrix => Matrix.CreateRotationZ(Radians);
-    public Matrix ScaleMatrix => Matrix.CreateScale(Scale, Scale, 0);
+    public Matrix ScaleMatrix => Matrix.CreateScale(Scale, Scale, 1);
     public Matrix WorldMatrix => RotationMatrix * ScaleMatrix * TransformMatrix;
     // Vector Properties
     public Vector2 CameraTarget { get { return camTarget; } private set { camTarget = value; } }

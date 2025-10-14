@@ -33,4 +33,21 @@ public class Sprite : TextureDependencies
     {
         batch.Draw(Texture, destination, null, Color, Radians, Origin, Scale, Effects, LayerDepth);
     }
+    // extra overloads to allow other arguments from other classes.
+    public void Draw(SpriteBatch batch, Rectangle destinationBounds, Rectangle sourceRegion, float angle) 
+    {
+        batch.Draw(Texture, destinationBounds, sourceRegion, Color, angle, Origin, Effects, LayerDepth);
+    }
+    public void Draw(SpriteBatch batch, Rectangle destinationBounds, float angle) 
+    {
+        batch.Draw(Texture, destinationBounds, null, Color, angle, Origin, Effects, LayerDepth);
+    }
+    public void Draw(SpriteBatch batch, Vector2 destination, Rectangle sourceRegion, float angle) 
+    {
+        batch.Draw(Texture, destination, sourceRegion, Color, angle, Origin, Scale, Effects, LayerDepth);
+    }
+    public void Draw(SpriteBatch batch, Vector2 destination, float angle) 
+    {
+        batch.Draw(Texture, destination, null, Color, angle, Origin, Scale, Effects, LayerDepth);
+    }
 }

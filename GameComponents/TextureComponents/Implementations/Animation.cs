@@ -110,6 +110,10 @@ public sealed class Animation
         if (IsReversed) Reversed(gt);
         else Normal(gt);
     }
+    // helper methods
+    public Vector2 GetFrameCenter() => new Vector2(CurrentFrame.Width / 2f, CurrentFrame.Height / 2f);
+    public Vector2 GetFrameOrigin() => GetFrameCenter();
+    // draww methods
     public void Scroll(SpriteBatch batch, Rectangle bounds, Color color) 
     {
         batch.Draw(SpriteSheet.Atlas, bounds, CurrentFrame, color);
@@ -118,12 +122,12 @@ public sealed class Animation
     {
         batch.Draw(SpriteSheet.Atlas, position, CurrentFrame, color);
     }
-    public void Scroll(SpriteBatch batch, Sprite sprite, Rectangle bounds) 
+    public void Scroll(SpriteBatch batch, Rectangle bounds, TextureDependencies depend) 
     {
-        batch.Draw(SpriteSheet.Atlas, bounds, CurrentFrame, sprite.Color, sprite.Radians, sprite.Origin, sprite.Effects, sprite.LayerDepth);
+        batch.Draw(SpriteSheet.Atlas, bounds, CurrentFrame, depend.Color, depend.Radians, depend.Origin, depend.Effects, depend.LayerDepth);
     }
-    public void Scroll(SpriteBatch batch, Sprite sprite, Vector2 position) 
+    public void Scroll(SpriteBatch batch, Vector2 destination, TextureDependencies depend) 
     {
-        batch.Draw(SpriteSheet.Atlas, position, CurrentFrame, sprite.Color, sprite.Radians, sprite.Origin, sprite.Scale, sprite.Effects, sprite.LayerDepth);
+        batch.Draw(SpriteSheet.Atlas, destination, CurrentFrame, depend.Color, depend.Radians, depend.Origin, depend.Scale, depend.Effects, depend.LayerDepth);
     }
 }

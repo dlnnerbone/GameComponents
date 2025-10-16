@@ -112,7 +112,6 @@ public sealed class Animation
     }
     // helper methods
     public Vector2 GetFrameCenter() => new Vector2(CurrentFrame.Width / 2f, CurrentFrame.Height / 2f);
-    public Vector2 GetFrameOrigin() => GetFrameCenter();
     // draww methods
     public void Scroll(SpriteBatch batch, Rectangle bounds, Color color) 
     {

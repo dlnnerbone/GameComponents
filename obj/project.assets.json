@@ -273,11 +273,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/dinnerbone/Games/Libraries/GameComponents/GameComponents.csproj",
+      "projectUniqueName": "/home/dinnerbone/Games/Ventilation/GameComponents/GameComponents.csproj",
       "projectName": "GameComponents",
-      "projectPath": "/home/dinnerbone/Games/Libraries/GameComponents/GameComponents.csproj",
+      "projectPath": "/home/dinnerbone/Games/Ventilation/GameComponents/GameComponents.csproj",
       "packagesPath": "/home/dinnerbone/.nuget/packages/",
-      "outputPath": "/home/dinnerbone/Games/Libraries/GameComponents/obj/",
+      "outputPath": "/home/dinnerbone/Games/Ventilation/GameComponents/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/home/dinnerbone/.nuget/NuGet/NuGet.Config"
@@ -330,11 +330,11 @@
         "downloadDependencies": [
           {
             "name": "Microsoft.AspNetCore.App.Ref",
-            "version": "[8.0.20, 8.0.20]"
+            "version": "[8.0.21, 8.0.21]"
           },
           {
             "name": "Microsoft.NETCore.App.Ref",
-            "version": "[8.0.20, 8.0.20]"
+            "version": "[8.0.21, 8.0.21]"
           }
         ],
         "frameworkReferences": {
@@ -342,7 +342,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/9.0.110/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/9.0.111/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

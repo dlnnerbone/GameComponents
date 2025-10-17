@@ -27,5 +27,5 @@ public sealed class InputManager : IInputs
         PreviousKeyboardState = CurrentKeyboardState;
         CurrentKeyboardState = Keyboard.GetState();
     }
-    private string ranString = "idk";
+    private string ranString = "pls work pls";
 }

@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using GameComponents.Interfaces;
+using System;
 namespace GameComponents.Rendering;
 public abstract class TextureDependencies : ITexture 
 {
@@ -11,7 +12,8 @@ public abstract class TextureDependencies : ITexture
     protected float depth = 0;
     protected float radians = 0;
     protected SpriteEffects effects = SpriteEffects.None;
-    protected Color color;
+    protected Color color = Color.White;
+    protected bool isVisible = true;
     // public properties
     public readonly Vector2 DScale = Vector2.One;
     public readonly Vector2 D_Direction = Vector2.UnitX;
@@ -46,6 +48,16 @@ public abstract class TextureDependencies : ITexture
     public virtual float G { get => Color.G; set => Color = new Color(Color.R, value, Color.B, Color.A); }
     public virtual float B { get => Color.B; set => Color = new Color(Color.R, Color.G, value, Color.A); }
     public virtual float Opacity { get => Color.A; set => Color = new Color(Color.R, Color.G, Color.B, value); }
+
+    public bool IsVisible 
+    {
+        get => isVisible;
+        set 
+        {
+            isVisible = value;
+            Opacity = !isVisible ? 0 : Opacity;
+        }
+    }
     
     public virtual bool Flip_H 
     {

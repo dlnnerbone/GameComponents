@@ -96,4 +96,13 @@ public sealed class Raycast : IDirection
         if (texture == null) throw new ArgumentException("texture should not be null.");
         batch.Draw(texture, Origin, null, color, Radians, new Vector2(0.5f, 0.5f), new Vector2(thickness, maxDistance), SpriteEffects.None, 1);
     }
+    // constructor(s)
+    public Raycast(Vector2 origin, Vector2 direction, float distance = 100f) 
+    {
+        if (direction == Vector2.Zero) throw new ArgumentException($"Direction argument can not be null or have both values as zero.");
+        Origin = origin;
+        MaxDistance = distance;
+        Direction = direction;
+    }
+    public Raycast(Point origin, Vector2 direction, float distance = 100f) : this(new Vector2(origin.X, origin.Y), direction, distance) {}
 }

@@ -10,6 +10,7 @@ namespace GameComponents;
     Dangerous = 4,
     Movable = 8
 }
+
 public readonly struct Tile 
 {
     // fields

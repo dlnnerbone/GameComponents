@@ -47,6 +47,8 @@ public abstract class Projectile : BodyComponent, IDirection
 
     public void SetDirection(Vector2 direction) => Direction = direction;
     public void SetDirection(Point direction) => Direction = new Vector2(direction.X, direction.Y);
+
+    public Vector2 GetEndPoints(float t = 1f) => Position + (Direction * t);
     // main update methods
     public virtual void ShootingTime(GameTime gt) 
     {

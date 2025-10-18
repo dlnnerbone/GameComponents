@@ -7,7 +7,7 @@ public class SpriteText : TextureDependencies
     public Vector2 Position { get; set; } = Vector2.Zero;
     public SpriteText(SpriteFont spriteFont) 
     {
-        if (spriteFont == null) throw new ArgumentNullException($"Path to font or {nameof(spriteFont)} is null.");
+        ArgumentNullException.ThrowIfNull(spriteFont, $"{nameof(spriteFont)} is not found or is null.");
         SpriteFont = spriteFont;
     }
     public SpriteText(SpriteFont spriteFont, Vector2 position) : this(spriteFont) => Position = position;

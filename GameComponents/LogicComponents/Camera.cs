@@ -99,29 +99,14 @@ public sealed class Camera
     /// <param name="easeLvl">the easing level of the LerpFactor.</param>
     public Camera(Rectangle viewport, bool CenterOnTarget = true, float scale = 1f, float minZoom = 0.1f, float maxZoom = 2f, float easeLvl = 1f) 
     {
-        screenSize = new Vector2(viewport.Width / 2, viewport.Height / 2);
-        this.CenterOnTarget = CenterOnTarget;
-        Scale = scale;
-        MinZoom = minZoom;
-        MaxZoom = maxZoom;
-        EaseLevel = easeLvl;
+        
     }
     public Camera(Viewport viewport, bool CenterOnTarget = true, float scale = 1f, float minZoom = 0.1f, float maxZoom = 2f, float easeLvl = 1f) 
     {
-        screenSize = new Vector2(viewport.Width / 2, viewport.Height / 2);
-        this.CenterOnTarget = CenterOnTarget;
-        Scale = scale;
-        MinZoom = minZoom;
-        MaxZoom = maxZoom;
-        EaseLevel = easeLvl;
+        
     }
     public Camera(Vector2 viewportSizes, bool CenterOnTarget = true, float scale = 1f, float minZoom = 0.1f, float maxZoom = 2f, float easeLvl = 1f) 
     {
-        screenSize = new Vector2(viewportSizes.X / 2, viewportSizes.Y / 2);
-        this.CenterOnTarget = CenterOnTarget;
-        Scale = scale;
-        MinZoom = minZoom;
-        MaxZoom = maxZoom;
-        EaseLevel = easeLvl;
+        
     }
 }

@@ -8,7 +8,7 @@ public static class ShakeHelper
     private static Vector2 Returnable(float t, float intensity) 
     {
         float curInt = t * intensity;
-        float Angle = (float)r.NextDouble() * TWO_PI;
+        float Angle = (float)Random.Shared.NextDouble() * TWO_PI;
         return new Vector2((float)Math.Cos(Angle) * curInt, (float)Math.Sin(Angle) * curInt);
     } 
     

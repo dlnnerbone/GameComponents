@@ -94,7 +94,7 @@ public sealed class Raycast : IDirection
     public void DrawLine(SpriteBatch batch, Texture2D texture, Color color, float thickness = 1) 
     {
         if (texture == null) throw new ArgumentException("texture should not be null.");
-        batch.Draw(texture, Origin, null, color, Radians, new Vector2(0.5f, 0.5f), new Vector2(thickness, maxDistance), SpriteEffects.None, 1);
+        batch.Draw(texture, Origin, null, color, Radians, new Vector2(0f, 0.5f), new Vector2(maxDistance, thickness), SpriteEffects.None, 1);
     }
     // constructor(s)
     public Raycast(Vector2 origin, Vector2 direction, float distance = 100f) 

@@ -2,7 +2,6 @@ using Microsoft.Xna.Framework;
 namespace GameComponents.Helpers;
 public static class ShakeHelper 
 {
-    private static Random r = new Random();
     private const float TWO_PI = (float)Math.PI * 2;
     
     private static Vector2 Returnable(float t, float intensity) 

@@ -18,7 +18,7 @@ public sealed class Raycast : IDirection
         get => direction;
         set 
         {
-            direction = Vector2.Normalize(value);
+            direction = value != Vector2.Zero ? Vector2.Normalize(value) : Vector2.UnitX;
             radians = (float)Math.Atan2(direction.Y, direction.X);
         }
     }

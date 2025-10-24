@@ -47,37 +47,25 @@ public abstract class Projectile : BodyComponent, IDirection
 
     public void SetDirection(Vector2 direction) => Direction = direction;
     public void SetDirection(Point direction) => Direction = new Vector2(direction.X, direction.Y);
-    // main update methods
-    public virtual void ShootingTime() 
-    {
-        if (IsDead) return;
-    }
     // main constructors
-    protected Projectile(int x, int y, int width, int height, Vector2 dir) : base(x, y, width, height) 
+    
+    protected Projectile(int x, int y, int width, int height, Vector2 dir, Actions flags = Actions.None) : base(x, y, width, height) 
     {
         validateDirection(dir);
         direction = dir;
-    }
-    protected Projectile(Point location, Point size, Vector2 dir) : base(location, size) 
-    {
-        validateDirection(dir);
-        direction = dir;
-    }
-    protected Projectile(Vector2 location, Vector2 size, Vector2 dir) : base(location, size) 
-    {
-        validateDirection(dir);
-        direction = dir;
-    }
-    protected Projectile(Vector4 VectorModel, Vector2 dir) : base(VectorModel) 
-    {
-        validateDirection(dir);
-        direction = dir;
-    }
-    protected Projectile(Rectangle bounds, Vector2 dir) : base(bounds) 
-    {
-        validateDirection(dir);
-        direction = dir;
-    }
+        ActionStates = flags;
+    } 
+    
+    protected Projectile(Point location, Point size, Vector2 dir, Actions flags = Actions.None) : this(location.X, location.Y, size.X, size.Y, dir, flags) {}
+    
+    protected Projectile(Vector2 location, Vector2 size, Vector2 dir, Actions flags = Actions.None) : this(
+                        (int)location.X, (int)location.Y, (int)size.X, (int)size.Y, flags) {}
+                        
+    protected Projectile(Vector4 vectorModel, Vector2 dir, Actions flags = Actions.None) : this((int)vectorModel.X, (int)vectorModel.Y, (int)vectorModel.Z, (int)vectorModel.W,
+                        dir, flags) {}
+                        
+    protected Projectile(Rectangle bounds, Vector2 dir, Actions flags = Actions.None) : this(bounds.X, bounds.Y, bounds.Width, bounds.Height,
+                        dir, flags) {}
     // private methods
     private void validateDirection(Vector2 dir) 
     {

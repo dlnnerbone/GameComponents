@@ -51,12 +51,8 @@ public abstract class TextureDependencies : ITexture
 
     public bool IsVisible 
     {
-        get => isVisible;
-        set 
-        {
-            isVisible = value;
-            Opacity = !isVisible ? 0 : Opacity;
-        }
+        get => Opacity > 0;
+        set => Opacity = !value ? 0 : Opacity;
     }
     
     public virtual bool Flip_H 

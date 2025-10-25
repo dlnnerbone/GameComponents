@@ -51,7 +51,7 @@ public readonly struct Tile
     public Vector2 BottomRight => new Vector2(Region.Right, Region.Bottom);
     public Vector2 Center => new Vector2(Region.X + Region.Width / 2, Region.Y + Region.Height / 2);
     public Vector2 HalfSize => new Vector2(Region.Width / 2, Region.Height / 2);
-
+    public Vector2 QuarterSize => new Vector2(Region.Width / 4, Region.Height / 4);
     // -- flag checks --
     public bool IsMovable => (Flags & TileFlags.Movable) == TileFlags.Movable;
     public bool IsCollidable => (Flags & TileFlags.Collidable) == TileFlags.Collidable;

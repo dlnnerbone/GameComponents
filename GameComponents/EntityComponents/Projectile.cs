@@ -59,7 +59,7 @@ public abstract class Projectile : BodyComponent, IDirection
     protected Projectile(Point location, Point size, Vector2 dir, Actions flags = Actions.Disabled) : this(location.X, location.Y, size.X, size.Y, dir, flags) {}
     
     protected Projectile(Vector2 location, Vector2 size, Vector2 dir, Actions flags = Actions.Disabled) : this(
-                        (int)location.X, (int)location.Y, (int)size.X, (int)size.Y, flags) {}
+                        (int)location.X, (int)location.Y, (int)size.X, (int)size.Y, dir, flags) {}
                         
     protected Projectile(Vector4 vectorModel, Vector2 dir, Actions flags = Actions.Disabled) : this((int)vectorModel.X, (int)vectorModel.Y, (int)vectorModel.Z, (int)vectorModel.W,
                         dir, flags) {}

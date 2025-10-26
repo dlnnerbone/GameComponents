@@ -2,7 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 namespace GameComponents.Rendering;
-public sealed class Animation
+public sealed class Animation : TextureDependencies
 {
     // private fields
     private bool _isPlaying = true;
@@ -12,8 +12,9 @@ public sealed class Animation
     private int endingIndex = 0;
     private float deltaTime;
     // public properties
-    public readonly TextureAtlas SpriteSheet;
-    public Rectangle[] FrameGallery => SpriteSheet.Regions;
+    public readonly Texture2D SpriteSheet;
+    public readonly TextureAtlas TextureAtlas;
+    public Rectangle[] FrameGallery => TextureAtlas.Regions;
     public bool IsLooping { get; set; } = true;
     public bool IsReversed { get; set; } = false;
     public int CurrentFrameIndex 
@@ -45,7 +46,7 @@ public sealed class Animation
     {
         if (hardReset)
         {
-            CurrentFrameIndex = 0;
+            CurrentFrameIndex = startingIndex;
             deltaTime = 0;
         }
         else deltaTime = 0;
@@ -57,18 +58,12 @@ public sealed class Animation
     /// <param name="sheet">the required parameter to get the TextureAtlas for the frames.</param>
     /// <param name="start">the startingIndex of when the frame starts, set to 0 if you ant the very beginning of the spriteSheet to be the first frame.</param>
     /// <param name="end">the ending Index of wher the animation ends, set to 0 to set the default max value as the very end of the sprite sheet.</param>
-    public Animation(ref TextureAtlas sheet, int start = 0, int end = 0) 
+    public Animation(Texture2D sheet, TextureAtlas atlas, int start = 0, int end = 0) 
     {
         SpriteSheet = sheet;
+        TextureAtlas = atlas;
         StartingIndex = start;
-        if (end == 0) EndingIndex = sheet.TileAmount;
-        else EndingIndex = end;
-    }
-    public Animation(TextureAtlas sheet, int start = 0, int end = 0) 
-    {
-        SpriteSheet = sheet;
-        StartingIndex = start;
-        if (end == 0) EndingIndex = sheet.TileAmount;
+        if (end == 0) EndingIndex = atlas.TileAmount;
         else EndingIndex = end;
     }
     // the update method(s).
@@ -82,7 +77,7 @@ public sealed class Animation
         }
         if (IsLooping && currentFrameIndex <= startingIndex) 
         {
-            CurrentFrameIndex = endingIndex;
+            CurrentFrameIndex = endingIndex - 1;
         } else if (!IsLooping && currentFrameIndex <= startingIndex) 
         {
             CurrentFrameIndex = startingIndex;
@@ -110,20 +105,12 @@ public sealed class Animation
         if (IsReversed) Reversed(gt);
         else Normal(gt);
     }
-    public void Scroll(SpriteBatch batch, Rectangle bounds, Color color) 
+    public void Scroll(SpriteBatch batch, Rectangle bounds) 
     {
-        batch.Draw(SpriteSheet.Atlas, bounds, CurrentFrame, color);
+        batch.Draw(SpriteSheet, bounds, CurrentFrame, Color, Radians, Origin, Effects, LayerDepth);
     }
-    public void Scroll(SpriteBatch batch, Vector2 position, Color color) 
+    public void Scroll(SpriteBatch batch, Vector2 position) 
     {
-        batch.Draw(SpriteSheet.Atlas, position, CurrentFrame, color);
-    }
-    public void Scroll(SpriteBatch batch, Rectangle bounds, TextureDependencies depend) 
-    {
-        batch.Draw(SpriteSheet.Atlas, bounds, CurrentFrame, depend.Color, depend.Radians, depend.Origin, depend.Effects, depend.LayerDepth);
-    }
-    public void Scroll(SpriteBatch batch, Vector2 position, TextureDependencies depend) 
-    {
-        batch.Draw(SpriteSheet.Atlas, position, CurrentFrame, depend.Color, depend.Radians, depend.Origin, depend.Scale, depend.Effects, depend.LayerDepth);
+        batch.Draw(SpriteSheet, position, CurrentFrame, Color, Radians, Origin, Scale, Effects, LayerDepth);
     }
 }

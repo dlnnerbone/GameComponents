@@ -4,7 +4,6 @@ using Microsoft.Xna.Framework.Graphics;
 namespace GameComponents.Rendering;
 public readonly struct TextureAtlas 
 {
-    public readonly Texture2D Atlas;
     public readonly Rectangle[] Regions; // int is basically the key, and using that key returns the value (The Rectangle)
     public readonly int Rows;
     public readonly int Columns;
@@ -13,16 +12,15 @@ public readonly struct TextureAtlas
     // readonly properties
     public Vector2 TileDimensions => new Vector2(TileWidth, TileHeight);
     public int TileAmount => Columns * Rows;
-    public TextureAtlas(Texture2D atlas, int columns, int rows) 
+    public TextureAtlas(int width, int height, int columns, int rows) 
     {
         if (columns <= 0 || rows <= 0) throw new ArgumentException("columns and/or rows can not be a value lower than one.");
-        Atlas = atlas;
         Regions = new Rectangle[columns * rows];
         Columns = columns;
         Rows = rows;
 
-        TileWidth = atlas.Bounds.Width / columns;
-        TileHeight = atlas.Bounds.Height / rows;
+        TileWidth = width / columns;
+        TileHeight = height / rows;
         
         for(int i = 0; i < columns * rows; i++) 
         {
@@ -31,6 +29,5 @@ public readonly struct TextureAtlas
             Regions[i] = new Rectangle(x, y, TileWidth, TileHeight);
         }
     }
-    public TextureAtlas(Sprite atlas, int columns, int rows) : this(atlas.Texture, columns, rows) {}
     
 }

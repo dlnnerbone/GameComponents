@@ -29,5 +29,7 @@ public readonly struct TextureAtlas
             Regions[i] = new Rectangle(x, y, TileWidth, TileHeight);
         }
     }
+    public TextureAtlas(int columns, int rows, Rectangle bounds) : this(columns, rows, bounds.Width, bounds.Height) {}
+    public TextureAtlas(int columns, int rows, Texture2D texture) : this(columns, rows, texture.Bounds) {}
     
 }

@@ -9,8 +9,9 @@ public class BodyComponent : IBodyComponent
     private Rectangle bounds;
     // private fields.
     public Rectangle Bounds => bounds;
-    public Vector2 HalfSize => new Vector2(bounds.Width / 2, bounds.Height / 2);
-    public Vector2 QuarterSize => new Vector2(bounds.Width / 4, bounds.Height / 4);
+    public Vector2 Size { get => new Vector2(bounds.X, bounds.Y); set => bounds = new(bounds.X, bounds.Y, value.X, value.Y); }
+    public Vector2 HalfSize => Size / 2;
+    public Vector2 QuarterSize => Size / 4;
     public Vector2 Center => new Vector2(bounds.X + bounds.Width / 2, bounds.Y + bounds.Height / 2);
     public Vector2 TopLeft => new Vector2(bounds.Left, bounds.Top);
     public Vector2 TopRight => new Vector2(bounds.Right, bounds.Top);

@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using GameComponents;
 using GameComponents.Interfaces;
 namespace GameComponents.Entity;
@@ -6,9 +7,9 @@ public abstract class Projectile : BodyComponent, IDirection
 {
     private Vector2 direction = Vector2.UnitX;
     private Actions actionStates;
+    public Actions ActionStates { get => actionStates; protected set => actionStates = value; }
     private float radians = 0;
     // private fields
-    public Vector2 Origin => Position;
     public Vector2 Direction 
     {
         get => direction;
@@ -18,7 +19,6 @@ public abstract class Projectile : BodyComponent, IDirection
             radians = (float)Math.Atan2(direction.Y, direction.X);
         }
     }
-    public Actions ActionStates { get => actionStates; protected set => actionStates = value; }
     public float Radians 
     {
         get => radians;
@@ -42,12 +42,15 @@ public abstract class Projectile : BodyComponent, IDirection
     public void OverrideFlags(Actions flagGroup) => actionStates = flagGroup;
     public void PurgeFlags() => actionStates = Actions.Disabled;
     // methods
-    public void AimAt(Vector2 target) => Direction = target - Origin;
-    public void AimAt(Point target) => Direction = new Vector2(target.X, target.Y) - Origin;
+    public void AimAt(Vector2 target) => Direction = target - Position;
+    public void AimAt(Point target) => Direction = new Vector2(target.X, target.Y) - Position;
 
     public void SetDirection(Vector2 direction) => Direction = direction;
     public void SetDirection(Point direction) => Direction = new Vector2(direction.X, direction.Y);
     // main constructors
+
+    public abstract void ShootingTime(GameTime gt);
+    public abstract void DrawProjectile(SpriteBatch batch);
     
     protected Projectile(int x, int y, int width, int height, Vector2 dir, Actions flags = Actions.Disabled) : base(x, y, width, height) 
     {

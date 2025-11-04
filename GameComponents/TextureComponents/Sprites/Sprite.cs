@@ -2,10 +2,11 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using GameComponents.Interfaces;
 using System;
+using System.IO;
 namespace GameComponents.Rendering;
 public class Sprite : TextureDependencies 
 {
-    public Texture2D Texture { get; set; }
+    public readonly Texture2D Texture;
     public Rectangle Bounds => Texture.Bounds;
     public Sprite(Texture2D texture)
     {

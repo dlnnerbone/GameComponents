@@ -32,9 +32,9 @@ public abstract class Projectile : BodyComponent, IDirection
     public bool IsDead => actionStates == Actions.Disabled;
     public bool IsReady => (actionStates & Actions.Ready) == Actions.Ready;
     public bool IsCharging => (actionStates & Actions.Charging) == Actions.Charging;
-    public bool IsActive => (actionStates & Actions.Active) == Actions.Active;
+    public bool IsCurrentlyActive => (actionStates & Actions.Active) == Actions.Active;
     public bool IsInterrupted => (actionStates & Actions.Interrupted) == Actions.Interrupted;
-    public bool InRecovery => (actionStates & Actions.Cooldown) == Actions.Cooldown;
+    public bool InCooldown => (actionStates & Actions.Cooldown) == Actions.Cooldown;
     public bool HasCompleted => (actionStates & Actions.Completed) == Actions.Completed;
     // flag adding or removing, overriding or disabling methods.
     public void AddFlag(Actions newAction) => actionStates |= newAction;
@@ -51,6 +51,12 @@ public abstract class Projectile : BodyComponent, IDirection
 
     public abstract void ShootingTime(GameTime gt);
     public abstract void DrawProjectile(SpriteBatch batch);
+    
+    public virtual void Reset() 
+    {
+        PurgeFlags();
+        Radians = 0;
+    }
     
     protected Projectile(int x, int y, int width, int height, Vector2 dir, Actions flags = Actions.Disabled) : base(x, y, width, height) 
     {

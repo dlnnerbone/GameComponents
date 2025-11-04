@@ -19,7 +19,7 @@ public class Timer
     // private fields
     public float TimeSpan { get { return timeSpan; } set { timeSpan = MathHelper.Clamp(value, 0, duration); } }
     public float TimeMultiplier { get { return timeMulti; } set { timeMulti = value < 0 ? 0 : value; } }
-    public float Duration { get { return duration; } set { duration = value < 0.0001f ? 0.0001f : value; } }
+    public float Duration { get { return duration; } set { duration = MathHelper.Clamp(value, float.Epsilon, float.PositiveInfinity); } }
     public bool IsLooping { get; set; }
     public bool IsPaused { get; set; }
     

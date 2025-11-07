@@ -51,12 +51,7 @@ public abstract class Projectile : BodyComponent, IDirection
 
     public abstract void ShootingTime(GameTime gt);
     public abstract void DrawProjectile(SpriteBatch batch);
-    
-    public virtual void Reset() 
-    {
-        PurgeFlags();
-        Radians = 0;
-    }
+    public abstract void Reset();
     
     protected Projectile(int x, int y, int width, int height, Vector2 dir, Actions flags = Actions.Disabled) : base(x, y, width, height) 
     {

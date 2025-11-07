@@ -3,9 +3,7 @@ using GameComponents.Interfaces;
 namespace GameComponents.Entity;
 public class BodyComponent : IBodyComponent 
 {
-    /// <summary>
-    /// The BodyComponent class, an extension of extra roperties for the Rectangle class.
-    /// </summary>
+    
     private Rectangle bounds;
     // private fields.
     public Rectangle Bounds => bounds;
@@ -52,10 +50,6 @@ public class BodyComponent : IBodyComponent
     {
         bounds = new((int)position.X, (int)position.Y, (int)sizes.X, (int)sizes.Y);
     }
-    /// <summary>
-    /// a special constructor for Vector4 parameters, X is Horizontal Position, Y is Vertical position, Z is Width, and  Is HEIGHT.
-    /// </summary>
-    /// <param name="data"></param>
     public BodyComponent(Vector4 data) 
     {
         bounds = new((int)data.X, (int)data.Y, (int)data.Z, (int)data.W);

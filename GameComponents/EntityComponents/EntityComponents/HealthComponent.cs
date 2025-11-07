@@ -3,9 +3,6 @@ using GameComponents.Interfaces;
 namespace GameComponents.Entity;
 public class HealthComponent : IHealthComponent 
 {
-    /// <summary>
-    /// a class for adding health parameters.
-    /// </summary>
     private float health = 0;
     private float minHealth = 0;
     private float maxHealth = 0;

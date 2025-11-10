@@ -11,6 +11,7 @@ public sealed class Animation : TextureDependencies
     private int startingIndex = 0;
     private int endingIndex = 0;
     private float deltaTime;
+    
     // public properties
     public readonly Texture2D SpriteSheet;
     public readonly TextureAtlas TextureAtlas;
@@ -58,11 +59,12 @@ public sealed class Animation : TextureDependencies
     /// <param name="sheet">the required parameter to get the TextureAtlas for the frames.</param>
     /// <param name="start">the startingIndex of when the frame starts, set to 0 if you ant the very beginning of the spriteSheet to be the first frame.</param>
     /// <param name="end">the ending Index of wher the animation ends, set to 0 to set the default max value as the very end of the sprite sheet.</param>
-    public Animation(Texture2D sheet, TextureAtlas atlas, int start = 0, int end = 0) 
+    public Animation(Texture2D sheet, TextureAtlas atlas, float FPS, int start = 0, int end = 0) 
     {
         SpriteSheet = sheet;
         TextureAtlas = atlas;
         StartingIndex = start;
+        this.FPS = FPS;
         if (end == 0) EndingIndex = atlas.TileAmount;
         else EndingIndex = end;
     }

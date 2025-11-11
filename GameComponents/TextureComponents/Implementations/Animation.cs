@@ -6,113 +6,145 @@ public sealed class Animation : TextureDependencies
 {
     // private fields
     private bool _isPlaying = true;
-    private int currentFrameIndex;
-    private float frameTime = 1;
-    private int startingIndex = 0;
-    private int endingIndex = 0;
-    private float deltaTime;
-    
+    private float displayTime = 0, deltaTime = 0, deltaMulti = 1f;
+    private int startingInt = 0, endingInt = 1, currentFrameIndex = 0;
     // public properties
+    public readonly TextureAtlas RegionAtlas;
     public readonly Texture2D SpriteSheet;
-    public readonly TextureAtlas TextureAtlas;
-    public Rectangle[] FrameGallery => TextureAtlas.Regions;
+
     public bool IsLooping { get; set; } = true;
     public bool IsReversed { get; set; } = false;
-    public int CurrentFrameIndex 
-    {
-        get => currentFrameIndex;
-        private set => currentFrameIndex = MathHelper.Clamp(value, startingIndex, endingIndex);
-    }
+    public float DisplayTime { get => displayTime; set => displayTime = MathHelper.Clamp(value, 0f, 1f); }
+    public float DeltaTime => deltaTime;
+    public float DeltaMultiplier { get => deltaMulti; set => deltaMulti = Math.Abs(value); }
+    public float FPS { get => 1 / DisplayTime; set => DisplayTime = value <= 0 ? 1 : 1 / value; }
+    public readonly Dictionary<string, Point> Presets;
+    
+    public Rectangle CurrentFrame => RegionAtlas.Regions[CurrentFrameIndex];
+    
     public int StartingIndex 
     {
-        get => startingIndex;
-        set => startingIndex = value >= endingIndex ? endingIndex - 1 : value;
+        get => startingInt;
+        set => startingInt = MathHelper.Clamp(value, 0, EndingIndex);
     }
     public int EndingIndex 
     {
-        get => endingIndex;
-        set => endingIndex = value <= startingIndex ? startingIndex + 1 : value;
+        get => endingInt;
+        set => endingInt = value <= StartingIndex ? StartingIndex : value;
     }
-    public float FrameTime { get { return frameTime; } set { frameTime = MathHelper.Clamp(value, 0, 1); } }
-    public float DeltaTime => deltaTime;
-    public Rectangle CurrentFrame => FrameGallery[currentFrameIndex];
-    // helper stuff
-    public float FPS { get { return 1 / frameTime; } set { FrameTime = value < 0 ? 0 : 1 / value; } }
-    public float NormalizedProgress => MathHelper.Clamp(DeltaTime / FrameTime, 0f, 1f);
-    // methods
+    public int CurrentFrameIndex 
+    {
+        get => currentFrameIndex;
+        set => currentFrameIndex = MathHelper.Clamp(value, StartingIndex, EndingIndex);
+    }
+    // general methods
     public void Play() => _isPlaying = true;
     public void Stop() => _isPlaying = false;
-    public void GoTo(int newFrame) => CurrentFrameIndex = newFrame;
-    public void Reset(bool hardReset = false) 
+    public void GoTo(int frame) => CurrentFrameIndex = frame;
+    
+    public void SetRange(int startingIndex, int endingIndex) 
     {
-        if (hardReset)
+        StartingIndex = startingIndex;
+        EndingIndex = endingIndex;
+    }
+    
+    public void AddPreset(string presetName, int presetStartingIndex, int presetEndingIndex) 
+    {
+        if (string.IsNullOrEmpty(presetName)) throw new ArgumentNullException($"{presetName} does not exist or is null (Invalid)");
+        else if (int.IsNegative(presetStartingIndex)) throw new ArgumentException($"{presetStartingIndex} is negative.");
+        else if (presetEndingIndex <= presetStartingIndex) throw new ArgumentException($"{presetEndingIndex} is less than startingInt.");
+        
+        Presets.Add(presetName, new Point(presetStartingIndex, presetEndingIndex));
+    }
+    
+    public void SetToPreset(string presetName) 
+    {
+        if (!Presets.ContainsKey(presetName)) throw new ArgumentOutOfRangeException($"{presetName} does not exist in the dictionary.");
+        
+        StartingIndex = Presets[presetName].X;
+        EndingIndex = Presets[presetName].Y;
+    }
+    
+    public void Restart(bool restartToEndingIndex = false) 
+    {
+        if (restartToEndingIndex) CurrentFrameIndex = EndingIndex;
+        else CurrentFrameIndex = StartingIndex;
+        deltaTime = 0;
+    }
+    // helper methods
+    public float NormalizedAnimationProgress 
+    {
+        get 
         {
-            CurrentFrameIndex = startingIndex;
-            deltaTime = 0;
+            if (EndingIndex <= 0) return 1f;
+            return (CurrentFrameIndex - StartingIndex) / (EndingIndex - StartingIndex);
         }
-        else deltaTime = 0;
     }
-    // constructors
-    /// <summary>
-    /// a constructor for the Animation class.
-    /// </summary>
-    /// <param name="sheet">the required parameter to get the TextureAtlas for the frames.</param>
-    /// <param name="start">the startingIndex of when the frame starts, set to 0 if you ant the very beginning of the spriteSheet to be the first frame.</param>
-    /// <param name="end">the ending Index of wher the animation ends, set to 0 to set the default max value as the very end of the sprite sheet.</param>
-    public Animation(Texture2D sheet, TextureAtlas atlas, float FPS, int start = 0, int end = 0) 
+    public float NormalizedProgress => deltaTime / DisplayTime;
+    public int AmountOfPresets => Presets.Count;
+    public bool IsAnimationDone => !IsReversed ? CurrentFrameIndex >= EndingIndex : CurrentFrameIndex <= StartingIndex;
+    // main Update Method.
+    private void _reversed(GameTime gt) 
     {
-        SpriteSheet = sheet;
-        TextureAtlas = atlas;
-        StartingIndex = start;
-        this.FPS = FPS;
-        if (end == 0) EndingIndex = atlas.TileAmount;
-        else EndingIndex = end;
-    }
-    // the update method(s).
-    private void Reversed(GameTime gt) 
-    {
-        deltaTime -= (float)gt.ElapsedGameTime.TotalSeconds;
+        deltaTime -= (float)gt.ElapsedGameTime.TotalSeconds * DeltaMultiplier;
+        
         if (deltaTime <= 0) 
         {
             CurrentFrameIndex--;
-            deltaTime = frameTime;
+            deltaTime = DisplayTime;
         }
-        if (IsLooping && currentFrameIndex <= startingIndex) 
+        
+        if (IsLooping && CurrentFrameIndex <= StartingIndex) 
         {
-            CurrentFrameIndex = endingIndex - 1;
-        } else if (!IsLooping && currentFrameIndex <= startingIndex) 
+            CurrentFrameIndex = EndingIndex;
+        }
+        else if (!IsLooping && CurrentFrameIndex <= StartingIndex) 
         {
-            CurrentFrameIndex = startingIndex;
+            CurrentFrameIndex = StartingIndex;
         }
     }
-    private void Normal(GameTime gt) 
+    private void _forward(GameTime gt) 
     {
-        deltaTime += (float)gt.ElapsedGameTime.TotalSeconds;
-        if (deltaTime >= frameTime) 
+        deltaTime += (float)gt.ElapsedGameTime.TotalSeconds * DeltaMultiplier;
+        
+        if (DeltaTime >= DisplayTime) 
         {
             CurrentFrameIndex++;
             deltaTime = 0;
         }
-        if (IsLooping && currentFrameIndex >= endingIndex) 
+        
+        if (IsLooping && CurrentFrameIndex >= EndingIndex) 
         {
-            CurrentFrameIndex = 0;
-        } else if (!IsLooping && currentFrameIndex >= endingIndex) 
+            CurrentFrameIndex = StartingIndex;
+        }
+        else if (!IsLooping && CurrentFrameIndex >= EndingIndex) 
         {
-            CurrentFrameIndex = endingIndex;
+            CurrentFrameIndex = EndingIndex;
         }
     }
-    public void Roll(GameTime gt) // heheh? get it? roll the TAPES BAAAAAAAAAAAAAAAAAAAAAAAAAAAAHHAHAHAHAHA *wheezing noises*
+    public void Advance(GameTime gt) 
     {
         if (!_isPlaying) return;
-        if (IsReversed) Reversed(gt);
-        else Normal(gt);
+        
+        if (IsReversed) _reversed(gt);
+        else _forward(gt);
     }
-    public void Scroll(SpriteBatch batch, Rectangle bounds) 
+    // main Draw Method(s)
+    public void Animate(SpriteBatch batch, Rectangle destinationRectangle) 
     {
-        batch.Draw(SpriteSheet, bounds, CurrentFrame, Color, Radians, Origin, Effects, LayerDepth);
+        batch.Draw(SpriteSheet, destinationRectangle, CurrentFrame, Color, Radians, Origin, Effects, LayerDepth);
     }
-    public void Scroll(SpriteBatch batch, Vector2 position) 
+    public void Animate(SpriteBatch batch, Vector2 position) 
     {
         batch.Draw(SpriteSheet, position, CurrentFrame, Color, Radians, Origin, Scale, Effects, LayerDepth);
+    }
+    // Constructors
+    public Animation(Texture2D texture, TextureAtlas atlas, int starting, int ending, float fps) 
+    {
+        SpriteSheet = texture;
+        RegionAtlas = atlas;
+        FPS = fps;
+        StartingIndex = starting;
+        EndingIndex = ending;
     }
 }

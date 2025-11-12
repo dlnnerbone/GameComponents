@@ -17,6 +17,14 @@ public class Sprite : TextureDependencies
         Texture = texture;
         Color = color;
     }
+    public Sprite(GraphicsDevice device, int width, int height) 
+    {
+        Texture = new Texture2D(device, width, height);
+    }
+    public void SetData(Color[] colors) 
+    {
+        Texture.SetData<Color>(colors);
+    }
     // draw calls
     public void Draw(SpriteBatch batch, Rectangle destinationBounds, Rectangle sourceRegion) 
     {

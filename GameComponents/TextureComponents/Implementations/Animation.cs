@@ -18,7 +18,7 @@ public sealed class Animation : TextureDependencies
     public float DeltaTime => deltaTime;
     public float DeltaMultiplier { get => deltaMulti; set => deltaMulti = Math.Abs(value); }
     public float FPS { get => 1 / DisplayTime; set => DisplayTime = value <= 0 ? 1 : 1 / value; }
-    public readonly Dictionary<string, Point> Presets;
+    public readonly Dictionary<string, Point> Presets = new Dictionary<string, Point>();
     
     public Rectangle CurrentFrame => RegionAtlas.Regions[CurrentFrameIndex];
     

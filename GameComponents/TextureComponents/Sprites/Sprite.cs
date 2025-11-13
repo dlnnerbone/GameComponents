@@ -21,7 +21,7 @@ public class Sprite : TextureDependencies
     {
         Texture = new Texture2D(device, width, height);
     }
-    public void SetData(Color[] colors) 
+    public void SetData(params Color[] colors) 
     {
         Texture.SetData<Color>(colors);
     }

@@ -10,12 +10,19 @@ public class ProjectilePool<T> where T : Projectile
     {
         _projectileFactory = factory;
     }
+    
+    public void ChangeFactory(Func<T> factory) 
+    {
+        _projectileFactory = factory;
+    }
+    
     public T GetProjectile() 
     {
         if (InactiveProjectiles.Count > 0)
             return InactiveProjectiles.Pop();
         else return _projectileFactory();
     }
+    
     public void ReturnProjectile(T proj) 
     {
         InactiveProjectiles.Push(proj);

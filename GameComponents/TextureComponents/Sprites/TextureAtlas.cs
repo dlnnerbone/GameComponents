@@ -12,6 +12,8 @@ public readonly struct TextureAtlas
     // readonly properties
     public Vector2 TileDimensions => new Vector2(TileWidth, TileHeight);
     public int TileAmount => Columns * Rows;
+    public Vector2 TotalSize => new Vector2(TileWidth * Columns, TileHeight * Rows);
+    
     public TextureAtlas(int columns, int rows, int width, int height) 
     {
         if (columns <= 0 || rows <= 0) throw new ArgumentException("columns and/or rows can not be a value lower than one.");

@@ -63,6 +63,8 @@ public sealed class Animation : TextureDependencies
         
         StartingIndex = Presets[presetName].X;
         EndingIndex = Presets[presetName].Y;
+        CurrentFrameIndex = StartingIndex;
+        deltaTime = 0;
     }
     
     public void Restart(bool restartToEndingIndex = false) 

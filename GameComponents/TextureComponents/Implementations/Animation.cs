@@ -9,7 +9,7 @@ public sealed class Animation : TextureDependencies
     private float displayTime = 0, deltaTime = 0, deltaMulti = 1f;
     private int startingInt = 0, endingInt = 1, currentFrameIndex = 0;
     // public properties
-    public readonly TextureAtlas RegionAtlas;
+    public readonly TileGrid RegionAtlas;
     public readonly Texture2D SpriteSheet;
 
     public bool IsLooping { get; set; } = true;
@@ -139,7 +139,7 @@ public sealed class Animation : TextureDependencies
         batch.Draw(SpriteSheet, position, CurrentFrame, Color, Radians, Origin, Scale, Effects, LayerDepth);
     }
     // Constructors
-    public Animation(Texture2D texture, TextureAtlas atlas, int starting, int ending, float fps) 
+    public Animation(Texture2D texture, TileGrid atlas, int starting, int ending, float fps) 
     {
         SpriteSheet = texture;
         RegionAtlas = atlas;

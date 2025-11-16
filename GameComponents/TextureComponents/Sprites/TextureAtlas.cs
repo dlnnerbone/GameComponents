@@ -2,7 +2,7 @@ using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 namespace GameComponents.Rendering;
-public readonly struct TextureAtlas 
+public readonly struct TileGrid 
 {
     public readonly Rectangle[] Regions; // int is basically the key, and using that key returns the value (The Rectangle)
     public readonly int Rows;
@@ -14,7 +14,7 @@ public readonly struct TextureAtlas
     public int TileAmount => Columns * Rows;
     public Vector2 TotalSize => new Vector2(TileWidth * Columns, TileHeight * Rows);
     
-    public TextureAtlas(int columns, int rows, int width, int height) 
+    public TileGrid(int columns, int rows, int width, int height) 
     {
         if (columns <= 0 || rows <= 0) throw new ArgumentException("columns and/or rows can not be a value lower than one.");
         Regions = new Rectangle[columns * rows];
@@ -31,7 +31,7 @@ public readonly struct TextureAtlas
             Regions[i] = new Rectangle(x, y, TileWidth, TileHeight);
         }
     }
-    public TextureAtlas(int columns, int rows, Rectangle bounds) : this(columns, rows, bounds.Width, bounds.Height) {}
-    public TextureAtlas(int columns, int rows, Texture2D texture) : this(columns, rows, texture.Bounds) {}
+    public TileGrid(int columns, int rows, Rectangle bounds) : this(columns, rows, bounds.Width, bounds.Height) {}
+    public TileGrid(int columns, int rows, Texture2D texture) : this(columns, rows, texture.Bounds) {}
     
 }

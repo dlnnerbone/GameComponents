@@ -47,6 +47,15 @@ public abstract class Projectile : BodyComponent, IDirection
 
     public void SetDirection(Vector2 direction) => Direction = direction;
     public void SetDirection(Point direction) => Direction = new Vector2(direction.X, direction.Y);
+    
+    public float DistanceFrom(Vector2 location) 
+    {
+        return Vector2.Distance(Position, location);
+    }
+    public float DistanceFromSquared(Vector2 location) 
+    {
+        return Vector2.DistanceSquared(Position, location);
+    }
     // main constructors
 
     public abstract void ShootingTime(GameTime gt);

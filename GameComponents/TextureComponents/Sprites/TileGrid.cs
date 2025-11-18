@@ -10,7 +10,8 @@ public readonly struct TileGrid
     public readonly int TileWidth;
     public readonly int TileHeight;
     // readonly properties
-    public int GetEndingTile() => Regions.Length - 1;
+    public int GetEndingTileIndex() => Regions.Length - 1;
+    public Rectangle GetEndingTile() => Regions[^1];
     public Vector2 TileDimensions => new Vector2(TileWidth, TileHeight);
     public int TileAmount => Columns * Rows;
     public Vector2 TotalSize => new Vector2(TileWidth * Columns, TileHeight * Rows);

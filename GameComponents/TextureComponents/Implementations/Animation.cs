@@ -45,7 +45,7 @@ public sealed class Animation : TextureDependencies
     public void SetRange(int startingIndex, int endingIndex) 
     {
         StartingIndex = startingIndex;
-        EndingIndex = endingIndex > RegionAtlas.GetEndingTile() ? RegionAtlas.GetEndingTile() : endingIndex;
+        EndingIndex = endingIndex > RegionAtlas.GetEndingTileIndex() ? RegionAtlas.GetEndingTileIndex() : endingIndex;
     }
     
     public void AddPreset(string presetName, int presetStartingIndex, int presetEndingIndex) 

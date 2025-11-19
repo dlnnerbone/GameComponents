@@ -2,7 +2,7 @@ using System;
 namespace GameComponents.Interfaces;
 public interface IHealthComponent 
 {
-    public float Health { get; set; }
-    public float MinHealth { get; set; }
-    public float MaxHealth { get; set; }
+    float Health { get; set; }
+    float MinHealth { get; set; }
+    float MaxHealth { get; set; }
 }

@@ -2,5 +2,7 @@ using Microsoft.Xna.Framework;
 namespace GameComponents.Interfaces;
 public interface IBodyComponent 
 {
-    public Rectangle Bounds { get; }
+    Rectangle Bounds { get; }
+    Vector2 Size { get; set;}
+    Vector2 Position { get; set;}
 }

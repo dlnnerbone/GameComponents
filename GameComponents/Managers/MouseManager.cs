@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using GameComponents.Interfaces;
 using Microsoft.Xna.Framework.Input;
 namespace GameComponents.Managers;
 public static class MouseManager

@@ -4,9 +4,27 @@ namespace GameComponents.Entity;
 public class MovementComponent : IMovementComponent 
 {
     protected Vector2 velocity = Vector2.Zero;
+    protected Vector2 direction;
     // private fields
-    public virtual Vector2 Velocity { get { return velocity; } set { velocity = value; } }
-    public virtual Vector2 Direction { get { return Vector2.Normalize(velocity); } }
+    public virtual Vector2 Velocity 
+    {
+        get => velocity;
+        set 
+        {
+            velocity = value;
+            direction = Vector2.Normalize(velocity);
+        }
+    }
+    public virtual Vector2 Direction 
+    {
+        get => direction;
+        set 
+        {
+            direction = Vector2.Normalize(value);
+            var prevVelo = velocity.Length();
+            velocity = direction * prevVelo;
+        }
+    }
     public float Velocity_X { get { return velocity.X; } set { velocity.X = value; } }
     public float Velocity_Y { get { return velocity.Y; } set { velocity.Y = value; } }
     public bool IsMovingLeft() => Velocity.X < 0;

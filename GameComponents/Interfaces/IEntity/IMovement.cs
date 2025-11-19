@@ -2,5 +2,10 @@ using Microsoft.Xna.Framework;
 namespace GameComponents.Interfaces;
 public interface IMovementComponent 
 {
-    public Vector2 Velocity { get; set; }
+    Vector2 Velocity { get; set; }
+    bool IsMoving();
+    bool IsMovingDown();
+    bool IsMovingUp();
+    bool IsMovingLeft();
+    bool IsMovingRight();
 }

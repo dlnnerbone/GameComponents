@@ -11,14 +11,12 @@ public class ProjectilePool<T> where T : Projectile
         _projectileFactory = factory;
     }
     
-    public T GetProjectile() 
+    public T Request() 
     {
-        if (InactiveProjectiles.Count > 0)
-            return InactiveProjectiles.Pop();
-        else return _projectileFactory();
+        return InactiveProjectiles.Count > 0 ? InactiveProjectiles.Pop() : _projectileFactory();
     }
     
-    public void ReturnProjectile(T proj) 
+    public void Push(T proj) 
     {
         InactiveProjectiles.Push(proj);
         proj.Reset();

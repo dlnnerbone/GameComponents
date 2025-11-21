@@ -1,7 +1,7 @@
 using Microsoft.Xna.Framework;
 using GameComponents.Interfaces;
 namespace GameComponents.Entity;
-public class MovementComponent : IMovementComponent 
+public class MovementComponent : IMovementComponent, IDirection 
 {
     protected Vector2 velocity = Vector2.Zero;
     protected Vector2 direction;

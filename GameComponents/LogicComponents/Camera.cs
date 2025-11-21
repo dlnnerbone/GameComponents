@@ -1,9 +1,9 @@
-using System;
+using GameComponents.Interfaces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 namespace GameComponents.Logic;
 
-public sealed class Camera
+public sealed class Camera : IDirection
 {
     private Vector2 camTarget = Vector2.Zero, offset = Vector2.Zero, camPos = Vector2.Zero;
     private Vector2 direction = Vector2.UnitX;

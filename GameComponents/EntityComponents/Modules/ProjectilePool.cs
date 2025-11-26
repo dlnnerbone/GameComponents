@@ -1,14 +1,15 @@
 using Microsoft.Xna.Framework;
 using GameComponents;
+using GameComponents.Interfaces;
 namespace GameComponents.Entity;
-public class ProjectilePool<T> where T : Projectile 
+public class ObjectPool<T> where T : IPoolable<T> 
 {
     private readonly Func<T> _projectileFactory;
     public readonly Stack<T> InactiveProjectiles = new Stack<T>();
     // helper getters
     public int Count => InactiveProjectiles.Count;
     
-    public ProjectilePool(Func<T> factory) 
+    public ObjectPool(Func<T> factory) 
     {
         _projectileFactory = factory;
     }

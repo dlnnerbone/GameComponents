@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using GameComponents;
 using GameComponents.Interfaces;
 namespace GameComponents.Entity;
-public abstract class Projectile : BodyComponent, IDirection
+public abstract class Projectile : BodyComponent, IDirection, IPoolable<Projectile>
 {
     private Vector2 direction = Vector2.UnitX;
     private Actions actionStates;

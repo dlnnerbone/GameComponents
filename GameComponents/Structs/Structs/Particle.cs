@@ -1,5 +1,6 @@
 using GameComponents.Interfaces;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 namespace GameComponents.Rendering;
 public struct Particle : IDirection
@@ -21,6 +22,8 @@ public struct Particle : IDirection
         }
     }
     
+    public Vector2 Scale { get; set; } = Vector2.One;
+    
     public float Radians 
     {
         get => radians;
@@ -31,15 +34,17 @@ public struct Particle : IDirection
         }
     }
     
+    public SpriteEffects Effects { get; set; }
+    
     public float LayerDepth { get => layerDepth; set => layerDepth = MathHelper.Clamp(value, 0f, 1f); }
     
-    public Color Tint { get; set; } = Color.White;
+    public Color Color { get; set; } = Color.White;
     public float Age { get; set; }
     public float LifeTime { get; set; }
     public float Speed { get; set; }
     public float SpeedMulti { get; set; } = 1f;
     public bool IsActive { get; set; }
-    
+    public byte ID { get; set; } = 0;
     
     public Particle() : this(Vector2.Zero) {}
     

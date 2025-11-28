@@ -41,9 +41,7 @@ public struct Particle : IDirection
     public Color Color { get; set; } = Color.White;
     public float Age { get; set; }
     public float LifeTime { get; set; }
-    public float Speed { get; set; }
-    public float SpeedMulti { get; set; } = 1f;
-    public bool IsActive { get; set; }
+    public bool IsActive { get; set; } = true;
     public byte ID { get; set; } = 0;
     
     public Particle() : this(Vector2.Zero) {}
@@ -52,7 +50,6 @@ public struct Particle : IDirection
     {
         Position = position;
         Age = 0f;
-        SpeedMulti = 1f;
     }
     
     public Particle(Vector2 position, float lifeTime) : this(position)
@@ -65,12 +62,7 @@ public struct Particle : IDirection
         Direction = direction;
     }
     
-    public Particle(Vector2 position, float lifeTime, Vector2 direction, float speed) : this(position, lifeTime, direction)
-    {
-        Speed = Math.Abs(speed);
-    }
-    
-    public Particle(Vector2 position, float lifeTime, Vector2 direction, float speed, bool isActive) : this(position, lifeTime, direction, speed) 
+    public Particle(Vector2 position, float lifeTime, Vector2 direction, bool isActive) : this(position, lifeTime, direction) 
     {
         IsActive = isActive;
     }

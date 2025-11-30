@@ -1,7 +1,6 @@
 using GameComponents.Interfaces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 namespace GameComponents.Rendering;
 public struct Particle : IDirection
 {
@@ -35,9 +34,7 @@ public struct Particle : IDirection
     }
     
     public SpriteEffects Effects { get; set; }
-    
     public float LayerDepth { get => layerDepth; set => layerDepth = MathHelper.Clamp(value, 0f, 1f); }
-    
     public Color Color { get; set; } = Color.White;
     public float Age { get; set; }
     public float LifeTime { get; set; }

@@ -7,7 +7,7 @@ public class ParticleManager
 {
     // public properties
     public readonly Particle[] Particles;
-    public delegate void ParticleBehaviour(ref Particle p);
+    public delegate void ParticleBehaviour(ref Particle p, int index);
     // helper methods
     public int TotalCount => Particles.Length;
     public int ActiveCount;
@@ -26,11 +26,11 @@ public class ParticleManager
     public virtual void UpdateParticles(ParticleBehaviour particleBehaviour) 
     {
         ActiveCount = 0;
-        foreach(ref Particle p in Particles.AsSpan()) 
+        for(int i = 0; i < Particles.Length; i++) 
         {
-            if (!p.IsActive) continue;
+            if (!Particles[i].IsActive) continue;
             ActiveCount++;
-            particleBehaviour(ref p);
+            particleBehaviour(ref Particles[i], i);
         }
     }
     // draw methods

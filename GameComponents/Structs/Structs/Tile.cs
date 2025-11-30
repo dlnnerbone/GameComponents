@@ -2,7 +2,7 @@ using Microsoft.Xna.Framework;
 using System;
 using GameComponents.Entity;
 namespace GameComponents;
-[Flags] public enum TileFlags 
+[Flags] public enum TileFlags : byte
 {
     None = 0,
     Collidable = 1,

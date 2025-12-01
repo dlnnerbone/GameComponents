@@ -10,7 +10,6 @@ public class ParticleManager
     public delegate void ParticleBehaviour(ref Particle p, int index);
     // helper methods
     public int TotalCount => Particles.Length;
-    public int ActiveCount;
     
     public ParticleManager(int amount) 
     {
@@ -25,11 +24,9 @@ public class ParticleManager
     
     public virtual void UpdateParticles(ParticleBehaviour particleBehaviour) 
     {
-        ActiveCount = 0;
         for(int i = 0; i < Particles.Length; i++) 
         {
             if (!Particles[i].IsActive) continue;
-            ActiveCount++;
             particleBehaviour(ref Particles[i], i);
         }
     }

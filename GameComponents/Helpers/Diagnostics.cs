@@ -1,5 +1,5 @@
 using Microsoft.Xna.Framework;
-namespace GameComponents;
+namespace GameComponents.Helpers;
 public static class Diagnostics 
 {
     public static void Write(string debugMsg) 

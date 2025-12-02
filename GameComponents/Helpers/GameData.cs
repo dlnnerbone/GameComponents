@@ -19,13 +19,12 @@ public static class FileManager
     
     public static string ReadFromFile(string filePath) 
     {
-        if (File.Exists(filePath)) throw new FileNotFoundException($"File could not be found: {filePath}");
+        if (!File.Exists(filePath)) throw new FileNotFoundException($"File could not be found: {filePath}");
         return File.ReadAllText(filePath);
     }
     
     public static void WriteToFile(string filePath, string contents) 
     {
-        if (File.Exists(filePath)) throw new FileNotFoundException($"{filePath} does not exist or is invalid.");
         File.WriteAllText(filePath, contents);
     }
     
@@ -33,13 +32,11 @@ public static class FileManager
     
     public static void SaveToFile<T>(string filePath, T entity) 
     {
-        if (File.Exists(filePath)) throw new FileNotFoundException($"{filePath} could not be found and therefore can be saved to.");
         WriteToFile(filePath, Serialize(entity));
     }
     
     public static T? LoadFromFile<T>(string filePath) 
     {
-        if (File.Exists(filePath)) throw new FileNotFoundException($"{filePath} is invalid or does not exist.");
         return Deserialize<T>(ReadFromFile(filePath));
     }
 }

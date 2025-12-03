@@ -22,12 +22,12 @@ public abstract class Entity : BodyComponent, IHealthComponent, IMovementCompone
     public bool IsFullHealth() => healthCom.IsFullHealth();
     public bool IsWithinCriticalThreshold(float value) => healthCom.IsWithinCriticalThreshold(value);
     public void Destroy() => healthCom.Destroy();
-    protected virtual Vector2 MoveAndSlide(GameTime gt) 
-    {
-        return Position += Velocity * (float)gt.ElapsedGameTime.TotalSeconds;
-    }
+    
+    protected delegate void motionBehaviour();
+    protected abstract void MoveAndSlide(GameTime gt);
+    
     /// <returns></returns>
-    public bool Intersects(Entity other) => this.Intersects(other.Bounds);
+    public bool Intersects(Entity other) => Intersects(other.Bounds);
     public Entity(int x, int y, int width, int height, float Health, float minHealth = 0, float maxHealth = 100) : base(x, y, width, height)
     {
         healthCom = new(Health, minHealth, maxHealth);

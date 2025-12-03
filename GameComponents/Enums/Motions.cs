@@ -7,5 +7,7 @@ public enum Motions
     Jumping,
     Sliding,
     Dashing,
-    Flying
+    Flying,
+    Readying,
+    Interrupted
 }

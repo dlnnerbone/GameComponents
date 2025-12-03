@@ -2,7 +2,7 @@ using Microsoft.Xna.Framework;
 using GameComponents;
 using GameComponents.Interfaces;
 namespace GameComponents.Entity;
-public class ObjectPool<T> where T : IPoolable<T> 
+public class ObjectPool<T> where T : IPoolable 
 {
     private readonly Func<T> _projectileFactory;
     public readonly Stack<T> InactiveProjectiles = new Stack<T>();

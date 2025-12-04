@@ -15,32 +15,32 @@ public readonly struct Tile
 {
     // fields
     public readonly Rectangle Region;
-    public readonly int TileID;
     public readonly TileFlags Flags;
+    public readonly int ID;
     
     // constructors
-    public Tile(int x, int y, int width, int height, int ID, TileFlags flag = TileFlags.None) 
+    public Tile(int x, int y, int width, int height, int id, TileFlags flag = TileFlags.None) 
     {
         Region = new(x, y, width, height);
-        TileID = ID < 0 ? 0 : ID;
+        ID = id;
         Flags = flag;
     }
-    public Tile(Point location, Point Size, int ID, TileFlags flag = TileFlags.None) 
+    public Tile(Point location, Point Size, int id, TileFlags flag = TileFlags.None) 
     {
         Region = new(location, Size);
-        TileID = ID < 0 ? 0 : ID;
+        ID = id;
         Flags = flag;
     }
-    public Tile(Vector2 location, Vector2 Size, int ID, TileFlags flag = TileFlags.None) 
+    public Tile(Vector2 location, Vector2 Size, int id, TileFlags flag = TileFlags.None) 
     {
         Region = new((int)location.X, (int)location.Y, (int)Size.X, (int)Size.Y);
-        TileID = ID < 0 ? 0 : ID;
+        ID = id;
         Flags = flag;
     }
-    private Tile(Rectangle Bounds, int ID, TileFlags flag) 
+    private Tile(Rectangle Bounds, int id, TileFlags flag) 
     {
         Region = Bounds;
-        TileID = ID;
+        ID = id;
         Flags = flag;
     }
 
@@ -64,10 +64,10 @@ public readonly struct Tile
     public bool IsPosionous => IsWalkable && IsDangerous;
     public bool IsPushable => IsMovable && IsCollidable && IsWalkable;
     // safe modifiers
-    public Tile AddFlag(TileFlags newFlag) => new Tile(this.Region, this.TileID, this.Flags | newFlag);
-    public Tile RemoveFlag(TileFlags flag) => new Tile(this.Region, this.TileID, this.Flags & ~flag);
-    public Tile OverrideFlags(TileFlags FlagGroup) => new Tile(this.Region, this.TileID, FlagGroup);
-    public Tile PurgeFlags() => new Tile(this.Region, this.TileID, TileFlags.None);
+    public Tile AddFlag(TileFlags flag) => new Tile(this.Region, this.ID, this.Flags & flag);
+    public Tile RemoveFlag(TileFlags flag) => new Tile(this.Region, this.ID, this.Flags & ~flag);
+    public Tile OverrideFlags(TileFlags flags) => new Tile(this.Region, this.ID, flags);
+    public Tile PurgeFlags() => new Tile(this.Region, this.ID, TileFlags.None);
 
     // intersection methods
     public bool IntersectsWithTile(Rectangle other) => Region.Intersects(other);

@@ -36,8 +36,6 @@ public struct Particle : IDirection
     public SpriteEffects Effects { get; set; }
     public float LayerDepth { get => layerDepth; set => layerDepth = MathHelper.Clamp(value, 0f, 1f); }
     public Color Color { get; set; } = Color.White;
-    public float Age { get; set; }
-    public float LifeTime { get; set; }
     public bool IsActive { get; set; } = true;
     public byte ID { get; set; } = 0;
     
@@ -46,21 +44,10 @@ public struct Particle : IDirection
     public Particle(Vector2 position) 
     {
         Position = position;
-        Age = 0f;
     }
     
-    public Particle(Vector2 position, float lifeTime) : this(position)
+    public Particle(Vector2 position, byte id) : this(position)
     {
-        LifeTime = Math.Abs(lifeTime);
-    }
-    
-    public Particle(Vector2 position, float lifeTime, Vector2 direction) : this(position, lifeTime) 
-    {
-        Direction = direction;
-    }
-    
-    public Particle(Vector2 position, float lifeTime, Vector2 direction, bool isActive) : this(position, lifeTime, direction) 
-    {
-        IsActive = isActive;
+        ID = (byte)Math.Abs(id);
     }
 }

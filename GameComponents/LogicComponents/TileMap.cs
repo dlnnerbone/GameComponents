@@ -12,94 +12,46 @@ public enum LayoutDirection
 
 public class TileMap 
 {
-    public readonly Vector2 Origin = Vector2.Zero;
-    public readonly Tile[,] Tiles;
-    public readonly TileGrid SourceTileGrid;
-    public readonly List<Rectangle> Colliders = new(); 
+    public readonly Tile[] Tiles;
+    public readonly Collider[] Colliders;
+    public readonly Vector2 Origin;
     public bool IsActive { get; set; } = true;
     
-    public readonly int TileWidth;
-    public readonly int TileHeight;
-    
-    public int Rows => Tiles.GetLength(0);
-    public int Columns => Tiles.GetLength(1);
-    
-    // delegates
-    
-    public delegate void actionUpdater(int index, bool isCollided, Rectangle collider);
-    
-    public TileMap(Vector2 origin, TileGrid sourceGrid, int initialTileWidth, int initialTileHeight, LayoutDirection dir, int[,] layout) 
+    public TileMap(byte[,] tileLayout, byte[,] colliderLayout, Vector2 origin, int tileWidth, int tileHeight, LayoutDirection layoutDirection) 
     {
+        var tileRows = tileLayout.GetLength(0);
+        var tileCols = tileLayout.GetLength(1);
+        
+        var colliderRows = colliderLayout.GetLength(0);
+        var colliderCols = colliderLayout.GetLength(1);
+        
         Origin = origin;
-        TileWidth = initialTileWidth;
-        TileHeight = initialTileHeight;
-        SourceTileGrid = sourceGrid;
         
-        Tiles = new Tile[layout.GetLength(0), layout.GetLength(1)];
+        Tiles = new Tile[tileRows * tileCols];
+        Colliders = new Collider[colliderRows * colliderCols];
         
-        for(int i = 0; i < layout.Length; i++) 
+        for(int i = 0; i < tileLayout.Length; i++) 
         {
-            int r = i / layout.GetLength(1);
-            int c = i % layout.GetLength(1);
+            int r = i / tileCols;
+            int c = i % tileCols;
             
-            int x = (int)Origin.X + (dir == LayoutDirection.Horizontal ? c : r) * TileWidth;
-            int y = (int) Origin.Y + (dir == LayoutDirection.Horizontal ? r : c) * TileHeight;
+            int x = (int)Origin.X + (layoutDirection == LayoutDirection.Horizontal ? c : r) * tileWidth;
+            int y = (int)Origin.Y + (layoutDirection == LayoutDirection.Horizontal ? r : c) * tileHeight;
             
-            Tiles[r, c] = new Tile(x, y, TileWidth, TileHeight, (byte)layout[r, c], TileFlags.None);
-        }
-    }
-    
-    public void UpdateTileMap(actionUpdater action, BodyComponent body)
-    {
-        if (!IsActive) return;
-        for(int i = 0; i < Colliders.Count; i++)
-        {
-            action(i, Colliders[i].Intersects(body.Bounds), Colliders[i]);
-        }
-    }
-    
-    // collision, addition and removal.
-    
-    public void AddColliders(int[] selectedIDs, Rectangle bounds) 
-    {
-        var idSet = new HashSet<int>(selectedIDs);
-        AddColliders(idSet, bounds);
-    }
-    
-    public void AddColliders(HashSet<int> idSet, Rectangle bounds) 
-    {
-        if (idSet.Count == 0) return;
-        
-        for(int i = 0; i < Tiles.Length; i++)
-        {
-            int r = i / Columns;
-            int c = i % Columns;
-            
-            if (idSet.Contains(Tiles[r, c].ID)) 
-            {
-                Colliders.Add(new Rectangle(Tiles[r, c].Bounds.X + bounds.X, Tiles[r, c].Bounds.Y + bounds.Y, bounds.Width, bounds.Height));
-            }
-        }
-    }
-    
-    public void AddColliders(int row, int column, Rectangle bounds) 
-    {
-        if (row < 0 || column < 0 || row > Rows - 1 || column > Columns - 1) 
-        {
-            throw new IndexOutOfRangeException("index of row or column is negative or invalid.");
+            Tiles[i] = new Tile(x, y, tileWidth, tileHeight, tileLayout[r, c], 0, Color.White);
         }
         
-        Colliders.Add(new Rectangle(bounds.X + Tiles[row, column].Bounds.X, bounds.Y + Tiles[row, column].Bounds.Y, bounds.Width, bounds.Height));
+        for(int i = 0; i < colliderLayout.Length; i++) 
+        {
+            int r = i / colliderCols;
+            int c = i % colliderCols;
+            
+            int x = (int)Origin.X + (layoutDirection == LayoutDirection.Horizontal ? c : r) * tileWidth;
+            int y = (int)Origin.Y + (layoutDirection == LayoutDirection.Horizontal ? r : c) * tileHeight;
+            
+            Colliders[i] = new Collider(x, y, tileWidth, tileHeight, colliderLayout[r, c], true);
+        }
+        
     }
     
-    public void Draw(SpriteBatch batch, Texture2D textureAtlas) 
-    {
-        for(int i = 0; i < Tiles.Length; i++) 
-        {
-            var r = i / Columns;
-            var c = i % Columns;
-            
-            batch.Draw(textureAtlas, Tiles[r, c].Bounds, SourceTileGrid.Regions[Tiles[r, c].ID], Color.White);
-        }
-    }
 }

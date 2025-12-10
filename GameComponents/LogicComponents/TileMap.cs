@@ -20,6 +20,8 @@ public class TileMap
     
     public bool IsActive { get; set; } = true;
     
+    public delegate void Updater(int index, ref Collider collider);
+    
     public TileMap(byte[,] tileLayout, byte[,] colliderLayout, Vector2 origin, int tileWidth, int tileHeight, LayoutDirection layoutDirection) 
     {
         TileRows = tileLayout.GetLength(0);
@@ -161,18 +163,33 @@ public class TileMap
     {
         if (selectedIndices.Count == 0) return;
         
-        for(int i = 0; i < Tiles.Length; i++) 
+        var limit = Math.Min(Colliders.Length, Tiles.Length);
+        
+        for(int i = 0; i < limit; i++) 
         {
-            if (i >= Colliders.Length) return;
-            else if (selectedIndices.Contains(Tiles[i].SourceID)) Colliders[i].IsActive = isActive;
+            if (selectedIndices.Contains(Tiles[i].SourceID)) Colliders[i].IsActive = isActive;
         }
-    } 
+    }
+    
+    // main update loop.
+    
+    public virtual void Update(Updater updater) 
+    {
+        for(int i = 0; i < Colliders.Length; i++) 
+        {
+            ref var collider = ref Colliders[i];
+            
+            if (!collider.IsActive) continue;
+            
+            updater(i, ref collider);
+        }
+    }
     
     // drawing Tiles.
     
     public virtual void Draw(SpriteBatch batch, Texture2D textureAtlas) 
     {
-        foreach(ref Tile tile in Tiles.AsSpan()) 
+        foreach(ref readonly var tile in Tiles.AsSpan()) 
         {
             if (!tile.IsDrawable) continue;
             batch.Draw(textureAtlas, tile.Bounds, SourceGrid.Regions[tile.SourceID], Color.White, 0, Vector2.Zero, SpriteEffects.None, tile.LayerDepth);
@@ -190,7 +207,7 @@ public class TileMap
     
     public virtual void Draw(SpriteBatch batch, Texture2D textureAtlas, float rotation, Vector2 origin) 
     {
-        foreach(ref var t in Tiles.AsSpan()) 
+        foreach(ref readonly var t in Tiles.AsSpan()) 
         {
             if (!t.IsDrawable) continue;
             batch.Draw(textureAtlas, t.Bounds, SourceGrid.Regions[t.SourceID], Color.White, rotation, origin, SpriteEffects.None, t.LayerDepth);
@@ -199,7 +216,7 @@ public class TileMap
     
     public virtual void Draw(SpriteBatch batch, Texture2D textureAtlas, float rotation, Vector2 origin, SpriteEffects effects) 
     {
-        foreach(ref var t in Tiles.AsSpan()) 
+        foreach(ref readonly var t in Tiles.AsSpan()) 
         {
             if (!t.IsDrawable) continue;
             batch.Draw(textureAtlas, t.Bounds, SourceGrid.Regions[t.SourceID], Color.White, rotation, origin, effects, t.LayerDepth);
@@ -208,7 +225,7 @@ public class TileMap
     
     public virtual void Draw(SpriteBatch batch, Texture2D textureAtlas, float rotation, Vector2 origin, SpriteEffects effects, Color color) 
     {
-        foreach(ref var t in Tiles.AsSpan()) 
+        foreach(ref readonly var t in Tiles.AsSpan()) 
         {
             if (!t.IsDrawable) continue;
             batch.Draw(textureAtlas, t.Bounds, SourceGrid.Regions[t.SourceID], color, rotation, origin, effects, t.LayerDepth);

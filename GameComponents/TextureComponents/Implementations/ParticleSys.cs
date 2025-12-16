@@ -33,7 +33,7 @@ public class ParticleManager
     // draw methods
     public virtual void Draw(SpriteBatch batch, Texture2D texture, Vector2 origin) 
     {
-        foreach(ref Particle p in Particles.AsSpan()) 
+        foreach(ref readonly Particle p in Particles.AsSpan()) 
         {
             batch.Draw(texture, p.Position, null, p.Color, p.Radians, origin, p.Scale, p.Effects, p.LayerDepth);
         }
@@ -41,7 +41,7 @@ public class ParticleManager
     
     public virtual void Draw(SpriteBatch batch, Texture2D texture, Rectangle sourceBounds, Vector2 origin) 
     {
-        foreach(ref Particle p in Particles.AsSpan()) 
+        foreach(ref readonly Particle p in Particles.AsSpan()) 
         {
             batch.Draw(texture, p.Position, sourceBounds, p.Color, p.Radians, origin, p.Scale, p.Effects, p.LayerDepth);
         }
@@ -49,7 +49,7 @@ public class ParticleManager
     
     public virtual void Draw(SpriteBatch batch, Texture2D texture, Rectangle[] sourceRectangles, Vector2 origin) 
     {
-        foreach(ref Particle p in Particles.AsSpan()) 
+        foreach(ref readonly Particle p in Particles.AsSpan()) 
         {
             batch.Draw(texture, p.Position, sourceRectangles[p.ID], p.Color, p.Radians, origin, p.Scale, p.Effects, p.LayerDepth);
         }

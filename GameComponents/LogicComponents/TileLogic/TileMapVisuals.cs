@@ -46,9 +46,6 @@ public class TileMapVisuals
                 int index = r * Columns + c;
                 
                 Tiles[index] = new Tile(x, y, tileSize, tileSize, layout[r, c], initialDepth);
-                
-                Diagnostics.Write($"Rows, Columns: {r}, {c}, index: {index}, location: {x}, {y}, ID: {Tiles[index].SourceID}");
-                
             }
         }
         
@@ -91,7 +88,8 @@ public class TileMapVisuals
     
     public bool HasTile(int row, int col) 
     {
-        if (row >= Rows || col >= Columns || row < 0 || col < 0) return false;
+        int amount = row * col;
+        if (int.IsNegative(amount) || amount >= Tiles.Length) return false;
         return true;
     }
     
@@ -104,47 +102,39 @@ public class TileMapVisuals
     
     public ref Tile GetNeighbouringTopTile(int row, int column) 
     {
-        var index = row * Columns + column - Columns;
-        if (index < 0 || index >= Tiles.Length) throw new IndexOutOfRangeException($"{row} or {column} is out of range.");
-        return ref Tiles[index];
+        var index = row * Columns + column;
+        return ref GetNeighbouringTopTile(index);
     }
     
     public ref Tile GetNeighbouringBottomTile(int row, int col) 
     {
-        var index = row * Columns + col + Columns;
-        if (index < 0 || index >= Tiles.Length) throw new IndexOutOfRangeException($"{row} or {col} is out of range.");
-        return ref Tiles[index];
+        var index = row * Columns + col;
+        return ref GetNeighbouringBottomTile(index);
     }
     
     public ref Tile GetNeighbouringLeftTile(int row, int col) 
     {
-        var index = row * Columns + col - 1;
-        if (index < 0 || index >= Tiles.Length) throw new IndexOutOfRangeException($"{row} or {col} is out of range.");
-        else if (Tiles[index].Bounds.Y != Tiles[index + 1].Bounds.Y) return ref Unsafe.NullRef<Tile>();
-        
-        return ref Tiles[index];
+        var index = row * Columns + col;
+        return ref GetNeighbouringLeftTile(index);
     }
     
     public ref Tile GetNeighbouringRightTile(int row, int col) 
     {
-        var index = row * Columns + col + 1;
-        if (index < 0 || index >= Tiles.Length) throw new IndexOutOfRangeException($"{row} or {col} is out of range.");
-        else if (Tiles[index].Bounds.Y != Tiles[index - 1].Bounds.Y) return ref Unsafe.NullRef<Tile>();
-        
-        return ref Tiles[index];
+        var index = row * Columns + col;
+        return ref GetNeighbouringRightTile(index);
     }
     
     public ref Tile GetNeighbouringTopTile(int selectedIndex) 
     {
         var index = selectedIndex - Columns;
-        if (index < 0 || index >= Tiles.Length) throw new IndexOutOfRangeException($"{selectedIndex} is invalid.");
+        if (index < 0 || index >= Tiles.Length) return ref Tiles[selectedIndex];
         return ref Tiles[index];
     }
     
     public ref Tile GetNeighbouringBottomTile(int selectedIndex) 
     {
         var index = selectedIndex + Columns;
-        if (index < 0 || index >= Tiles.Length) throw new IndexOutOfRangeException($"{selectedIndex} is invalid.");
+        if (index < 0 || index >= Tiles.Length) return ref Tiles[selectedIndex];
         return ref Tiles[index];
     }
     
@@ -152,7 +142,7 @@ public class TileMapVisuals
     {
         var index = selectedIndex - 1;
         if (index < 0 || index >= Tiles.Length) throw new IndexOutOfRangeException($"{selectedIndex} is invalid.");
-        else if (Tiles[index].Bounds.Y != Tiles[index + 1].Bounds.Y) return ref Unsafe.NullRef<Tile>();
+        else if (Tiles[index].Bounds.Y != Tiles[index + 1].Bounds.Y) return ref Tiles[selectedIndex];
         
         return ref Tiles[index];
     }
@@ -161,7 +151,7 @@ public class TileMapVisuals
     {
         var index = selectedIndex + 1;
         if (index < 0 || index >= Tiles.Length) throw new IndexOutOfRangeException($"{selectedIndex} is invalid.");
-        else if (Tiles[index].Bounds.Y != Tiles[index - 1].Bounds.Y) return ref Unsafe.NullRef<Tile>();
+        else if (Tiles[index].Bounds.Y != Tiles[index - 1].Bounds.Y) return ref Tiles[selectedIndex];
         
         return ref Tiles[index];
     }

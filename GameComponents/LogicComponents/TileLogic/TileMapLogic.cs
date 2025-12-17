@@ -125,6 +125,65 @@ public class TileMapLogic
         return ref GetNeighbouringRightCollider(index);
     }
     
+    // setting up layer ID
+    
+    public void SetLayerID(int index, byte newID) 
+    {
+        if (index < 0 || index > Colliders.Length || newID < 0) return;
+        Colliders[index].LayerID = newID;
+    }
+    
+    public void SetLayerID(HashSet<int> selectedIndices, byte newID) 
+    {
+        if (selectedIndices.Count == 0) return;
+        
+         for(int i = 0; i < Colliders.Length; i++)  
+         {
+             if (selectedIndices.Contains(Colliders[i].LayerID)) SetLayerID(i, newID);
+         }
+    }
+    
+    // Toggling collision for Colliders
+    
+    public void ToggleCollision(int index, bool isActive) 
+    {
+        if (index < 0 || index > Colliders.Length) return;
+        Colliders[index].IsActive = isActive;
+    }
+    
+    public void ToggleCollision(HashSet<int> selectedIndices, bool isActive) 
+    {
+        if (selectedIndices.Count == 0) return;
+        
+         for(int i = 0; i < Colliders.Length; i++)  
+         {
+             if (selectedIndices.Contains(Colliders[i].LayerID)) ToggleCollision(i, isActive);
+         }
+    }
+    
+    // changing and setting new bounding boxes for Colliders.
+    
+    public void SetBoundingBox(int index, Rectangle newBounds, bool addLocationToOriginal = true) 
+    {
+        if (index < 0 || index >= Colliders.Length) return;
+        
+        var newRect = new Collider(addLocationToOriginal ? Colliders[index].Bounds.X + newBounds.X : newBounds.X,
+                                    addLocationToOriginal ? Colliders[index].Bounds.Y + newBounds.Y : newBounds.Y, newBounds.Width, newBounds.Height,
+                                    Colliders[index].LayerID, Colliders[index].IsActive);
+        
+        Colliders[index] = newRect;
+    }
+    
+    public void SetBoundingBox(HashSet<int> selectedIndices, Rectangle bounds, bool addLocationToOriginal = true) 
+    {
+        if (selectedIndices.Count == 0) return;
+        
+        for(int i = 0; i < Colliders.Length; i++) 
+        {
+            if (selectedIndices.Contains(Colliders[i].LayerID)) SetBoundingBox(i, bounds, addLocationToOriginal);
+        }
+    }
+    
     // main update loop.
     
     public void Update(Logic logic) 
@@ -133,9 +192,10 @@ public class TileMapLogic
         
         for(int index = 0; index < Colliders.Length; index++) 
         {
+        
             ref var collider = ref Colliders[index];
             
-            if (!collider.IsActive) return;
+            if (!collider.IsActive) continue;
             
             logic(index, ref collider);
         }

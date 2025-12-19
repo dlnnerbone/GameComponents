@@ -186,13 +186,12 @@ public class TileMapLogic
     
     // main update loop.
     
-    public void Update(Logic logic) 
+    public virtual void Update(Logic logic) 
     {
         if (!IsLogicActive) return;
         
         for(int index = 0; index < Colliders.Length; index++) 
         {
-        
             ref var collider = ref Colliders[index];
             
             if (!collider.IsActive) continue;
@@ -201,4 +200,16 @@ public class TileMapLogic
         }
     }
     
+    // this is a simple update method that allows manual usage of for-loop statements, it can be used for optmizing collisions.
+    
+    public virtual void Update(Logic logic, int manualIndex) 
+    {
+        if (!IsLogicActive) return;
+        
+        ref var collider = ref Colliders[manualIndex];
+        
+        if (!collider.IsActive) return;
+        
+        logic(manualIndex, ref collider);
+    }
 }

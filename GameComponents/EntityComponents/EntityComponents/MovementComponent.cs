@@ -1,7 +1,7 @@
 using Microsoft.Xna.Framework;
 using GameComponents.Interfaces;
 namespace GameComponents.Entity;
-public class MovementComponent : IMovementComponent, IDirection 
+public class MovementComponent : IMovementComponent 
 {
     protected Vector2 velocity = Vector2.Zero;
     protected Vector2 direction;
@@ -15,16 +15,9 @@ public class MovementComponent : IMovementComponent, IDirection
             direction = Vector2.Normalize(velocity);
         }
     }
-    public virtual Vector2 Direction 
-    {
-        get => direction;
-        set 
-        {
-            direction = Vector2.Normalize(value);
-            var prevVelo = velocity.Length();
-            velocity = direction * prevVelo;
-        }
-    }
+    
+    public virtual Vector2 Direction => Vector2.Normalize(Velocity);
+    
     public float Velocity_X { get { return velocity.X; } set { velocity.X = value; } }
     public float Velocity_Y { get { return velocity.Y; } set { velocity.Y = value; } }
     public bool IsMovingLeft() => Velocity.X < 0;

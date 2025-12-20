@@ -24,3 +24,16 @@
 /home/dinnerbone/Games/Ventilation/GameComponents/obj/Debug/net8.0/refint/GameComponents.dll
 /home/dinnerbone/Games/Ventilation/GameComponents/obj/Debug/net8.0/GameComponents.pdb
 /home/dinnerbone/Games/Ventilation/GameComponents/obj/Debug/net8.0/ref/GameComponents.dll
+/home/dinnerbone/Games/Zealous/GameComponents/bin/Debug/net8.0/GameComponents.deps.json
+/home/dinnerbone/Games/Zealous/GameComponents/bin/Debug/net8.0/GameComponents.dll
+/home/dinnerbone/Games/Zealous/GameComponents/bin/Debug/net8.0/GameComponents.pdb
+/home/dinnerbone/Games/Zealous/GameComponents/obj/Debug/net8.0/GameComponents.csproj.AssemblyReference.cache
+/home/dinnerbone/Games/Zealous/GameComponents/obj/Debug/net8.0/GameComponents.GeneratedMSBuildEditorConfig.editorconfig
+/home/dinnerbone/Games/Zealous/GameComponents/obj/Debug/net8.0/GameComponents.AssemblyInfoInputs.cache
+/home/dinnerbone/Games/Zealous/GameComponents/obj/Debug/net8.0/GameComponents.AssemblyInfo.cs
+/home/dinnerbone/Games/Zealous/GameComponents/obj/Debug/net8.0/GameComponents.csproj.CoreCompileInputs.cache
+/home/dinnerbone/Games/Zealous/GameComponents/obj/Debug/net8.0/GameComponents.sourcelink.json
+/home/dinnerbone/Games/Zealous/GameComponents/obj/Debug/net8.0/GameComponents.dll
+/home/dinnerbone/Games/Zealous/GameComponents/obj/Debug/net8.0/refint/GameComponents.dll
+/home/dinnerbone/Games/Zealous/GameComponents/obj/Debug/net8.0/GameComponents.pdb
+/home/dinnerbone/Games/Zealous/GameComponents/obj/Debug/net8.0/ref/GameComponents.dll

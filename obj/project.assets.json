@@ -278,11 +278,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/dinnerbone/Games/Ventilation/GameComponents/GameComponents.csproj",
+      "projectUniqueName": "/home/dinnerbone/Games/Zealous/GameComponents/GameComponents.csproj",
       "projectName": "GameComponents",
-      "projectPath": "/home/dinnerbone/Games/Ventilation/GameComponents/GameComponents.csproj",
+      "projectPath": "/home/dinnerbone/Games/Zealous/GameComponents/GameComponents.csproj",
       "packagesPath": "/home/dinnerbone/.nuget/packages/",
-      "outputPath": "/home/dinnerbone/Games/Ventilation/GameComponents/obj/",
+      "outputPath": "/home/dinnerbone/Games/Zealous/GameComponents/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/home/dinnerbone/.nuget/NuGet/NuGet.Config"

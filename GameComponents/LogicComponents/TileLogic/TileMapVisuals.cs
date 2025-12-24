@@ -174,6 +174,14 @@ public class TileMapVisuals
          }
     }
     
+    public void SetWildID(byte newID) 
+    {
+        for(int i = 0; i < Tiles.Length; i++) 
+        {
+            SetSourceID(i, newID);
+        }
+    }
+    
     //  setting up or changing LayerDepth of selected tiles.
     
     public void SetLayerDepth(int index, float newDepth) 
@@ -192,6 +200,14 @@ public class TileMapVisuals
         }
     }
     
+    public void SetWildDepth(float newDepth) 
+    {
+        for(int i = 0; i < Tiles.Length; i++) 
+        {
+            SetLayerDepth(1, newDepth);
+        }
+    }
+    
     // setting up or changing whether or not selected Tiles are drawable within the draw call.
     
     public void ToggleVisibility(int index, bool isVisible) 
@@ -207,6 +223,14 @@ public class TileMapVisuals
         for(int i = 0; i < Tiles.Length; i++) 
         {
             if (selectedIndices.Contains(Tiles[i].SourceID)) ToggleVisibility(i, isVisible);
+        }
+    }
+    
+    public void ToggleUltimateVisibility(bool isVisible) 
+    {
+        for(int i = 0; i < Tiles.Length; i++) 
+        {
+            ToggleVisibility(i, isVisible);
         }
     }
     

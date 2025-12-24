@@ -2,63 +2,59 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 namespace GameComponents.Managers;
+
 public abstract class Scene : IDisposable
 {
-    public ContentManager? SceneContent { get; protected set; }
-    public bool IsPaused { get; set; } = true;
+    public ContentManager? Content { get; private set; }
+    public readonly string Name;
+    public bool IsActive { get; set; } = true;
+    public bool IsPaused { get; set; } = false;
     public bool IsDrawable { get; set; } = true;
-    public bool IsDisposed { get; private set; }
-    public bool IsLoaded { get; private set; }
-    public string Name { get; protected set; } = string.Empty;
+    public bool IsLoaded { get; private set; } = false;
+    public bool IsDisposed { get; private set; } = false;
     
-    protected Scene(string Name) 
+    public Scene(string name) 
     {
-        this.Name = Name ?? throw new ArgumentNullException(nameof(Name));
+        Name = name ?? throw new ArgumentNullException($"name is invalid or null.");
     }
     
     public virtual void Initialize(Game game) 
     {
-        if (game == null) throw new ArgumentNullException(nameof(game));
-        LoadSceneContent(game);
+        if (game == null) throw new ArgumentNullException($"{nameof(game)} is null or does not exist.");
+        LoadContent(game);
     }
     
-    public virtual void LoadSceneContent(Game game, string contentDir = "Content") 
+    protected virtual void LoadContent(Game game, string contentDir = "Content") 
     {
-        if (game == null) throw new ArgumentNullException($"{nameof(game)} can not be null.");
-        if (IsDisposed) throw new ObjectDisposedException(Name);
-        SceneContent = new ContentManager(game.Content.ServiceProvider, contentDir);
+        if (IsDisposed) throw new ObjectDisposedException($"Can't load content because {this} is already disposed.");
+        Content = new ContentManager(game.Content.ServiceProvider, contentDir);
         IsLoaded = true;
     }
-    //
+    
     public virtual void UnloadContent() 
     {
-        if (!IsDisposed) return;
-        SceneContent?.Unload();
+        if (IsDisposed || !IsLoaded) throw new ObjectDisposedException($"{this} is already unloaded or disposed.");
+        Content?.Unload();
         IsLoaded = false;
     }
-    //
-    public virtual void UpdateScene(GameTime gt) 
+    
+    public virtual void Update(GameTime gt) 
     {
-        if (!IsPaused || IsDisposed) return;
+        if (!IsActive || IsPaused || IsDisposed) return;
     }
-    public virtual void DrawScene() 
+    
+    public virtual void DrawScene(SpriteBatch batch) 
     {
-        if (!IsDrawable || IsDisposed) return;
+        if (!IsActive || !IsDrawable || IsDisposed) return;
     }
-    // disposing the scene
+    
+    // dispose method
+    
     public void Dispose() 
     {
-        Dispose(true);
+        if (IsDisposed) return;
+        UnloadContent();
+        IsDisposed = true;
         GC.SuppressFinalize(this);
     }
-    public virtual void Dispose(bool disposing) 
-    {
-        if (IsDisposed) return;
-        if (disposing) 
-        {
-            UnloadContent();
-            SceneContent?.Dispose();
-        }
-        IsDisposed = true;
-    } 
 }

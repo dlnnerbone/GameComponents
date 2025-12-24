@@ -143,6 +143,14 @@ public class TileMapLogic
          }
     }
     
+    public void SetWildLayerID(byte newID) 
+    {
+        for(int i = 0; i < Colliders.Length; i++) 
+        {
+            SetLayerID(i, newID);
+        }
+    }
+    
     // Toggling collision for Colliders
     
     public void ToggleCollision(int index, bool isActive) 
@@ -159,6 +167,14 @@ public class TileMapLogic
          {
              if (selectedIndices.Contains(Colliders[i].LayerID)) ToggleCollision(i, isActive);
          }
+    }
+    
+    public void ToggleWildCollision(bool isActive) 
+    {
+        for(int i = 0; i < Colliders.Length; i++) 
+        {
+            ToggleCollision(i, isActive);
+        }
     }
     
     // changing and setting new bounding boxes for Colliders.
@@ -181,6 +197,14 @@ public class TileMapLogic
         for(int i = 0; i < Colliders.Length; i++) 
         {
             if (selectedIndices.Contains(Colliders[i].LayerID)) SetBoundingBox(i, bounds, addLocationToOriginal);
+        }
+    }
+    
+    public void SetAllBoundingBoxes(Rectangle bounds, bool addLocationToOriginal = true) 
+    {
+        for (int i = 0; i < Colliders.Length; i++) 
+        {
+            SetBoundingBox(i, bounds, addLocationToOriginal);
         }
     }
     

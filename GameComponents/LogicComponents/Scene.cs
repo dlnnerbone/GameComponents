@@ -33,7 +33,7 @@ public abstract class Scene : IDisposable
     
     public virtual void UnloadContent() 
     {
-        if (IsDisposed || !IsLoaded) throw new ObjectDisposedException($"{this} is already unloaded or disposed.");
+        if (IsDisposed || !IsLoaded) return;
         Content?.Unload();
         IsLoaded = false;
     }

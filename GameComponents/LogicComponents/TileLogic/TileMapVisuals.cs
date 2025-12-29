@@ -35,7 +35,7 @@ public class TileMapVisuals
         LayoutDirection = direction;
         
         // Tile Array initialzation.
-        Tiles = new Tile[Rows * Columns];
+        Tiles = new Tile[TileLayout.Length];
         
         for (int r = 0; r < Rows; r++) 
         {
@@ -60,7 +60,7 @@ public class TileMapVisuals
         TileLayout = layout;
         
         // Tile Array initialization.
-        Tiles = new Tile[Rows * Columns];
+        Tiles = new Tile[TileLayout.Length];
         
         for (int r = 0; r < Rows; r++) 
         {

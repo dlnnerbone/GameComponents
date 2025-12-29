@@ -1,56 +1,62 @@
 using Microsoft.Xna.Framework;
 using GameComponents.Interfaces;
 namespace GameComponents.Entity;
-public abstract class Entity : BodyComponent, IHealthComponent, IMovementComponent
+public abstract class Entity : BodyComponent, IHealthComponent, IMovementComponent, IBodyComponent
 {
-    // Entity class is a combination of Health, Boddy, and Velocity-based components to make a character body.
-    protected MovementComponent movement;
-    protected HealthComponent healthCom;
-    public virtual Vector2 Velocity { get { return movement.Velocity; } set { movement.Velocity = value; } }
-    public virtual Vector2 Direction { get { return movement.Direction; } }
-    public float Velocity_X { get { return movement.Velocity_X; } set { movement.Velocity_X = value; } }
-    public float Velocity_Y { get { return movement.Velocity_Y; } set { movement.Velocity_Y = value; } }
-    public bool IsMovingLeft() => movement.IsMovingLeft();
-    public bool IsMovingRight() => movement.IsMovingRight();
-    public bool IsMovingDown() => movement.IsMovingDown();
-    public bool IsMovingUp() => movement.IsMovingUp();
-    public bool IsMoving() => movement.IsMoving();
-    public float Health { get { return healthCom.Health; } set { healthCom.Health = value; } }
-    public float MinHealth { get { return healthCom.MinHealth; } set { healthCom.MinHealth = value; } }
-    public float MaxHealth { get { return healthCom.MaxHealth; } set { healthCom.MaxHealth = value; } }
-    public float NormalizedHealth => healthCom.NormalizedHealth;
-    public bool IsFullHealth() => healthCom.IsFullHealth();
-    public bool IsWithinCriticalThreshold(float value) => healthCom.IsWithinCriticalThreshold(value);
-    public void Destroy() => healthCom.Destroy();
+    protected HealthComponent ProtectedHealth;
+    protected MovementComponent ProtectedMovement;
     
-    protected delegate void motionBehaviour();
-    protected abstract void MoveAndSlide(GameTime gt);
+    protected abstract void MoveAndSlide(GameTime gameTime);
+    // main stuff
+    // main health properties
+    public float Health { get => ProtectedHealth.Health; set => ProtectedHealth.Health = value; }
+    public float MinHealth { get => ProtectedHealth.MinHealth; set => ProtectedHealth.MinHealth = value; }
+    public float MaxHealth { get => ProtectedHealth.MaxHealth; set => ProtectedHealth.MaxHealth = value; }
     
-    /// <returns></returns>
-    public bool Intersects(Entity other) => Intersects(other.Bounds);
-    public Entity(int x, int y, int width, int height, float Health, float minHealth = 0, float maxHealth = 100) : base(x, y, width, height)
+    public ref float ReferencedHealth => ref ProtectedHealth.ReferencedHealth;
+    public ref float ReferencedMinHealth => ref ProtectedHealth.ReferencedMinHealth;
+    public ref float ReferencedMaxHealth => ref ProtectedHealth.ReferencedMaxHealth;
+    
+    public float NormalizedHP => ProtectedHealth.NormalizedHP;
+    public bool IsHealthWithinThreshold(float range) => ProtectedHealth.IsWithinThreshold(range);
+    public void Terminate() => ProtectedHealth.Terminate();
+    // main Movement properties
+    public Vector2 Velocity { get => ProtectedMovement.Velocity; set => ProtectedMovement.Velocity = value; }
+    public Vector2 MovingDirection => ProtectedMovement.MovingDirection;
+    public ref Vector2 ReferencedVelocity => ref ProtectedMovement.ReferencedVelocity;
+    
+    public float VeloX { get => ProtectedMovement.VeloX; set => ProtectedMovement.VeloX = value; }
+    public float VeloY { get => ProtectedMovement.VeloY; set => ProtectedMovement.VeloY = value; }
+    
+    public bool IsMoving() => ProtectedMovement.IsMoving();
+    public bool IsMovingLeft() => ProtectedMovement.IsMovingLeft();
+    public bool IsMovingRight() => ProtectedMovement.IsMovingRight();
+    public bool IsMovingUp() => ProtectedMovement.IsMovingUp();
+    public bool IsMovingDown() => ProtectedMovement.IsMovingDown();
+    
+    // constructors
+    public Entity(int x, int y, int width, int height, float health, float maxHealth, float minHealth = 0f) : base(x, y, width, height) 
     {
-        healthCom = new(Health, minHealth, maxHealth);
-        movement = new();
+        ProtectedHealth = new(health, minHealth, maxHealth);
+        ProtectedMovement = MovementComponent.Zero;
     }
-    public Entity(Point location, Point Size, float Health, float min = 0, float max = 100) : base(location, Size) 
+    
+    public Entity(int x, int y, int width, int height, Vector2 initialVelocity, float health, float maxHealth, float minHealth = 0f) : base(x, y, width, height)
     {
-        healthCom = new(Health, min, max);
-        movement = new();
+        ProtectedHealth = new(health, minHealth, maxHealth);
+        ProtectedMovement = new(initialVelocity);
     }
-    public Entity(Vector2 position, Vector2 size, float HP, float min = 0, float max = 100) : base(position, size) 
+    
+    public Entity(Point location, Point size, float health, float maxHealth, float minHealth = 0f) : base(location, size) 
     {
-        healthCom = new(HP, min, max);
-        movement = new();
+        ProtectedHealth = new(health, minHealth, maxHealth);
+        ProtectedMovement = MovementComponent.Zero;
     }
-    public Entity(Rectangle otherBounds, float hp, float min = 0, float max = 100) : base(otherBounds) 
+    
+    public Entity(Point location, Point size, Vector2 initialVelocity, float health, float maxHealth, float minHealth = 0f) : base(location, size) 
     {
-        healthCom = new(hp, min, max);
-        movement = new();
+        ProtectedHealth = new(health, minHealth, maxHealth);
+        ProtectedMovement = new(initialVelocity);
     }
-    public Entity(Vector4 data, float hp, float min = 0, float max = 100) : base(data) 
-    {
-        healthCom = new(hp, min, max);
-        movement = new();
-    }
+    
 }

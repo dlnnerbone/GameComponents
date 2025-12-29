@@ -3,31 +3,22 @@ using GameComponents.Interfaces;
 namespace GameComponents.Entity;
 public class MovementComponent : IMovementComponent 
 {
-    protected Vector2 velocity = Vector2.Zero;
-    protected Vector2 direction;
-    // private fields
-    public virtual Vector2 Velocity 
-    {
-        get => velocity;
-        set 
-        {
-            velocity = value;
-            direction = Vector2.Normalize(velocity);
-        }
-    }
+    private Vector2 velocity = Vector2.Zero;
+    // properties
+    public Vector2 Velocity { get => velocity; set => velocity = value; }
+    public Vector2 MovingDirection => Vector2.Normalize(Velocity);
+    public ref Vector2 ReferencedVelocity => ref velocity;
     
-    public virtual Vector2 Direction => Vector2.Normalize(Velocity);
+    public float VeloX { get => velocity.X; set => velocity.X = value; }
+    public float VeloY { get => velocity.Y; set => velocity.Y = value; }
     
-    public float Velocity_X { get { return velocity.X; } set { velocity.X = value; } }
-    public float Velocity_Y { get { return velocity.Y; } set { velocity.Y = value; } }
-    public bool IsMovingLeft() => Velocity.X < 0;
-    public bool IsMovingRight() => Velocity.X > 0;
-    public bool IsMovingDown() => Velocity.Y > 0;
-    public bool IsMovingUp() => Velocity.Y < 0;
-    public bool IsMoving() => IsMovingLeft() || IsMovingRight() || IsMovingDown() || IsMovingUp();
-    public MovementComponent() {}
-    public MovementComponent(Vector2 vel) 
-    {
-        Velocity = vel;
-    }
+    // methods
+    public bool IsMovingRight() => Velocity.X > 0f;
+    public bool IsMovingLeft() => Velocity.X < 0f;
+    public bool IsMovingUp() => Velocity.Y < 0f;
+    public bool IsMovingDown() => Velocity.Y > 0f;
+    public bool IsMoving() => IsMovingRight() || IsMovingLeft() || IsMovingUp() || IsMovingDown();
+     
+    public MovementComponent(Vector2 initialVelocity) => velocity = initialVelocity;
+    public static MovementComponent Zero => new MovementComponent(Vector2.Zero);
 }

@@ -23,7 +23,7 @@ public class TileMapLogic
         Layout = layout;
         Origin = origin;
         // array initialization.
-        Colliders = new Collider[Rows * Columns];
+        Colliders = new Collider[Layout.Length];
         
         for(int r = 0; r < Rows; r++) 
         {
@@ -45,7 +45,7 @@ public class TileMapLogic
         Origin = origin;
         Layout = layout;
         // array initialzation.
-        Colliders = new Collider[Rows * Columns];
+        Colliders = new Collider[Layout.Length];
         
         for(int r = 0; r < Rows; r++) 
         {

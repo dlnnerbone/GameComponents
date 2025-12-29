@@ -3,21 +3,30 @@ using GameComponents.Interfaces;
 namespace GameComponents.Entity;
 public class HealthComponent : IHealthComponent 
 {
-    private float health = 0;
-    private float minHealth = 0;
-    private float maxHealth = 0;
+    protected float ProtectedHealth = 0;
+    protected float ProtectedMinHealth = 0;
+    protected float ProtectedMaxHealth = 0;
     // private fields
-    public float Health { get { return health; } set { health = MathHelper.Clamp(value, minHealth, maxHealth); } }
-    public float MinHealth { get { return minHealth; } set { minHealth = value > maxHealth ? maxHealth - 1 : value; } }
-    public float MaxHealth { get { return maxHealth; } set { maxHealth = value < minHealth ? minHealth + 1 : value; } }
-    public float NormalizedHealth => (health - minHealth) / (maxHealth - minHealth);
-    public HealthComponent(float HP, float minHP, float maxHP = 100) 
+    public float Health { get => ProtectedHealth; set => ProtectedHealth = MathHelper.Clamp(value, ProtectedMinHealth, ProtectedMaxHealth); }
+    public float MinHealth { get => ProtectedMinHealth; set => ProtectedMinHealth = MathHelper.Clamp(value, 0f, ProtectedMaxHealth); }
+    public float MaxHealth { get => ProtectedMaxHealth; set => ProtectedMaxHealth = MathHelper.Clamp(value, MinHealth, float.PositiveInfinity); }
+    
+    public ref float ReferencedHealth => ref ProtectedHealth;
+    public ref float ReferencedMinHealth => ref ProtectedMinHealth;
+    public ref float ReferencedMaxHealth => ref ProtectedMaxHealth;
+    
+    // methods
+    
+    public float NormalizedHP => (Health - MinHealth) / (MaxHealth - MinHealth);
+    
+    public bool IsWithinThreshold(float range) => Health < range;
+    public virtual void Terminate() => Health = MinHealth;
+    
+    // constructors
+    public HealthComponent(float health, float minHealth, float maxHealth) 
     {
-        Health = HP != 0 ? HP : maxHP;
-        MinHealth = minHP;
-        MaxHealth = maxHP;
+        Health = health;
+        MinHealth = minHealth;
+        MaxHealth = maxHealth;
     }
-    public bool IsFullHealth() => health >= maxHealth;
-    public bool IsWithinCriticalThreshold(float value) => health <= value;
-    public HealthComponent Destroy() => new HealthComponent(0, this.MinHealth, this.MaxHealth);
 }

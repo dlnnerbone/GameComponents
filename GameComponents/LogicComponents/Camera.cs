@@ -82,22 +82,14 @@ public sealed class Camera : IDirection
     public void Recording() 
     {
         if (!IsActive) return;
-        var targetPos = CenterOnTarget ? CameraTarget + Offset + screenSize :
+        var targetPos = CenterOnTarget ? CameraTarget + Offset - screenSize :
             CameraTarget + Offset;
         CameraPosition = Vector2.LerpPrecise(CameraPosition, targetPos, EaseLevel);
     }
+    
     // constructors
     
-    /// <summary>
-    /// the constructor for the Camera class.
-    /// </summary>
-    /// <param name="viewport">the bounds or vewport of the screen in px, assumes the argument is the full bounds and divides by two.</param>
-    /// <param name="CenterOnTarget">whether or not the camera centers on an object.</param>
-    /// <param name="scale">the scale, or FoV.</param>
-    /// <param name="minZoom"> the minimum zoom level</param>
-    /// <param name="maxZoom">the maximum zoom level.</param>
-    /// <param name="easeLvl">the easing level of the LerpFactor.</param>
-    public Camera(Rectangle viewport, bool CenterOnTarget = true, float scale = 1f, float minZoom = 0.1f, float maxZoom = 2f, float easeLvl = 1f) 
+    public Camera(Rectangle viewport, bool CenterOnTarget = true, float scale = 1f, float minZoom = 0.1f, float maxZoom = 2f, float easeLvl = 0.5f) 
     {
         screenSize = new Vector2(viewport.Width / 2, viewport.Height / 2);
         this.CenterOnTarget = CenterOnTarget;
@@ -106,13 +98,17 @@ public sealed class Camera : IDirection
         MaxZoom = maxZoom;
         EaseLevel = easeLvl;
     }
+    
     public Camera(Viewport viewport, bool CenterOnTarget = true, float scale = 1f, float minZoom = 0.1f, float maxZoom = 2f, float easeLvl = 1f) :
                 this(viewport.Bounds, CenterOnTarget, scale, minZoom, maxZoom, easeLvl) {}
-    public Camera(Vector2 viewportSizes, bool CenterOnTarget = true, float scale = 1f, float minZoom = 0.1f, float maxZoom = 2f, float easeLvl = 1) 
+                
+    public Camera(Vector2 viewportSizes, bool CenterOnTarget = true, float scale = 1f, float minZoom = 0.1f, float maxZoom = 2f, float easeLvl = 1f) 
     {
         screenSize = viewportSizes;
         this.CenterOnTarget = CenterOnTarget;
         Scale = scale;
         MinZoom = minZoom;
+        MaxZoom = maxZoom;
+        EaseLevel = easeLvl;
     }
 }

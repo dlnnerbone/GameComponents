@@ -2,7 +2,7 @@ using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 namespace GameComponents.Rendering;
-public readonly struct TileGrid 
+public class TileGrid 
 {
     public readonly Rectangle[] Regions; // int is basically the key, and using that key returns the value (The Rectangle)
     public readonly int Rows;

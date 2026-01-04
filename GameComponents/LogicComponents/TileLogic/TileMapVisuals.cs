@@ -15,7 +15,7 @@ public class TileMapVisuals
 {
     public readonly Tile[] Tiles;
     public bool IsActive { get; set; } = true;
-    public TileGrid SourceGrid { get; set; } = default;
+    public TileGrid? SourceGrid { get; set; }
     public readonly LayoutDirection LayoutDirection;
     public readonly Vector2 Origin;
     
@@ -160,7 +160,7 @@ public class TileMapVisuals
     
     public void SetSourceID(int index, byte newID) 
     {
-        if (index < 0 || index >= Tiles.Length || newID < 0 || newID >= SourceGrid.Regions.Length) return;
+        if (index < 0 || index >= Tiles.Length || newID < 0 || newID >= SourceGrid?.Regions.Length) return;
         Tiles[index].SourceID = newID;
     }
     
@@ -243,7 +243,7 @@ public class TileMapVisuals
         foreach(ref readonly var t in Tiles.AsSpan()) 
         {
             if (!t.IsDrawable) continue;
-            batch.Draw(texture, t.Bounds, SourceGrid.Regions[t.SourceID], color, 0, Vector2.Zero, SpriteEffects.None, t.LayerDepth);
+            batch.Draw(texture, t.Bounds, SourceGrid?.Regions[t.SourceID], color, 0, Vector2.Zero, SpriteEffects.None, t.LayerDepth);
         }
     }
     
@@ -255,7 +255,7 @@ public class TileMapVisuals
         foreach(ref readonly var t in Tiles.AsSpan()) 
         {
             if (!t.IsDrawable) continue;
-            batch.Draw(texture, t.Bounds, SourceGrid.Regions[t.SourceID], color, radians, Vector2.Zero, SpriteEffects.None, t.LayerDepth);
+            batch.Draw(texture, t.Bounds, SourceGrid?.Regions[t.SourceID], color, radians, Vector2.Zero, SpriteEffects.None, t.LayerDepth);
         }
     }
     
@@ -266,7 +266,7 @@ public class TileMapVisuals
         foreach(ref readonly var t in Tiles.AsSpan()) 
         {
             if (!t.IsDrawable) continue;
-            batch.Draw(texture, t.Bounds, SourceGrid.Regions[t.SourceID], color, radians, origin, SpriteEffects.None, t.LayerDepth);
+            batch.Draw(texture, t.Bounds, SourceGrid?.Regions[t.SourceID], color, radians, origin, SpriteEffects.None, t.LayerDepth);
         }
     }
     
@@ -277,7 +277,7 @@ public class TileMapVisuals
         foreach(ref readonly var t in Tiles.AsSpan()) 
         {
             if (!t.IsDrawable) continue;
-            batch.Draw(texture, t.Bounds, SourceGrid.Regions[t.SourceID], color, radians, origin, effects, t.LayerDepth);
+            batch.Draw(texture, t.Bounds, SourceGrid?.Regions[t.SourceID], color, radians, origin, effects, t.LayerDepth);
         }
     }
     

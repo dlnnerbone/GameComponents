@@ -1,7 +1,8 @@
 using Microsoft.Xna.Framework;
 namespace GameComponents;
 
-public struct Entity 
+public record struct Entity 
 {
-    public byte id;
+    public int Id;
+    public Entity(int id) => Id = id;
 }

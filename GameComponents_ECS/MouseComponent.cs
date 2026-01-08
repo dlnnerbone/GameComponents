@@ -1,32 +1,37 @@
 using Microsoft.Xna.Framework.Input;
 namespace GameComponents.Input;
 
-public struct MouseStateComponent
+public class CurrentMouseStateComponent 
 {
     public MouseState CurrentMouseState;
+}
+
+public class PreviousMouseStateComponent 
+{
     public MouseState PreviousMouseState;
 }
 
-public struct MouseClickingComponent
+public struct ScrollWheelComponent 
 {
-    public bool IsLeftClicked;
-    public bool IsRightClicked;
-    public bool IsMiddleClicked;
-    public bool IsBackClicked;
-    public bool IsFrontClicked;
-}
-
-public struct MouseHoldingComponent 
-{
-    public bool IsLeftHeld;
-    public bool IsRightHeld;
-    public bool IsMiddleHeld;
-    public bool IsBackHeld;
-    public bool IsFrontHeld;
-}
-
-public struct MouseScrollWheelComponent
-{
-    public int ScrollWheelDelta;
     public int ScrollWheelValue;
+    public int ScrollWheelDelta;
 }
+
+// flag enums for Mouse clicks
+[Flags]
+public enum MouseStates 
+{
+    Nothing = 0,
+    LeftClick = 1,
+    RightClick = 2,
+    MiddleClick = 4,
+    BackClick = 8,
+    FrontClick = 16,
+    
+    LeftHold = 32,
+    RightHold = 64,
+    MiddleHold = 128,
+    BackHold = 256,
+    FrontHold = 512
+}
+

@@ -2,10 +2,14 @@ using Microsoft.Xna.Framework.Input;
 
 namespace GameComponents;
 
-public struct KeyboardStateComponent 
+public class KeyboardStateComponent 
 {
     public KeyboardState CurrentKeyboardState;
-    public KeyboardState PreviousKeyBoardState;
+}
+
+public class PreviousKeyboardStateComponent 
+{
+    public KeyboardState PreviousKeyboardState;
 }
 
 public interface IKeyboardComponent 

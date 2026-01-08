@@ -1,9 +1,9 @@
 public interface IComponent
 {
-    public void Update();
+    void Update();
 }
 
 public interface IComponent<selectedType>
 {
-    public void Update(ref selectedType comp);
+    void Update(ref selectedType comp);
 }

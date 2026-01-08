@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
 namespace GameComponents;
@@ -10,11 +11,4 @@ public class KeyboardStateComponent
 public class PreviousKeyboardStateComponent 
 {
     public KeyboardState PreviousKeyboardState;
-}
-
-public interface IKeyboardComponent 
-{
-    public bool IsKeyDown(Keys key);
-    public bool IsKeyPressed(Keys key);
-    public bool IsKeyReleased(Keys key);
 }

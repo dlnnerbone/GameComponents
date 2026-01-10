@@ -1,4 +1,4 @@
-using System;
+namespace GameComponents;
 
 public interface IDrawable 
 {

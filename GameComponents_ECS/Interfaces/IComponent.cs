@@ -1,3 +1,5 @@
+namespace GameComponents;
+
 public interface IComponent
 {
     void Update();

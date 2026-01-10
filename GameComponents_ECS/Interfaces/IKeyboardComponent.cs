@@ -1,5 +1,5 @@
 using Microsoft.Xna.Framework.Input;
-
+namespace GameComponents;
 public interface IKeyboardComponent 
 {
     public bool IsKeyDown(Keys key);

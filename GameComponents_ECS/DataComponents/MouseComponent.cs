@@ -1,5 +1,5 @@
 using Microsoft.Xna.Framework.Input;
-namespace GameComponents.Input;
+namespace GameComponents;
 
 public class CurrentMouseStateComponent 
 {

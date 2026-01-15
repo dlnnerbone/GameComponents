@@ -1,5 +1,5 @@
 using System.Linq;
-namespace GameComponents.Systems;
+namespace GameComponents.Helpers;
 
 /// <summary>
 /// a FlagHelper class to help with finding flags

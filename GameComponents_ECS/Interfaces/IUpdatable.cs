@@ -1,11 +1,11 @@
 namespace GameComponents;
 
-public interface IComponent
+public interface IUpdatable
 {
     void Update();
 }
 
-public interface IComponent<selectedType>
+public interface IUpdatable<T> where T : notnull
 {
-    void Update(ref selectedType comp);
+    void Update(ref T comp);
 }

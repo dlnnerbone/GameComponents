@@ -21,12 +21,14 @@ public static class ArrayHelper
     
     // resizing while copying elements into new Array.
     
-    public static void CopyAndResize<T>(ref T[] collection, int newCap)
+    public static void CopyAndResize<T>(ref T[] collection, int newCap, int length, int sourceIndex = 0, int sourceDestIndex = 0)
     {
         T[] destinationArray = new T[newCap];
-        Array.Copy(collection, 0, destinationArray, 0, collection.Length);
+        Array.Copy(collection, sourceIndex, destinationArray, sourceDestIndex, length);
         collection = destinationArray;
     }
+    
+    
     
     public static void EmptyOut<T>(ref T[] arrayToEmptyOut) 
     {

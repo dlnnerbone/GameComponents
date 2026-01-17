@@ -65,4 +65,19 @@ public record Archetype
     public Type[] AsArray() => Types.ToArray();
     
     public static Archetype Empty => new Archetype(Array.Empty<Type>().ToHashSet());
+    
+    // to string
+    
+    public override string ToString() 
+    {
+        var str = string.Empty;
+        var arr = AsArray();
+        
+        for(int i = 0; i < Count; i++) 
+        {
+            str += $"{arr[i]}, ";
+        }
+        
+        return str;
+    }
 }

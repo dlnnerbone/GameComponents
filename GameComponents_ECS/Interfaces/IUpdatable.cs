@@ -5,7 +5,7 @@ public interface IUpdatable
     void Update();
 }
 
-public interface IUpdatable<T> where T : notnull
+public interface IUpdatable<T>
 {
-    void Update(ref T comp);
+    void Update(in T comp);
 }

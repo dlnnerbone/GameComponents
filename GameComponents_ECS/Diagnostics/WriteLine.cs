@@ -1,6 +1,6 @@
 using System.Diagnostics;
 namespace GameComponents;
-public static class Diagnostics 
+public static partial class Diagnostics 
 {
     public static void WriteLine(string str) 
     {

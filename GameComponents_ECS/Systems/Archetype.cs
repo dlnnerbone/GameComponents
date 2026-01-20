@@ -11,11 +11,23 @@ public record Archetype
     public readonly HashSet<Type> Types;
     // the Count of how many Types are in the Archetype.
     public readonly int Count;
+    private readonly string collectedTypes;
+    
+    public override string ToString() => collectedTypes;
     
     public Archetype(HashSet<Type> selectedTypes) 
     {
         Types = selectedTypes;
         Count = Types.Count;
+        
+        if (Count < 0) 
+        {
+            collectedTypes = string.Empty;
+            return;
+        }
+        
+        collectedTypes = string.Join(", ", Types) + '.';
+        
     }
     
     public Type? Get<T>() 
@@ -66,18 +78,5 @@ public record Archetype
     
     public static Archetype Empty => new Archetype(Array.Empty<Type>().ToHashSet());
     
-    // to string
-    
-    public override string ToString() 
-    {
-        var str = string.Empty;
-        var arr = AsArray();
-        
-        for(int i = 0; i < Count; i++) 
-        {
-            str += $"{arr[i]}, ";
-        }
-        
-        return str;
-    }
+    public static Archetype Create(HashSet<Type> types) => new Archetype(types);
 }

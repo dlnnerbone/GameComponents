@@ -28,8 +28,6 @@ public static class ArrayHelper
         collection = destinationArray;
     }
     
-    
-    
     public static void EmptyOut<T>(ref T[] arrayToEmptyOut) 
     {
         var emptyArray = new T[arrayToEmptyOut.Length];

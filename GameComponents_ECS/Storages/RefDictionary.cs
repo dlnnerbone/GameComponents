@@ -17,44 +17,46 @@ public class Ref<T>
 public class RefDictionary<TKey, TValue> : IEnumerable<Ref<TValue>> where TKey : notnull
 {
     private readonly Dictionary<TKey, Ref<TValue>> _dictionary;
-    public Ref<TValue>[] AsArray { get; protected set; }
+    public Ref<TValue>[] AsArray() => _dictionary.Values.ToArray();
     
     public Dictionary<TKey, Ref<TValue>> GetInternalDictionary() => _dictionary;
     
-    public Ref<TValue> this[TKey key] => _dictionary[key];
-    
-    private void _updateArray() => AsArray = _dictionary.Values.ToArray();
+    public Ref<TValue> this[TKey key] 
+    {
+        get => _dictionary[key];
+        set => _dictionary[key] = value;
+    }
     
     public RefDictionary(int initialSize = 0) 
     {
         _dictionary = new Dictionary<TKey, Ref<TValue>>(initialSize);
-        AsArray = _dictionary.Values.ToArray();
     }
     
-    public void Add(TKey key, TValue value) 
+    public void Add(TKey key, Ref<TValue> value) 
     {
         _dictionary.Add(key, value);
-        _updateArray();
     }
     
-    public bool TryAdd(TKey key, TValue value) 
+    public bool TryAdd(TKey key, TValue value)
     {
-        bool isAdded = _dictionary.TryAdd(key, value);
-        _updateArray();
-        return isAdded;
+        return _dictionary.TryAdd(key, value);
     }
     
-    public void Remove(TKey key) 
+    public bool ContainsKey(TKey key) 
     {
-        _dictionary.Remove(key);
-        _updateArray();
+        return _dictionary.ContainsKey(key);
     }
     
-    public IEnumerator<Ref<TValue>> GetEnumerator() 
+    public bool Remove(TKey key) 
     {
-        for (int i = AsArray.Length - 1; i >= 0; i--) 
+        return _dictionary.Remove(key);
+    }
+    
+    public IEnumerator<Ref<TValue>> GetEnumerator()
+    {
+        foreach(var item in AsArray()) 
         {
-            yield return AsArray[i];
+            yield return item;
         }
     }
 

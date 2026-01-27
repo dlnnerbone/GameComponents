@@ -17,8 +17,8 @@ public class Ref<T>
 public class RefDictionary<TKey, TValue> : IEnumerable<Ref<TValue>> where TKey : notnull
 {
     private readonly Dictionary<TKey, Ref<TValue>> _dictionary;
-    public Ref<TValue>[] AsArray() => _dictionary.Values.ToArray();
-    
+    public Ref<TValue>[] ValueArray() => _dictionary.Values.ToArray();
+    public TKey[] KeyArray => _dictionary.Keys.ToArray();
     public Dictionary<TKey, Ref<TValue>> GetInternalDictionary() => _dictionary;
     
     public Ref<TValue> this[TKey key] 
@@ -32,29 +32,15 @@ public class RefDictionary<TKey, TValue> : IEnumerable<Ref<TValue>> where TKey :
         _dictionary = new Dictionary<TKey, Ref<TValue>>(initialSize);
     }
     
-    public void Add(TKey key, Ref<TValue> value) 
-    {
-        _dictionary.Add(key, value);
-    }
+    public void Add(TKey key, TValue value) => _dictionary.Add(key, value);
+    public bool ContainsKey(TKey key) => _dictionary.ContainsKey(key);
+    public bool Remove(TKey key) => _dictionary.Remove(key);
+    public bool ContainsValue(Ref<TValue> value) => _dictionary.ContainsValue(value);
     
-    public bool TryAdd(TKey key, TValue value)
-    {
-        return _dictionary.TryAdd(key, value);
-    }
-    
-    public bool ContainsKey(TKey key) 
-    {
-        return _dictionary.ContainsKey(key);
-    }
-    
-    public bool Remove(TKey key) 
-    {
-        return _dictionary.Remove(key);
-    }
     
     public IEnumerator<Ref<TValue>> GetEnumerator()
     {
-        foreach(var item in AsArray()) 
+        foreach(var item in ValueArray()) 
         {
             yield return item;
         }

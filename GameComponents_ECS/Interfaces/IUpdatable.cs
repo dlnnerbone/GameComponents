@@ -9,3 +9,8 @@ public interface IUpdatable<T>
 {
     void Update(in T comp);
 }
+
+public interface IUpdatableMutable<T> 
+{
+    void Update(ref T comp);
+}

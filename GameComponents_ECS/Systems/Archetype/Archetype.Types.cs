@@ -7,13 +7,6 @@ namespace GameComponents.Systems;
 
 public partial record Archetype 
 {
-    private readonly string collectedTypes;
-
-    // a hashset for better lookups.
-    public readonly HashSet<Type> ComponentTypes;
-    // data
-    public readonly int TypeCount;
-    public override string ToString() => collectedTypes;
     
     public Type? Get<T>() 
     {

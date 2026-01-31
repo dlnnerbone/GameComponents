@@ -2,25 +2,49 @@ using System.Collections.Immutable;
 
 namespace GameComponents.Systems;
 
-internal static class ComponentMeta { public static int NextID = 0; }
-
-internal static class ComponentID<T>
+internal static class ComponentMetadata 
 {
-    internal static Type TargetType = typeof(T);
-    internal static readonly int ID = ComponentMeta.NextID++;
+    public static int Index = 0;
 }
 
-public static class IDDictionary 
+public static class ComponentID<T> 
 {
-    internal static readonly Dictionary<Type, byte> _componentIDDictionary = [];
-    internal static byte GetValue(Type type) => _componentIDDictionary[type];
+    public static readonly int ID = ComponentDictionary.GetID<T>();
+}
+
+public static class ComponentDictionary 
+{
+    internal static readonly Dictionary<Type, int> _componentDictionary = [];
     
-    public static ImmutableDictionary<Type, byte> GetInternalDictionary() => _componentIDDictionary.ToImmutableDictionary();
+    public static int GetValue(Type type) => _componentDictionary[type];
+    public static ImmutableDictionary<Type, int> GetInternalDictionary() => _componentDictionary.ToImmutableDictionary();
     
-    public static void Add<T>() 
+    public static void Add(Type type) 
     {
-        Type type = typeof(T);
-        if (_componentIDDictionary.ContainsKey(type)) return;
-        _componentIDDictionary.Add(type, (byte)ComponentID<T>.ID);
+        if (_componentDictionary.ContainsKey(type)) return;
+        _componentDictionary.Add(type, ComponentMetadata.Index++);
     }
+    public static void Add<T>() => Add(typeof(T));
+    
+    public static int GetID(Type type) 
+    {
+        if (!_componentDictionary.ContainsKey(type)) Add(type);
+        
+        return _componentDictionary[type];
+    }
+    
+    public static int GetID<T>() => GetID(typeof(T));
+    
+    public static void AddRange(IEnumerable<Type> typesToAdd) 
+    {
+        var toArr = typesToAdd.ToArray();
+        
+        for(int i = 0; i < toArr.Length; i++) 
+        {
+            Add(toArr[i]);
+        }
+    }
+    
+    public static int GetHighestID() => ComponentMetadata.Index;
+    
 }

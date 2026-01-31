@@ -19,43 +19,41 @@ public partial record Archetype
     
     public Archetype(int dataCapacity, HashSet<Type> types) 
     {
-        TypeCount = types.Count;
-        Capacity = dataCapacity;
-        
         ComponentTypes = types;
+        Capacity = dataCapacity;
+        TypeCount = types.Count;
+        var typeArray = ComponentTypes.ToArray();
+        
+        ComponentDictionary.AddRange(typeArray);
         DataComponents = new Array[TypeCount];
-        Type[] fixedTypes = types.ToArray();
+        
+        _indexMap = new int[ComponentDictionary.GetHighestID() + 1];
+        _indexMap.AsSpan().Fill(-1);
         
         for(int i = 0; i < TypeCount; i++) 
         {
-            DataComponents[i] = Array.CreateInstance(fixedTypes[i], Capacity);
-        }
-        
-        _indexMap = new int[ComponentMeta.NextID + 1];
-        _indexMap.AsSpan().Fill(-1);
-        
-        for(int i = 0; i < fixedTypes.Length; i++) 
-        {
-            if (!IDDictionary.GetInternalDictionary().ContainsKey(fixedTypes[i])) 
-            {
-                throw new ArgumentOutOfRangeException($"{fixedTypes[i].GetType()} can't be found inside the ID Dictionary.");
-            }
+            DataComponents[i] = Array.CreateInstance(typeArray[i], Capacity);
             
-            int compID = IDDictionary.GetValue(fixedTypes[i]);
+            int compID = ComponentDictionary.GetID(typeArray[i]);
             _indexMap[compID] = i;
         }
         
-        if (fixedTypes.Length == 0) 
+        if (typeArray.Length == 0) 
         {
             collectedTypes = string.Empty;
             return;
         }
         
-        collectedTypes = string.Join(", ", types) + '.';
+        collectedTypes = string.Join(", ", ComponentTypes) + '.';
     }
     
     public Archetype(int capacity, params Type[] types) : this(capacity, types.ToHashSet()) {}
     public Archetype(int capacity, IEnumerable<Type> types) : this(capacity, types.ToHashSet()) {}
+    
+    public static Archetype Empty = new Archetype(0, new HashSet<Type>());
+    public static Archetype Create(int capacity, HashSet<Type> types) => new Archetype(capacity, types);
+    public static Archetype Create(int capacity, params Type[] types) => new Archetype(capacity, types);
+    public static Archetype Create(int capacity, IEnumerable<Type> types) => new Archetype(capacity, types);
     
     public ref Array this[int index] => ref DataComponents[index];
     public ImmutableArray<int> GetIndexMap() => _indexMap.ToImmutableArray();

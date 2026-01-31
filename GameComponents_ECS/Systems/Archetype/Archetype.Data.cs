@@ -24,5 +24,7 @@ public partial record Archetype
     {
         ref var comp = ref GetComponent<T>(columnIndex);
         return comp;
-    } 
+    }
+    
+    
 }

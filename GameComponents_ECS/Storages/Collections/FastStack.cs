@@ -67,6 +67,11 @@ public struct FastStack<T> : IEnumerable<T>, IReadOnlyCollection<T>
         ArrayHelper.CopyAndResize(ref _buffer, CompactCount, CompactCount);
     }
     
+    public void ForEach(FastStackHelper<T>.Loop loop) 
+    {
+        FastStackHelper<T>.ForEach(AsSpan(), loop);
+    }
+    
     public IEnumerator<T> GetEnumerator() => new FastStackEnumerator<T>(this);
     
     System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => GetEnumerator();

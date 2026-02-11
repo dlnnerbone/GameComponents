@@ -1,5 +1,6 @@
 using GameComponents.Helpers;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 namespace GameComponents.Storages;
 
 public struct FastStack<T> : IEnumerable<T>, IReadOnlyCollection<T> 
@@ -9,7 +10,7 @@ public struct FastStack<T> : IEnumerable<T>, IReadOnlyCollection<T>
     
     public bool HasElements => _buffer.Length > 0;
     public ref readonly T this[int index] => ref _buffer[index];
-    public readonly Span<T> AsSpan() => _buffer.AsSpan();
+    public readonly Span<T> AsSpan() => MemoryMarshal.CreateSpan(ref _buffer[0], CompactCount);
     public readonly Type GetUnderlyingType() => typeof(T);
     public readonly int Count => _buffer.Length;
     public readonly int CompactCount => _nextIndex;
@@ -69,7 +70,7 @@ public struct FastStack<T> : IEnumerable<T>, IReadOnlyCollection<T>
     
     public void ForEach(FastStackHelper<T>.Loop loop) 
     {
-        FastStackHelper<T>.ForEach(AsSpan(), loop);
+        FastStackHelper<T>.ForEach(ref this, loop);
     }
     
     public IEnumerator<T> GetEnumerator() => new FastStackEnumerator<T>(this);

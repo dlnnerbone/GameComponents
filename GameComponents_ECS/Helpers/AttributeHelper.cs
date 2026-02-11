@@ -22,6 +22,11 @@ public static class AttributeHelper
         
         return hasAttr;
     }
+    
+    public static bool Contains<TAttr, T>() where TAttr : Attribute
+    {
+        return Contains<TAttr>(typeof(T));
+    }
 }
 
 internal static class AttributeMetadata { internal static int HighestID = 0; }

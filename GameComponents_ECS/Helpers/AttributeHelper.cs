@@ -1,5 +1,4 @@
 using GameComponents.Storages;
-using GameComponents.Systems;
 
 namespace GameComponents.Helpers;
 public static class AttributeHelper 
@@ -18,14 +17,12 @@ public static class AttributeHelper
         
         if (_cachedEntries[attrID] == null || _cachedEntries[attrID].Length == 0) return false;
         
-        bool hasAttr = _cachedEntries[attrID].Any(attribute => attribute.GetType() == typeof(TAttr));
-        
-        return hasAttr;
+        return _cachedEntries[attrID].Any(attribute => attribute.GetType() == typeof(TAttr));
     }
     
-    public static bool Contains<TAttr, T>() where TAttr : Attribute
+    public static bool Contains<TAttr, TSource>() where TAttr : Attribute
     {
-        return Contains<TAttr>(typeof(T));
+        return Contains<TAttr>(typeof(TSource));
     }
 }
 

@@ -1,19 +1,15 @@
 namespace GameComponents;
 
-internal ref struct EntityInfo
+internal readonly struct EntityLocation
 {
-    public readonly int WorldID;
+    public readonly ushort ArchetypeOccupation;
     public readonly ushort Position;
-    public readonly ushort Version;
     
-    public EntityInfo(int worldID, ushort position, ushort version) 
+    public EntityLocation(ushort archetypeOccup, ushort position)
     {
-        WorldID = worldID;
+        ArchetypeOccupation = archetypeOccup;
         Position = position;
-        Version = version;
     }
     
-    public EntityInfo(ref Entity entity, ushort position, ushort version) : this(entity.worldID, position, version) {}
-    
-    public override string ToString() => $"Entity ID: {WorldID}, Position/Index: {Position}, Entity Version: {Version}";
+    public override string ToString() => $"Position/Index: {Position}, Occupied in Archetype {ArchetypeOccupation}";
 }

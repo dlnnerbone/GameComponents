@@ -12,6 +12,8 @@ public struct Entity : IEquatable<Entity>
         EntityTracker._entityCount++;
     }
     
+    public override string ToString() => $"World ID: {worldID}";
+    
     public bool IsNull() => worldID == -1;
     public bool Equals(Entity entity) => this == entity;
     public bool Equals(in Entity entity) => this == entity;

@@ -3,28 +3,30 @@ namespace GameComponents.Systems;
 
 public partial record Archetype 
 {
-    
-    public ref T GetComponent<T>(int columnIndex) 
+    public ref TComp GetComponent<TComp>(int columnIndex) 
     {
-        int typeID = ComponentID<T>.ID;
+        int compID = ComponentID<TComp>.ID;
+        if ((uint)compID > _indexMap.Length - 1) throw new NullReferenceException("Attempted to search for a component not defined in an archetype.");
         
-        if ((uint)typeID > (uint)_indexMap.Length) 
-        {
-            throw new ArgumentOutOfRangeException("Missing Component, check if type is within the range of the ID dictionary.");
-        }
+        int rowIndex = _indexMap[compID];
+        if (rowIndex == -1) throw new ArgumentNullException("component not found in Archetype.");
         
-        int rowIndex = _indexMap[typeID];
-        if (rowIndex == -1) throw new ArgumentNullException($"There is no such component in the Archetype.");
-        
-        T[] _buffer = (T[])DataComponents[rowIndex];
-        return ref _buffer[columnIndex];
+        TComp[] components = (TComp[])DataMatrix[rowIndex];
+        return ref components[columnIndex];
     }
     
-    public T GetComponentAsCopy<T>(int columnIndex) 
+    internal int Forward() => ++_nextPosition;
+    internal int Retreat() => _nextPosition--;
+    
+    internal int Forward(out bool isGreaterThanCapacity) 
     {
-        ref var comp = ref GetComponent<T>(columnIndex);
-        return comp;
+        int value = Forward();
+        isGreaterThanCapacity = value > Capacity - 1;
+        return value;
     }
     
-    
+    public ArchetypeInfo GetInfo() 
+    {
+        return new ArchetypeInfo(this);
+    }
 }

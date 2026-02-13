@@ -8,32 +8,32 @@ namespace GameComponents.Systems;
 public partial record Archetype 
 {
     
+    public bool Has<T>() 
+    {
+        int compID = ComponentID<T>.ID;
+        
+        if (compID > _indexMap.Length - 1) return false;
+        return _indexMap[compID] != -1;
+    }
+    
     public Type? Get<T>() 
     {
-        if (ComponentTypes.Contains(typeof(T))) return typeof(T);
+        Type type = typeof(T);
+        if (FoundTypes.Contains(type)) return type;
         return default!;
     }
     
-    public bool Has<T>() => ComponentTypes.Contains(typeof(T));
-    
-    public Type[] GetRange(IEnumerable<Type> selectedTypes) 
+    public bool ContainsAll(IEnumerable<Type> types) 
     {
-        if (selectedTypes == null) return Array.Empty<Type>();
+        if (types.ToArray().Length == 0) return false;
         
-        return selectedTypes.Distinct().Where(ComponentTypes.Contains).ToArray();
+        return types.All(FoundTypes.Contains);
     }
     
-    public bool HasAnyOf(IEnumerable<Type> types) 
+    public bool ContainsAny(IEnumerable<Type> types) 
     {
-        if (types == null) return false;
+        if (types.ToArray().Length == 0) return false;
         
-        return types.Any(ComponentTypes.Contains);
-    }
-    
-    public bool HasAllOf(IEnumerable<Type> types) 
-    {
-        if (types == null) return false;
-        
-        return types.All(ComponentTypes.Contains);
+        return types.Any(FoundTypes.Contains);
     }
 }

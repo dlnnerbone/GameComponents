@@ -19,9 +19,9 @@ public struct ScrollWheelComponent
 
 // flag enums for Mouse clicks
 [Flags]
-public enum MouseStates 
+public enum MouseStates : ushort 
 {
-    Nothing = 0,
+    NoInput = 0,
     LeftClick = 1,
     RightClick = 2,
     MiddleClick = 4,

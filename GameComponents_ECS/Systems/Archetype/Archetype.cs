@@ -5,57 +5,66 @@ namespace GameComponents.Systems;
 
 public partial record Archetype 
 {
-    // types
-    private readonly string collectedTypes;
+    private readonly string _collectedTypes;
     
-    internal int[] _indexMap;
+    internal int _nextPosition;
+    internal readonly short[] _indexMap;
     
-    public override string ToString() => collectedTypes;
-    public readonly HashSet<Type> ComponentTypes;
-    public readonly int TypeCount;
-    // Data
-    public readonly Array[] DataComponents;
+    public readonly HashSet<Type> FoundTypes;
+    public readonly Array[] DataMatrix;
     public readonly int Capacity;
+    public readonly int TypeCount;
+    public readonly int ArchetypeID;
     
-    public Archetype(int dataCapacity, HashSet<Type> types) 
+    public Array this[int matrixID] => DataMatrix[matrixID];
+    
+    public override string ToString() => _collectedTypes;
+    
+    private Archetype() 
     {
-        ComponentTypes = types;
-        Capacity = dataCapacity;
-        TypeCount = types.Count;
-        var typeArray = ComponentTypes.ToArray();
+        _collectedTypes = string.Empty;
+        _nextPosition = -1;
+        _indexMap = null!;
+        FoundTypes = null!;
+        DataMatrix = null!;
+        Capacity = 0;
+        TypeCount = 0;
+        ArchetypeID = -1;
+    }
+    
+    public Archetype(int capacity, uint archID, HashSet<Type> selectedTypes) 
+    {
+        Capacity = capacity;
+        TypeCount = selectedTypes.Count;
+        FoundTypes = selectedTypes;
+        _nextPosition = -1;
+        ArchetypeID = (int)archID;
+        var typeArray = FoundTypes.ToArray();
         
-        ComponentDictionary.AddRange(typeArray);
-        DataComponents = new Array[TypeCount];
-        
-        _indexMap = new int[ComponentDictionary.GetHighestID() + 1];
+        ComponentDictionary.AddRange(FoundTypes);
+        _indexMap = new short[ComponentMetadata.Index + 1];
         _indexMap.AsSpan().Fill(-1);
+        DataMatrix = new Array[TypeCount];
         
-        for(int i = 0; i < TypeCount; i++) 
+        for(short i = 0; i < TypeCount; i++) 
         {
-            DataComponents[i] = Array.CreateInstance(typeArray[i], Capacity);
+            DataMatrix[i] = Array.CreateInstance(typeArray[i], Capacity);
             
             int compID = ComponentDictionary.GetID(typeArray[i]);
             _indexMap[compID] = i;
         }
         
-        if (typeArray.Length == 0) 
+        if (FoundTypes.Count == 0) 
         {
-            collectedTypes = string.Empty;
+            _collectedTypes = string.Empty;
             return;
         }
         
-        collectedTypes = string.Join(", ", ComponentTypes) + '.';
+        _collectedTypes = string.Join(", ", FoundTypes) + '.';
     }
     
-    public Archetype(int capacity, params Type[] types) : this(capacity, types.ToHashSet()) {}
-    public Archetype(int capacity, IEnumerable<Type> types) : this(capacity, types.ToHashSet()) {}
+    public Archetype(int cap, uint archID, IEnumerable<Type> types) : this(cap, archID, types.ToHashSet()) {}
+    public Archetype(int cap, uint archID, params Type[] types) : this(cap, archID, types.ToHashSet()) {}
     
-    public static Archetype Empty = new Archetype(0, new HashSet<Type>());
-    public static Archetype Create(int capacity, HashSet<Type> types) => new Archetype(capacity, types);
-    public static Archetype Create(int capacity, params Type[] types) => new Archetype(capacity, types);
-    public static Archetype Create(int capacity, IEnumerable<Type> types) => new Archetype(capacity, types);
-    
-    public ref Array this[int index] => ref DataComponents[index];
-    public ImmutableArray<int> GetIndexMap() => _indexMap.ToImmutableArray();
-    public ImmutableHashSet<Type> ToImmutableHashSet() => ComponentTypes.ToImmutableHashSet();
+    public static Archetype Null => new Archetype();
 }

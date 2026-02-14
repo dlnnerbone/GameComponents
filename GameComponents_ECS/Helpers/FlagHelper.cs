@@ -1,59 +1,42 @@
-using System.Linq;
+using System.Runtime.CompilerServices;
 namespace GameComponents.Helpers;
 
-/// <summary>
-/// a FlagHelper class to help with finding flags
-/// WARNING: THIS CLASS ONLY WORKS WITH BITMASKS WITH THE BACKING FIELD OF INT.
-/// </summary>
-public static class FlagHelper 
+public static class FlagChecker<TFlag> where TFlag : struct, Enum 
 {
-    public static void FlagTo<TFlag, T>(TFlag flags, TFlag flag, out T flagsValue, out T flagValue) where T : struct where TFlag : struct, Enum 
+    public static TTo FlagTo<TTo>(TFlag source) where TTo : struct 
     {
-        flagsValue = (T)(object)flags;
-        flagValue = (T)(object)flag;
+        return Unsafe.BitCast<TFlag, TTo>(source);
     }
     
-    public static bool Has<TFlag>(TFlag flags, TFlag flag) where TFlag : struct, Enum
+    public static bool Has(TFlag source, TFlag flag) => source.HasFlag(flag);
+}
+
+public static class FlagHelper<TFlag> where TFlag : struct, Enum 
+{
+    public static void OutFlags(TFlag source, TFlag other, out ushort sourceValue, out ushort flagValue) 
     {
-        FlagTo<TFlag, int>(flags, flag, out var flagsValue, out var flagValue);
+        sourceValue = FlagChecker<TFlag>.FlagTo<ushort>(source);
+        flagValue = FlagChecker<TFlag>.FlagTo<ushort>(other);
+    }
+    
+    public static void Combine(ref TFlag sourceFlags, TFlag flag) 
+    {
+        OutFlags(sourceFlags, flag, out var source, out var flagVal);
         
-        return (flagsValue & flagValue) != 0;
+        sourceFlags = (TFlag)(object)(source | flagVal);
     }
     
-    public static void Set<TFlag>(ref TFlag flags, TFlag flag) where TFlag : struct, Enum
+    public static void Remove(ref TFlag source, TFlag flagToRemove) 
     {
-        FlagTo<TFlag, int>(flags, flag, out var flagsValue, out var flagValue);
+        OutFlags(source, flagToRemove, out var flagsVal, out var flagVal);
         
-        flags = (TFlag)(object)(flagsValue | flagValue);
+        source = (TFlag)(object)(flagsVal & ~flagVal);
     }
     
-    // removing
-    
-    public static void Remove<TFlag>(ref TFlag flags, TFlag flag) where TFlag : struct, Enum 
+    public static void Override(ref TFlag source, TFlag set) 
     {
-        FlagTo<TFlag, int>(flags, flag, out var flagsValue, out var flagValue);
+        var flagValue = FlagChecker<TFlag>.FlagTo<ushort>(set);
         
-        flags = (TFlag)(object)(flagsValue & ~flagValue);
-    }
-    
-    public static void OverrideSet<TFlag>(ref TFlag flags, TFlag flag) where TFlag : struct, Enum 
-    {
-        int flagValue = (int)(object)flag;
-        
-        flags = (TFlag)(object)flagValue;
-    }
-    
-    public static void Purge<TFlag>(ref TFlag flags) where TFlag : struct, Enum 
-    {
-        flags = (TFlag)(object)0;
-    }
-    
-    // checking
-    
-    public static bool HasAllOf<TFlag>(TFlag flags, IEnumerable<TFlag> selectedFlags) where TFlag : struct, Enum 
-    {
-        int flagsValue = (int)(object)flags;
-        
-        return selectedFlags.All(flag => (flagsValue & (int)(object)flag) != 0);
+        source = (TFlag)(object)flagValue;
     }
 }

@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "AkshS9mFxLw=",
+  "dgSpecHash": "o5RwL4UaNfM=",
   "success": true,
   "projectFilePath": "/home/dinnerbone/Games/Zealous/GameComponents/GameComponents.csproj",
   "expectedPackageFiles": [
@@ -10,8 +10,8 @@
     "/home/dinnerbone/.nuget/packages/nvorbis/0.10.4/nvorbis.0.10.4.nupkg.sha512",
     "/home/dinnerbone/.nuget/packages/system.memory/4.5.3/system.memory.4.5.3.nupkg.sha512",
     "/home/dinnerbone/.nuget/packages/system.valuetuple/4.5.0/system.valuetuple.4.5.0.nupkg.sha512",
-    "/home/dinnerbone/.nuget/packages/microsoft.netcore.app.ref/8.0.23/microsoft.netcore.app.ref.8.0.23.nupkg.sha512",
-    "/home/dinnerbone/.nuget/packages/microsoft.aspnetcore.app.ref/8.0.23/microsoft.aspnetcore.app.ref.8.0.23.nupkg.sha512"
+    "/home/dinnerbone/.nuget/packages/microsoft.netcore.app.ref/8.0.24/microsoft.netcore.app.ref.8.0.24.nupkg.sha512",
+    "/home/dinnerbone/.nuget/packages/microsoft.aspnetcore.app.ref/8.0.24/microsoft.aspnetcore.app.ref.8.0.24.nupkg.sha512"
   ],
   "logs": []
 }

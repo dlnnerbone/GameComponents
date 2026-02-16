@@ -32,8 +32,17 @@ public partial record Archetype
     
     public bool ContainsAny(IEnumerable<Type> types) 
     {
-        if (types.ToArray().Length == 0) return false;
+        var toArr = types.ToArray();
+        if (toArr.Length == 0) return false;
         
-        return types.Any(FoundTypes.Contains);
+        for(int i = 0; i < toArr.Length; i++) 
+        {
+            int compID = ComponentDictionary.GetID(toArr[i]);
+           
+            if (compID > _bits.Length - 1) return false; 
+            else if (_bits[compID] == true) return true;
+        }
+        
+        return false;
     }
 }

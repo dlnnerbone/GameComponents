@@ -1,5 +1,6 @@
 using System.Collections.Immutable;
 using System.Collections.Generic;
+using System.Collections;
 
 namespace GameComponents.Systems;
 
@@ -8,7 +9,8 @@ public partial record Archetype
     private readonly string _collectedTypes;
     
     internal int _nextPosition;
-    internal readonly short[] _indexMap;
+    internal readonly sbyte[] _indexMap;
+    internal readonly BitArray _bits;
     
     public readonly HashSet<Type> FoundTypes;
     public readonly Array[] DataMatrix;
@@ -20,7 +22,7 @@ public partial record Archetype
     
     public override string ToString() => _collectedTypes;
     
-    private Archetype() 
+    internal Archetype() 
     {
         _collectedTypes = string.Empty;
         _nextPosition = -1;
@@ -30,6 +32,7 @@ public partial record Archetype
         Capacity = 0;
         TypeCount = 0;
         ArchetypeID = -1;
+        _bits = null!;
     }
     
     public Archetype(int capacity, uint archID, HashSet<Type> selectedTypes) 
@@ -42,16 +45,19 @@ public partial record Archetype
         var typeArray = FoundTypes.ToArray();
         
         ComponentDictionary.AddRange(FoundTypes);
-        _indexMap = new short[ComponentMetadata.Index + 1];
+        _indexMap = new sbyte[ComponentMetadata.Index + 1];
         _indexMap.AsSpan().Fill(-1);
+        
+        _bits = new BitArray(_indexMap.Length, false);
         DataMatrix = new Array[TypeCount];
         
-        for(short i = 0; i < TypeCount; i++) 
+        for(sbyte i = 0; i < TypeCount; i++) 
         {
             DataMatrix[i] = Array.CreateInstance(typeArray[i], Capacity);
             
             int compID = ComponentDictionary.GetID(typeArray[i]);
             _indexMap[compID] = i;
+            _bits[compID] = true;
         }
         
         if (FoundTypes.Count == 0) 

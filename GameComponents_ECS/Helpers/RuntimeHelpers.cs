@@ -4,29 +4,44 @@ namespace GameComponents.Helpers;
 
 public static class RuntimeHelpers 
 {
-
-    public static bool IsReference<T>()
+    internal static readonly Dictionary<Type, bool> _cachedEntries = new();
+    
+    public static bool IsReference<T>() 
     {
-        if (!typeof(T).IsValueType) return true;
-        return false;
+        if (typeof(T).IsValueType) return false;
+        return true;
     }
     
-    public static bool IsReferenceOrContainsReferences<T>() 
+    public static bool ContainsReferencesOrIsReference<T>() 
     {
         Type type = typeof(T);
         
-        if (type.IsClass) return true;
-        
-        foreach(ref readonly var field in type.GetFields(BindingFlags.Public | BindingFlags.NonPublic).AsSpan()) 
+        if (_cachedEntries.ContainsKey(type)) return _cachedEntries[type];
+        else if (IsReference<T>()) 
         {
-            if (field.FieldType.IsClass) return true;
+            _cachedEntries.Add(type, true);
+            return true;
         }
         
-        foreach(ref readonly var prop in type.GetProperties(BindingFlags.Public | BindingFlags.NonPublic).AsSpan()) 
+        foreach(ref readonly var field in type.GetFields().AsSpan()) 
         {
-            if (prop.PropertyType.IsClass) return true;
+            if (!field.GetType().IsValueType) 
+            {
+                _cachedEntries.Add(type, true);
+                return true;
+            }
         }
         
+        foreach(ref readonly var prop in type.GetProperties().AsSpan()) 
+        {
+            if (!prop.GetType().IsValueType) 
+            {
+                _cachedEntries.Add(type, true);
+                return true;
+            }
+        }
+        
+        _cachedEntries.Add(type, false);
         return false;
     }
 }

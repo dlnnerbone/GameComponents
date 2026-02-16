@@ -25,8 +25,7 @@ public partial record Archetype
         return value;
     }
     
-    public ArchetypeInfo GetInfo() 
-    {
-        return new ArchetypeInfo(this);
-    }
+    public ArchetypeInfo GetInfo() => new ArchetypeInfo(this);
+    
+    public override int GetHashCode() => HashCode.Combine(Capacity, FoundTypes, _collectedTypes, TypeCount, _indexMap, ArchetypeID);
 }

@@ -12,8 +12,8 @@ public partial record Archetype
     {
         int compID = ComponentID<T>.ID;
         
-        if (compID > _indexMap.Length - 1) return false;
-        return _indexMap[compID] != -1;
+        if (compID > _bits.Length - 1) return false;
+        return _bits[compID];
     }
     
     public Type? Get<T>() 

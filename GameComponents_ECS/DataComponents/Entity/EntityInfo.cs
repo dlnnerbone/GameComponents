@@ -6,12 +6,12 @@ public readonly ref struct EntityInfo
     public readonly ushort ArchetypeOccupation;
     public readonly ushort Position;
     
-    internal EntityInfo(in Entity ent, EntityLocation location) 
+    public EntityInfo(Entity entityToView) 
     {
-        WorldID = ent.worldID;
-        ArchetypeOccupation = location.ArchetypeOccupation;
-        Position = location.Position;
+        WorldID = entityToView.WorldID;
+        ArchetypeOccupation = entityToView.ArchetypeOccupation;
+        Position = entityToView.Position;
     }
     
-    public override string ToString() => $"ID: {WorldID}, Occupation: {ArchetypeOccupation}, Position: {Position}";
+    public override string ToString() => $"Entity ID: {WorldID}, Occupied in Archetype: {ArchetypeOccupation}, Position: {Position}";
 }

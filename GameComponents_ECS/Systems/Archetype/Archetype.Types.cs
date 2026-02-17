@@ -1,13 +1,11 @@
 using System.Collections.Immutable;
-using Microsoft.Xna.Framework;
-using System.Linq;
+using BenchmarkDotNet.Attributes;
 namespace GameComponents.Systems;
 
 //a class that holds a assortment of Types (not objects, only classification)
 
 public partial record Archetype 
 {
-    
     public bool Has<T>() 
     {
         int compID = ComponentID<T>.ID;

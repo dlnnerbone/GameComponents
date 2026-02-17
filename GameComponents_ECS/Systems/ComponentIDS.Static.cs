@@ -1,4 +1,5 @@
 using System.Collections.Immutable;
+using BenchmarkDotNet.Attributes;
 
 namespace GameComponents.Systems;
 

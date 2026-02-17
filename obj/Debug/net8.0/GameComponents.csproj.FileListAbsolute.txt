@@ -37,3 +37,12 @@
 /home/dinnerbone/Games/Zealous/GameComponents/obj/Debug/net8.0/refint/GameComponents.dll
 /home/dinnerbone/Games/Zealous/GameComponents/obj/Debug/net8.0/GameComponents.pdb
 /home/dinnerbone/Games/Zealous/GameComponents/obj/Debug/net8.0/ref/GameComponents.dll
+/home/dinnerbone/Games/Zealous/GameComponents/bin/Debug/net8.0/x86/KernelTraceControl.dll
+/home/dinnerbone/Games/Zealous/GameComponents/bin/Debug/net8.0/x86/KernelTraceControl.Win61.dll
+/home/dinnerbone/Games/Zealous/GameComponents/bin/Debug/net8.0/x86/msdia140.dll
+/home/dinnerbone/Games/Zealous/GameComponents/bin/Debug/net8.0/amd64/KernelTraceControl.dll
+/home/dinnerbone/Games/Zealous/GameComponents/bin/Debug/net8.0/amd64/msdia140.dll
+/home/dinnerbone/Games/Zealous/GameComponents/bin/Debug/net8.0/arm64/KernelTraceControl.dll
+/home/dinnerbone/Games/Zealous/GameComponents/bin/Debug/net8.0/arm64/msdia140.dll
+/home/dinnerbone/Games/Zealous/GameComponents/bin/Debug/net8.0/TraceReloggerLib.dll
+/home/dinnerbone/Games/Zealous/GameComponents/bin/Debug/net8.0/Dia2Lib.dll

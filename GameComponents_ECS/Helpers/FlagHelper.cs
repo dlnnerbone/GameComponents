@@ -39,4 +39,6 @@ public static class FlagHelper<TFlag> where TFlag : struct, Enum
         
         source = (TFlag)(object)flagValue;
     }
+    
+    public static void Purge(ref TFlag source) => source = (TFlag)(object)0;
 }

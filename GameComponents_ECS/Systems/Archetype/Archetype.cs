@@ -6,15 +6,15 @@ public partial record Archetype
 {
     private readonly string _collectedTypes;
     
-    internal int _nextPosition;
+    internal short _nextPosition;
     internal readonly sbyte[] _indexMap;
     internal readonly BitArray _bits;
     
     public readonly HashSet<Type> FoundTypes;
     public readonly Array[] DataMatrix;
-    public readonly int Capacity;
-    public readonly int TypeCount;
-    public readonly int ArchetypeID;
+    public readonly short Capacity;
+    public readonly ushort TypeCount;
+    public readonly short ArchetypeID;
     
     public Array this[int matrixID] => DataMatrix[matrixID];
     
@@ -33,13 +33,13 @@ public partial record Archetype
         _bits = null!;
     }
     
-    public Archetype(int capacity, uint archID, HashSet<Type> selectedTypes) 
+    public Archetype(short capacity, ushort archID, HashSet<Type> selectedTypes) 
     {
         Capacity = capacity;
-        TypeCount = selectedTypes.Count;
+        TypeCount = (ushort)selectedTypes.Count;
         FoundTypes = selectedTypes;
         _nextPosition = -1;
-        ArchetypeID = (int)archID;
+        ArchetypeID = (short)archID;
         var typeArray = FoundTypes.ToArray();
         
         ComponentDictionary.AddRange(FoundTypes);
@@ -67,8 +67,7 @@ public partial record Archetype
         _collectedTypes = string.Join(", ", FoundTypes) + '.';
     }
     
-    public Archetype(int cap, uint archID, IEnumerable<Type> types) : this(cap, archID, types.ToHashSet()) {}
-    public Archetype(int cap, uint archID, params Type[] types) : this(cap, archID, types.ToHashSet()) {}
+    public Archetype(short cap, ushort archID, params Type[] types) : this(cap, archID, types.ToHashSet()) {}
     
     public static Archetype Null => new Archetype();
 }

@@ -1,4 +1,3 @@
-using System;
 namespace GameComponents.Systems;
 
 public partial record Archetype 
@@ -9,13 +8,13 @@ public partial record Archetype
         if ((uint)compID > _indexMap.Length - 1) throw new NullReferenceException("Attempted to search for a component not defined in an archetype.");
         
         int rowIndex = _indexMap[compID];
-        if (rowIndex == -1) throw new ArgumentNullException("component not found in Archetype.");
+        if (rowIndex == -1) throw new NullReferenceException("component not found in Archetype.");
         
         TComp[] components = (TComp[])DataMatrix[rowIndex];
         return ref components[columnIndex];
     }
     
-    internal int Forward() => ++_nextPosition;
+    public int Forward() => ++_nextPosition;
     internal int Retreat() => _nextPosition--;
     
     internal int Forward(out bool isGreaterThanCapacity) 
@@ -27,5 +26,5 @@ public partial record Archetype
     
     public ArchetypeInfo GetInfo() => new ArchetypeInfo(this);
     
-    public override int GetHashCode() => HashCode.Combine(Capacity, FoundTypes, _collectedTypes, TypeCount, _indexMap, ArchetypeID);
+    public override int GetHashCode() => HashCode.Combine(Capacity, FoundTypes, _collectedTypes, TypeCount, _indexMap, ArchetypeID, _bits);
 }

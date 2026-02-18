@@ -1,5 +1,3 @@
-using System.Collections.Immutable;
-using BenchmarkDotNet.Attributes;
 namespace GameComponents.Systems;
 
 //a class that holds a assortment of Types (not objects, only classification)
@@ -21,11 +19,20 @@ public partial record Archetype
         return default!;
     }
     
-    public bool ContainsAll(IEnumerable<Type> types) 
+    public bool ContainsAll(IEnumerable<Type> types)
     {
-        if (types.ToArray().Length == 0) return false;
+        var toArr = types.ToArray();
+        if (toArr.Length == 0) return false;
         
-        return types.All(FoundTypes.Contains);
+        int min = Math.Min(toArr.Length, TypeCount);
+        for(int i = 0; i < min; i++) 
+        {
+            int compID = ComponentDictionary.GetID(toArr[i]);
+            if (compID > _bits.Length - 1) return false;
+            else if (_bits[compID] == false) return false;
+        }
+        
+        return true;
     }
     
     public bool ContainsAny(IEnumerable<Type> types) 
@@ -33,7 +40,8 @@ public partial record Archetype
         var toArr = types.ToArray();
         if (toArr.Length == 0) return false;
         
-        for(int i = 0; i < toArr.Length; i++) 
+        int min = Math.Min(toArr.Length, TypeCount);
+        for(int i = 0; i < min; i++) 
         {
             int compID = ComponentDictionary.GetID(toArr[i]);
            

@@ -1,3 +1,4 @@
+using System.Collections.Specialized;
 using Microsoft.Xna.Framework.Input;
 namespace GameComponents;
 
@@ -13,8 +14,13 @@ public class PreviousMouseStateComponent
 
 public struct ScrollWheelComponent 
 {
-    public int ScrollWheelValue;
-    public int ScrollWheelDelta;
+    public short ScrollWheelValue;
+    public short ScrollWheelDelta;
+}
+
+public struct BitSet 
+{
+    public BitVector32 Vector;
 }
 
 // flag enums for Mouse clicks

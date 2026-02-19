@@ -6,7 +6,7 @@ namespace GameComponents.Storages;
 public struct FastStack<T> : IEnumerable<T>, IReadOnlyCollection<T> 
 {
     internal T[] _buffer;
-    internal byte _nextIndex = 0;
+    internal int _nextIndex = 0;
     
     public bool HasElements => _buffer.Length > 0;
     public ref readonly T this[int index] => ref _buffer[index];

@@ -6,9 +6,6 @@ public static class FastStackHelper<T>
     
     internal static void ForEach(ref FastStack<T> collection, Loop loop) 
     {
-        foreach(ref T item in collection.AsSpan()) 
-        {
-            loop(ref item);
-        }
+        foreach(ref T item in collection.AsSpan()) loop(ref item);
     }
 }

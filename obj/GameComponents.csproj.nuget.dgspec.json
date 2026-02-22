@@ -1,26 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "/home/dinnerbone/Games/Zealous/GameComponents/GameComponents.csproj": {}
+    "/home/DinnerBone/Projects/Zealous/GameComponents/GameComponents.csproj": {}
   },
   "projects": {
-    "/home/dinnerbone/Games/Zealous/GameComponents/GameComponents.csproj": {
+    "/home/DinnerBone/Projects/Zealous/GameComponents/GameComponents.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/dinnerbone/Games/Zealous/GameComponents/GameComponents.csproj",
+        "projectUniqueName": "/home/DinnerBone/Projects/Zealous/GameComponents/GameComponents.csproj",
         "projectName": "GameComponents",
-        "projectPath": "/home/dinnerbone/Games/Zealous/GameComponents/GameComponents.csproj",
-        "packagesPath": "/home/dinnerbone/.nuget/packages/",
-        "outputPath": "/home/dinnerbone/Games/Zealous/GameComponents/obj/",
+        "projectPath": "/home/DinnerBone/Projects/Zealous/GameComponents/GameComponents.csproj",
+        "packagesPath": "/home/DinnerBone/.nuget/packages/",
+        "outputPath": "/home/DinnerBone/Projects/Zealous/GameComponents/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/home/dinnerbone/.nuget/NuGet/NuGet.Config"
+          "/home/DinnerBone/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
-          "/usr/lib/dotnet/library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -68,11 +67,11 @@
           "downloadDependencies": [
             {
               "name": "Microsoft.AspNetCore.App.Ref",
-              "version": "[8.0.24, 8.0.24]"
+              "version": "[8.0.23, 8.0.23]"
             },
             {
               "name": "Microsoft.NETCore.App.Ref",
-              "version": "[8.0.24, 8.0.24]"
+              "version": "[8.0.23, 8.0.23]"
             }
           ],
           "frameworkReferences": {
@@ -80,7 +79,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/9.0.114/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/9.0.113/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

@@ -6,7 +6,7 @@ public partial record Archetype
 {
     private readonly string _collectedTypes;
     
-    internal short _nextPosition;
+    internal int _nextPosition;
     internal readonly sbyte[] _indexMap;
     internal readonly BitArray _bits;
     

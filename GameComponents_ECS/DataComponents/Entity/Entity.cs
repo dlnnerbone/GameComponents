@@ -11,7 +11,6 @@ public struct Entity : IEquatable<Entity>
         WorldID = id;
         ArchetypeOccupation = archetypeOccup;
         Position = position;
-        EntityTracker._entityCount++;
     }
     
     public override string ToString() => $"World ID: {WorldID}";

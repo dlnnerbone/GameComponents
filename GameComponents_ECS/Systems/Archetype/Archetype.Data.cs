@@ -10,7 +10,7 @@ public partial record Archetype
         int rowIndex = _indexMap[compID];
         if (rowIndex == -1) throw new NullReferenceException("component not found in Archetype.");
         
-        TComp[] components = (TComp[])DataMatrix[rowIndex];
+        TComp[] components = DataMatrix[rowIndex].GetAs<TComp>();
         return ref components[columnIndex];
     }
     
@@ -23,8 +23,20 @@ public partial record Archetype
         isGreaterThanCapacity = value > Capacity - 1;
         return value;
     }
+
+    internal void Expand()
+    {
+        if ((uint)Capacity == 0 || TypeCount == 0) throw new ArgumentException("Can't expand this archetype because of improper construction.");
+        for(int i = 0; i < TypeCount; i++) DataMatrix[i].Expand();
+    }
+
+    internal void ExpandBy(uint amount)
+    {
+        if ((uint)Capacity == 0 || TypeCount == 0) throw new ArgumentException("Can't expand this archetype because of improper construction.");
+        for(int i = 0; i < TypeCount; i++) DataMatrix[i].ExpandBy((int)amount);
+    }
     
     public ArchetypeInfo GetInfo() => new ArchetypeInfo(this);
     
-    public override int GetHashCode() => HashCode.Combine(Capacity, FoundTypes, _collectedTypes, TypeCount, _indexMap, ArchetypeID, _bits);
+    public override int GetHashCode() => HashCode.Combine(FoundTypes, _collectedTypes, TypeCount, _indexMap, ArchetypeID, _bits);
 }

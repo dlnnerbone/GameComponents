@@ -13,10 +13,10 @@ public class Chunk
     public object this[int index] => _components.GetValue(index)!;
     internal T[] GetAs<T>() => (T[])_components;
 
-    internal Chunk(uint capacity, Type underlyingType)
+    internal Chunk(int capacity, Type underlyingType)
     {
         UnderlyingType = underlyingType;
-        _components = Array.CreateInstance(UnderlyingType, (int)capacity);
+        _components = Array.CreateInstance(UnderlyingType, capacity);
     }
 
     internal void Expand()

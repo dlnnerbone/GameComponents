@@ -11,12 +11,14 @@ public partial record Archetype
     internal readonly BitArray _bits;
     
     public readonly HashSet<Type> FoundTypes;
-    public readonly Array[] DataMatrix;
-    public readonly short Capacity;
-    public readonly ushort TypeCount;
-    public readonly short ArchetypeID;
+    public readonly Chunk[] DataMatrix;
+    public readonly byte TypeCount;
+    // this will throw an error if the archetype is defined as 'null', beware.
+    public int Capacity => DataMatrix[0].Length;
+    // this is an ID that helps with corresponding to an index for fast look-ups.
+    public readonly int ArchetypeID;
     
-    public Array this[int matrixID] => DataMatrix[matrixID];
+    public Chunk this[int matrixID] => DataMatrix[matrixID];
     
     public override string ToString() => _collectedTypes;
     
@@ -27,47 +29,46 @@ public partial record Archetype
         _indexMap = null!;
         FoundTypes = null!;
         DataMatrix = null!;
-        Capacity = 0;
         TypeCount = 0;
         ArchetypeID = -1;
         _bits = null!;
     }
     
-    public Archetype(short capacity, ushort archID, HashSet<Type> selectedTypes) 
+    internal Archetype(int initialCapacity, int archetypeID, HashSet<Type> typesToOccupy)
     {
-        Capacity = capacity;
-        TypeCount = (ushort)selectedTypes.Count;
-        FoundTypes = selectedTypes;
+        // convert hashset into an array.
+        var typeArray = typesToOccupy.ToArray();
+
+        FoundTypes = typesToOccupy;
         _nextPosition = -1;
-        ArchetypeID = (short)archID;
-        var typeArray = FoundTypes.ToArray();
-        
-        ComponentDictionary.AddRange(FoundTypes);
+        TypeCount = (byte)typeArray.Length;
+        ArchetypeID = archetypeID;
+
+        // initializing the indexmap's length to the amount of types defined from the Component metadata static class.
         _indexMap = new sbyte[ComponentMetadata.Index + 1];
         _indexMap.AsSpan().Fill(-1);
-        
+
+        // bits array for faster lookup for finding if an archetype contains a specified type.
         _bits = new BitArray(_indexMap.Length, false);
-        DataMatrix = new Array[TypeCount];
-        
-        for(sbyte i = 0; i < TypeCount; i++) 
+        DataMatrix = new Chunk[TypeCount];
+
+        for(sbyte i = 0; i < TypeCount; i++)
         {
-            DataMatrix[i] = Array.CreateInstance(typeArray[i], Capacity);
-            
+            DataMatrix[i] = new Chunk(initialCapacity, typeArray[i]);
+
             int compID = ComponentDictionary.GetID(typeArray[i]);
             _indexMap[compID] = i;
             _bits[compID] = true;
         }
-        
-        if (FoundTypes.Count == 0) 
+
+        if (Capacity <= 0 || TypeCount == 0)
         {
             _collectedTypes = string.Empty;
             return;
         }
-        
+
         _collectedTypes = string.Join(", ", FoundTypes) + '.';
     }
-    
-    public Archetype(short cap, ushort archID, params Type[] types) : this(cap, archID, types.ToHashSet()) {}
-    
+
     public static Archetype Null => new Archetype();
 }

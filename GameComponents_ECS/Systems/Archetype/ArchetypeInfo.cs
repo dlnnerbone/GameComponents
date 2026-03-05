@@ -8,6 +8,7 @@ public readonly ref struct ArchetypeInfo
     public readonly BitArray Bits;
     public readonly int ArchetypeID;
     public readonly int InlinePosition;
+    public readonly int Capacity;
     
     public ArchetypeInfo(Archetype archetype) 
     {
@@ -15,6 +16,7 @@ public readonly ref struct ArchetypeInfo
         IndexMap = archetype._indexMap;
         Bits = archetype._bits;
         InlinePosition = archetype._nextPosition;
+        Capacity = archetype.Capacity;
     }
     
     public static ArchetypeInfo GetArchetypeInfo(Archetype archetype) => archetype.GetInfo();

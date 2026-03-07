@@ -1,3 +1,4 @@
+using GameComponents.Systems;
 namespace GameComponents;
 
 public struct Entity : IEquatable<Entity> 
@@ -12,6 +13,10 @@ public struct Entity : IEquatable<Entity>
         ArchetypeOccupation = archetypeOccup;
         Position = position;
     }
+
+    internal void SetArchetype(ushort occupation) => ArchetypeOccupation = occupation;
+    internal void SetArchetype(Archetype archetype) => ArchetypeOccupation = (ushort)archetype.ArchetypeID;
+    internal void SetPosition(ushort position) => Position = position;
     
     public override string ToString() => $"World ID: {WorldID}";
     

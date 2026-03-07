@@ -10,6 +10,7 @@ public class Query
     {
         _world = world;
         _archetypeCollection = new FastStack<Archetype>(4);
+        _archetypeCollection.Push(Archetype.Null);
     }
 
 

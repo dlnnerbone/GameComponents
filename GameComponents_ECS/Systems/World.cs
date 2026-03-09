@@ -3,14 +3,15 @@ using GameComponents.Storages;
 using GameComponents.Systems;
 namespace GameComponents;
 
-public class World 
+public class World
 {
     public uint EntityCount { get; internal set; } = 0;
     public readonly int RootID;
+    internal ushort _defaultArchetypeID = 0;
     internal readonly FastStack<Entity> _entities;
     internal readonly Query _query;
 
-    public ref readonly Entity Retrieve(int worldID) => ref _entities[worldID];
+    public ref readonly Entity this[int index] => ref _entities[index];
 
     public World(int rootID)
     {
@@ -40,7 +41,7 @@ public class World
     public void CreateEntity(Entity entityAsReference)
     {
         if (entityAsReference.WorldID == -1) throw new ArgumentNullException($"entity is null and can't be used to find an archetype.");
-        ushort archetypeOccup = entityAsReference.ArchetypeOccupation;
+        ushort archetypeOccup = entityAsReference.Occupation;
         Archetype selectedArchetype = _query._archetypeCollection[archetypeOccup];
         ushort nextPosition = (ushort)selectedArchetype.Forward(out bool isGreater);
 
@@ -59,16 +60,26 @@ public class World
     public ArchetypeInfo GetArchetypeInfoFrom(Entity entityToLook)
     {
         if (entityToLook.IsNull()) throw new ArgumentNullException($"Entity is null");
-        var position = entityToLook.ArchetypeOccupation;
+        var position = entityToLook.Occupation;
         return _query._archetypeCollection[position].GetInfo(); 
     }
 
+    /// <summary>
+    /// Detach method only moves the Archetype ID into the first index, which should be the first Null archetype.
+    /// Note: an internal _defaultArchetypeID variable is used which can be set with the DefaultArchetypeID()
+    /// method.    
+    /// </summary>
+    /// <param name="index"></param>
     public void Detach(int index)
     {
         if (index > _entities.Count - 1) return;
         ref readonly Entity entity = ref _entities[index];
 
-        entity.SetArchetype(0);
+        entity.SetArchetype(_defaultArchetypeID);
     }
+
+    public void SetDefaultArchetype(Archetype archetype) => _defaultArchetypeID = (ushort)archetype.ArchetypeID;
+    public void SetDefaultArchetype(ushort defOccup) => _defaultArchetypeID = defOccup;
+
     
 }

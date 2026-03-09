@@ -13,5 +13,16 @@ public class Query
         _archetypeCollection.Push(Archetype.Null);
     }
 
+    public void CreateArchetype(int capacity, HashSet<Type> types)
+    {
+        Archetype archetype = new Archetype(capacity, _archetypeCollection._nextIndex, types);
+        _archetypeCollection.Push(archetype);
+    }
 
+    public void CreateArchetype(int capacity, HashSet<Type> types, out int index)
+    {
+        Archetype archetype = new Archetype(capacity, _archetypeCollection._nextIndex, types);
+        index = archetype._nextPosition;
+        _archetypeCollection.Push(archetype);
+    }
 }
